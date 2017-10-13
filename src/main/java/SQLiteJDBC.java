@@ -1,19 +1,17 @@
-package DataBase;
-
 import java.sql.*;
 
 public class SQLiteJDBC {
 
     public static void main( String args[] ) {
-        Connection c = null;
+        Connection connection = null;
         Statement stmt = null;
 
         try {
             Class.forName("org.sqlite.JDBC");
-            c = DriverManager.getConnection("jdbc:sqlite:test.db");
+            connection = DriverManager.getConnection("jdbc:sqlite:test.db");
             System.out.println("Opened database successfully");
 
-            stmt = c.createStatement();
+            stmt = connection.createStatement();
             String sql = "CREATE TABLE COMPANY " +
                     "(ID INT PRIMARY KEY     NOT NULL," +
                     " NAME           TEXT    NOT NULL, " +
@@ -22,7 +20,7 @@ public class SQLiteJDBC {
                     " SALARY         REAL)";
             stmt.executeUpdate(sql);
             stmt.close();
-            c.close();
+            connection.close();
         }
         catch ( Exception e ) {
             System.err.println( e.getClass().getName() + ": " + e.getMessage() );

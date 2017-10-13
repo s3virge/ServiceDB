@@ -3,29 +3,40 @@ import javafx.event.ActionEvent;
 import javafx.scene.control.Alert;
 import javafx.scene.control.TextField;
 import javafx.scene.text.Text;
-import jdk.internal.util.xml.impl.Input;
+import javafx.stage.Stage;
 
 public class LoginWndController {
     @FXML private Text errorMessage;
     @FXML private TextField loginField;
     @FXML private TextField passwordField;
 
+    // Reference to the main application
+    private MainApp mainApp;
+
+    /**
+     * Is called by the main application to give a reference back to itself.
+     *
+     * @param mainApp
+     */
+    public void setMainApp(MainApp mainApp) {
+        this.mainApp = mainApp;
+    }
+
     @FXML protected void handleSubmitButtonAction(ActionEvent event) {
         if(isInputValid()){
             //соединиться с базой данных
             //найти логин пользователя
             //если такого логина нет
-            //показать сообщение с ошибкой - Такого пользователя не существует
+            //показать сообщение с ошибкой - ТАкой комбинации логина и пароля не существует
 
         // Show the error message.
         Alert alert = new Alert(Alert.AlertType.ERROR);
-        //alert.initOwner();
+        alert.initOwner(mainApp.getPrimaryStage());
         alert.setTitle("Invalid Fields");
         alert.setHeaderText("Please correct invalid fields");
         alert.setContentText("Тут буде сообщение об ошибке.");
 
         alert.showAndWait();
-
         }
     }
 
@@ -50,4 +61,6 @@ public class LoginWndController {
 
         return true;
     }
+
+
 }

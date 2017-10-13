@@ -13,30 +13,32 @@ import org.apache.log4j.Logger;
 public class MainApp extends Application {
 
     private static final Logger logger = Logger.getLogger(MainApp.class);
+    private String sceneFile = null;
+    private Parent layout = null;
+    private Stage window;
 
     public static void main(String[] args) {
-
-        //we need to connect to database
-
         //launch GUI
         launch(args);
     }
 
     @Override
-    public void start(Stage window) {
-
-        String sceneFile = "LoginWindow/LoginWnd.fxml";
-        Parent rootLayout = null;
-
-        if (logger.isDebugEnabled()) {
-            logger.debug("start(Stage window) is executed!");
-        }
+    public void start(Stage primaryStage) {
+        window = primaryStage;
+        logger.debug("start(Stage window) is executed!");
 
         /* после подключениея Maven FXMLLoader нашел файл сцены только после создания паки Resouces и перемещения папки
         * LoginWindow туда, в pom.xml указана папка ресурсов*/
+        showLoginWindow();
+    }
+
+    private void showLoginWindow() {
+        sceneFile = "LoginWindow/LoginWnd.fxml";
+        FXMLLoader fxmlLoader = new FXMLLoader();
+
         try {
-            rootLayout = FXMLLoader.load(getClass().getResource(sceneFile));
-            logger.debug("  fxmlResource = " + sceneFile );
+            fxmlLoader.setLocation(getClass().getResource(sceneFile));
+            layout = fxmlLoader.load();
         }
         catch ( Exception ex ) {
             System.out.println( "Exception on FXMLLoader.load()" );
@@ -44,9 +46,22 @@ public class MainApp extends Application {
             System.out.println( "    ----------------------------------------\n" );
         }
 
-        Scene scene = new Scene(rootLayout, 400, 250);
+        // Give the controller access to the main app.
+        LoginWndController controller = fxmlLoader.getController();
+        controller.setMainApp(this);
+
+        //показываем окно ввода логина и пароля
+        Scene scene = new Scene(layout, 400, 250);
         window.setTitle("A simple database of the service center");
         window.setScene(scene);
         window.show();
+    }
+
+    /**
+     * Returns the main stage.
+     * @return
+     */
+    public Stage getPrimaryStage() {
+        return window;
     }
 }
