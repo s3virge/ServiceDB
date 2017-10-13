@@ -30,13 +30,7 @@ public class LoginWndController {
             //показать сообщение с ошибкой - ТАкой комбинации логина и пароля не существует
 
         // Show the error message.
-        Alert alert = new Alert(Alert.AlertType.ERROR);
-        alert.initOwner(mainApp.getPrimaryStage());
-        alert.setTitle("Invalid Fields");
-        alert.setHeaderText("Please correct invalid fields");
-        alert.setContentText("Тут буде сообщение об ошибке.");
-
-        alert.showAndWait();
+        showError("Такой комбинации логина и пароля\nне существует.");
         }
     }
 
@@ -60,6 +54,16 @@ public class LoginWndController {
         }
 
         return true;
+    }
+
+    private void showError(String message) {
+        Alert alert = new Alert(Alert.AlertType.ERROR);
+        alert.initOwner(mainApp.getPrimaryStage());
+        alert.setTitle("Что-то пошло не так.");
+        //alert.setHeaderText("Please correct invalid fields");
+        alert.setContentText(message);
+
+        alert.showAndWait();
     }
 
 
