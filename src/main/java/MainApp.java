@@ -13,9 +13,8 @@ import org.apache.log4j.Logger;
 public class MainApp extends Application {
 
     private static final Logger logger = Logger.getLogger(MainApp.class);
-    private String sceneFile = null;
-    private Parent layout = null;
-    private Stage window;
+
+    private Stage loginWindow;
 
     public static void main(String[] args) {
         //launch GUI
@@ -24,16 +23,21 @@ public class MainApp extends Application {
 
     @Override
     public void start(Stage primaryStage) {
-        window = primaryStage;
-        logger.debug("start(Stage window) is executed!");
+        loginWindow = primaryStage;
+        logger.debug("start(Stage loginWindow) is executed!");
 
         /* после подключениея Maven FXMLLoader нашел файл сцены только после создания паки Resouces и перемещения папки
         * LoginWindow туда, в pom.xml указана папка ресурсов*/
-        showLoginWindow();
+
+        //показываем окно ввода логина и пароля.
+       showLoginWindow();
     }
 
     private void showLoginWindow() {
-        sceneFile = "LoginWindow/LoginWnd.fxml";
+        logger.debug("execute showLoginWindow()");
+
+        Parent layout = null;
+        String sceneFile = "LoginWindow/LoginWnd.fxml";
         FXMLLoader fxmlLoader = new FXMLLoader();
 
         try {
@@ -51,10 +55,10 @@ public class MainApp extends Application {
         controller.setMainApp(this);
 
         //показываем окно ввода логина и пароля
-        Scene scene = new Scene(layout, 400, 250);
-        window.setTitle("A simple database of the service center");
-        window.setScene(scene);
-        window.show();
+        Scene scene = new Scene(layout);
+        loginWindow.setTitle("A simple database of the service center");
+        loginWindow.setScene(scene);
+        loginWindow.show();
     }
 
     /**
@@ -62,6 +66,6 @@ public class MainApp extends Application {
      * @return
      */
     public Stage getPrimaryStage() {
-        return window;
+        return loginWindow;
     }
 }
