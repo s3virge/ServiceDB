@@ -1,4 +1,7 @@
+package core;
+
 public enum UserGroup {
+
     Administrator,
     Manager,
     Employee;

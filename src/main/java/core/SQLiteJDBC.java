@@ -1,3 +1,5 @@
+package core;
+
 import org.apache.log4j.Logger;
 import java.sql.*;
 import java.util.ResourceBundle;

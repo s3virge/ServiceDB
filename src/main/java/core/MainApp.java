@@ -1,4 +1,4 @@
-/**
+package core; /**
  * Created by s3virge on 04.10.17.
  *  взято отсюда http://docs.oracle.com/javafx/2/get_started/fxml_tutorial.htm
  */
@@ -37,7 +37,7 @@ public class MainApp extends Application {
         logger.debug("execute showLoginWindow()");
 
         Parent layout = null;
-        String sceneFile = "LoginWindow/LoginWnd.fxml";
+        String sceneFile = "/LoginWindow/LoginWnd.fxml";
         FXMLLoader fxmlLoader = new FXMLLoader();
 
         try {

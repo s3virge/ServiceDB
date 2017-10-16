@@ -1,5 +1,7 @@
+package core;
+
 import javafx.event.ActionEvent;
-        import javafx.fxml.FXML;
+import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -74,7 +76,6 @@ public class LoginWndController {
         alert.setHeaderText(null);
 //        alert.setHeaderText("Please correct invalid fields");
         alert.setContentText(message);
-
         alert.showAndWait();
     }
 
@@ -83,7 +84,7 @@ public class LoginWndController {
         logger.debug("execute showMainWnd()");
 
         Parent layout = null;
-        String sceneFile = "MainWindow/MainWnd.fxml";
+        String sceneFile = "/MainWindow/MainWnd.fxml";
         FXMLLoader fxmlLoader = new FXMLLoader();
 
         try {
