@@ -71,7 +71,8 @@ public class LoginWndController {
         Alert alert = new Alert(Alert.AlertType.ERROR);
         alert.initOwner(mainApp.getPrimaryStage());
         alert.setTitle("Что-то пошло не так.");
-        //alert.setHeaderText("Please correct invalid fields");
+        alert.setHeaderText(null);
+//        alert.setHeaderText("Please correct invalid fields");
         alert.setContentText(message);
 
         alert.showAndWait();
@@ -99,6 +100,7 @@ public class LoginWndController {
         Scene scene = new Scene(layout);
         mainWindow.setTitle("A simple database of the service center");
         mainWindow.setScene(scene);
+        //mainWindow.setFullScreen(true);
         mainWindow.show();
     }
 }
