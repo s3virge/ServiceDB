@@ -84,11 +84,9 @@ public class LoginWndController {
         logger.debug("execute showMainWnd()");
 
         Parent layout = null;
-        String sceneFile = "/MainWindow/MainWnd.fxml";
-        FXMLLoader fxmlLoader = new FXMLLoader();
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/MainWindow/MainWnd.fxml"));
 
         try {
-            fxmlLoader.setLocation(getClass().getResource(sceneFile));
             layout = fxmlLoader.load();
         }
         catch ( Exception ex ) {

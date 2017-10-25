@@ -17,6 +17,11 @@ public class MainApp extends Application {
     private Stage loginWindow;
 
     public static void main(String[] args) {
+
+        if (DataBase.isExist()) {
+
+        }
+
         //launch GUI
         launch(args);
     }

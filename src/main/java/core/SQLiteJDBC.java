@@ -81,7 +81,6 @@ public class SQLiteJDBC {
         System.out.println("Records created successfully");
     }
 
-
     private static String getDataBaseFileNameFromResources() {
         ResourceBundle labels = ResourceBundle.getBundle("dataBase");
         String dataBaseFileName = labels.getString("dataBase.dataBaseFileName");
