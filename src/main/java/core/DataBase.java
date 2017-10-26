@@ -2,9 +2,7 @@ package core;
 
 import org.apache.log4j.Logger;
 
-import java.sql.Connection;
-import java.sql.ResultSet;
-import java.sql.Statement;
+import java.sql.*;
 import java.util.ResourceBundle;
 
 public class DataBase {
@@ -28,21 +26,15 @@ public class DataBase {
     }
 
     // JDBC variables for opening and managing connection
-    private static Connection con;
+    private static Connection conn;
     private static Statement stmt;
     private static ResultSet rs;
 
     //создать все таблицы которые будем использовать
-    private static void fistRun() {
+    public static void isFirstRun() throws SQLException{
+        logger.debug("DataBase.isFirstRun() is executed!");
+        conn = DriverManager.getConnection(url, user, password);
 
-    }
-
-    //существует ли база данных с указанным именем
-    public static boolean isExist(/*String strDbName*/) {
-
-
-        Connection conn = null;
-        Statement stmt = null;
-        return false;
+        conn.close();
     }
 }

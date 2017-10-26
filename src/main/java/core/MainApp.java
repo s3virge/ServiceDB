@@ -18,8 +18,12 @@ public class MainApp extends Application {
 
     public static void main(String[] args) {
 
-        if (DataBase.isExist()) {
-
+        try {
+            DataBase.isFirstRun();
+        }
+        catch (Exception ex) {
+            //ex.printStackTrace();
+            System.out.println( "error - " + ex.getMessage() );
         }
 
         //launch GUI
