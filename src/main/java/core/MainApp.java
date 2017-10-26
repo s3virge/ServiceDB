@@ -22,8 +22,7 @@ public class MainApp extends Application {
             DataBase.isFirstRun();
         }
         catch (Exception ex) {
-            //ex.printStackTrace();
-            System.out.println( "error - " + ex.getMessage() );
+            logger.error(ex);
         }
 
         //launch GUI
@@ -54,9 +53,7 @@ public class MainApp extends Application {
             layout = fxmlLoader.load();
         }
         catch ( Exception ex ) {
-            System.out.println( "Exception on FXMLLoader.load()" );
-            System.out.println( "error - " + ex.getMessage() );   //-- Doesn't show in stack dump
-            System.out.println( "    ----------------------------------------\n" );
+            logger.error(ex);
         }
 
         // Give the controller access to the main app.
