@@ -18,12 +18,7 @@ public class MainApp extends Application {
 
     public static void main(String[] args) {
 
-        try {
-            DataBase.isFirstRun();
-        }
-        catch (Exception ex) {
-            logger.error(ex);
-        }
+        DataBase.initialise();
 
         //launch GUI
         launch(args);
