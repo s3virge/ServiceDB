@@ -42,17 +42,23 @@ public class DataBase {
             conn = DriverManager.getConnection(url, user, password);
         }
         catch(Exception connEx) {
-            logger.error(connEx);
             logger.debug("Облом с подключением к " + dbName );
-
+            logger.error(connEx);
             createDB();
         }
 
-        try { conn.close(); }
-        catch (SQLException sqlEx) { logger.error(sqlEx); }
+        try {
+        	if (conn != null)
+        	    conn.close();
+        }
+        catch (SQLException sqlEx) {
+        	logger.error(sqlEx);
+        	System.exit(0);
+        }
     }
 
     private static void createDB() {
+		logger.debug("Launch createDB()");
         String serverUrl = "jdbc:mysql://" + host + ":" + port;
 
         try {
