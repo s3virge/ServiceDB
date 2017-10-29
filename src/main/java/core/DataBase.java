@@ -18,13 +18,14 @@ public class DataBase {
 
     static {
         ResourceBundle properties = ResourceBundle.getBundle("dataBase");
-//        String host = properties.getString("dataBase.host");
+        //String host = properties.getString("dataBase.host");
         host = properties.getString("dataBase.host");
         port = properties.getString("dataBase.port");
-//        String dbName = properties.getString("dataBase.name");
+        //String dbName = properties.getString("dataBase.name");
         dbName = properties.getString("dataBase.name");
 
-        url = "jdbc:mysql://" + host + ":" + port + "/" + dbName;
+        //url = "jdbc:mysql://" + host + ":" + port + "/" + dbName;
+        url = "jdbc:mysql://" + host + ":" + port;
         user = properties.getString("dataBase.login");
         password = properties.getString("dataBase.password");
     }
@@ -34,8 +35,36 @@ public class DataBase {
     private static Statement stmt;
     private static ResultSet rs;
 
-    //создать все таблицы которые будем использовать
+    //а что если подключаться не к базе данных а к mysql
+    //и проверять существует ли базе
+    //нужно инициализировать статические поля класса
     public static void initialise() {
+        logger.debug("DataBase.initialise() is executed.\n     Try to connect to DB server");
+
+        try{
+            conn = DriverManager.getConnection(url, user, password);
+            stmt = conn.createStatement();
+            stmt.execute("USE  " + dbName);
+
+            rs = stmt.executeQuery("SELECT * FROM user;");
+
+            while (rs.next()) {
+                String count = rs.getString(2);
+                System.out.println(count);
+            }
+
+            rs.close();
+            stmt.close();
+            conn.close();
+        }
+        catch (Exception exception){
+            logger.error(exception);
+            System.exit(0);
+        }
+    }
+
+    //создать базу и все таблицы которые будем использовать
+    public static void initialise1() {
         logger.debug("DataBase.initialise() is executed!");
 
         try {
