@@ -37,6 +37,7 @@ public class DataBase {
     //создать все таблицы которые будем использовать
     public static void initialise() {
         logger.debug("DataBase.initialise() is executed!");
+
         try {
             //пытаемся подключиться к базе данных
             conn = DriverManager.getConnection(url, user, password);
@@ -65,14 +66,14 @@ public class DataBase {
             Connection con = DriverManager.getConnection(serverUrl, user, password);
             Statement statement = con.createStatement();
 
-            statement.executeUpdate("CREATE SCHEMA IF NOT EXISTS `servicedb` DEFAULT CHARACTER SET utf8");
-            statement.executeUpdate( "USE `servicedb`");
+            statement.executeUpdate("CREATE SCHEMA IF NOT EXISTS " + dbName + " DEFAULT CHARACTER SET utf8");
+            statement.executeUpdate( "USE " + dbName + "");
 
             /*-- -----------------------------------------------------
                     -- Table `servicedb`.`user_group`
             -- -----------------------------------------------------*/
             statement.executeUpdate(
-                    "CREATE TABLE IF NOT EXISTS `servicedb`.`user_group` " +
+            		"CREATE TABLE IF NOT EXISTS " + dbName + ".`user_group` " +
                         "(`id` INT NOT NULL AUTO_INCREMENT, " +
                         "`name` VARCHAR(45) NOT NULL, " +
                         "PRIMARY KEY (`id`), " +
@@ -85,7 +86,7 @@ public class DataBase {
                     -- Table `servicedb`.`user`
             -- -----------------------------------------------------*/
             statement.executeUpdate(
-                    "CREATE TABLE IF NOT EXISTS `servicedb`.`user` " +
+                    "CREATE TABLE IF NOT EXISTS " + dbName + ".`user` " +
                             "(`id` INT NOT NULL AUTO_INCREMENT, " +
                             "`login` VARCHAR(45) NOT NULL, " +
                             "`password` VARCHAR(45) NOT NULL, " +
@@ -95,7 +96,7 @@ public class DataBase {
                             "UNIQUE INDEX `login_UNIQUE` (`login` ASC), " +
                             "CONSTRAINT `user_group` " +
                             "FOREIGN KEY (`user_group`) " +
-                            "REFERENCES `servicedb`.`user_group` (`id`)" +
+                            "REFERENCES " + dbName + ".`user_group` (`id`)" +
                             "ON DELETE NO ACTION " +
                             "ON UPDATE NO ACTION) " +
                             "ENGINE = InnoDB;");
@@ -105,7 +106,7 @@ public class DataBase {
                     -- Table `servicedb`.`name`
             -- -----------------------------------------------------*/
             statement.executeUpdate(
-                    "CREATE TABLE IF NOT EXISTS `servicedb`.`name` ( " +
+                    "CREATE TABLE IF NOT EXISTS " + dbName + ".`name` ( " +
                             "`id` INT NOT NULL AUTO_INCREMENT, " +
                             "`value` VARCHAR(45) NOT NULL, " +
                             "PRIMARY KEY (`id`), " +
@@ -120,7 +121,7 @@ public class DataBase {
                     -- Table `servicedb`.`patronymic`
             -- -----------------------------------------------------*/
                     statement.executeUpdate(
-                    "CREATE TABLE IF NOT EXISTS `servicedb`.`patronymic` ( " + 
+                    "CREATE TABLE IF NOT EXISTS " + dbName + ".`patronymic` ( " +
 					"`id` INT NOT NULL AUTO_INCREMENT, " +
 					"`value` VARCHAR(45) NOT NULL, " +
             "PRIMARY KEY (`id`), " +
@@ -134,7 +135,7 @@ public class DataBase {
                     -- Table `servicedb`.`surname`
             -- -----------------------------------------------------*/
                     statement.executeUpdate(
-                    "CREATE TABLE IF NOT EXISTS `servicedb`.`surname` ( " +
+                    "CREATE TABLE IF NOT EXISTS " + dbName + ".`surname` ( " +
 					"`id` INT NOT NULL AUTO_INCREMENT, " +
 					"`value` VARCHAR(45) NOT NULL, " +
 					"PRIMARY KEY (`id`), " +
@@ -148,7 +149,7 @@ public class DataBase {
                     -- Table `servicedb`.`owner`
             -- -----------------------------------------------------*/
                     statement.executeUpdate(
-                    "CREATE TABLE IF NOT EXISTS `servicedb`.`owner` ( " +
+                    "CREATE TABLE IF NOT EXISTS " + dbName + ".`owner` ( " +
 					"`id` INT NOT NULL AUTO_INCREMENT, " +
 					"`surname_id` INT NOT NULL, " +
 					"`name_id` INT NOT NULL, " +
@@ -160,17 +161,17 @@ public class DataBase {
 					"INDEX `owner_surname_idx` (`surname_id` ASC), " +
 					"CONSTRAINT `owner_name` " +
 					"FOREIGN KEY (`name_id`) " +
-					"REFERENCES `servicedb`.`name` (`id`) " +
+					"REFERENCES " + dbName + ".`name` (`id`) " +
 					"ON DELETE NO ACTION " +
 					"ON UPDATE NO ACTION, " +
 					"CONSTRAINT `owner_patronymic` " +
 					"FOREIGN KEY (`patronymic_id`) " +
-					"REFERENCES `servicedb`.`patronymic` (`id`) " +
+					"REFERENCES " + dbName + ".`patronymic` (`id`) " +
 					"ON DELETE NO ACTION " +
 					"ON UPDATE NO ACTION, " +
 					"CONSTRAINT `owner_surname` " +
 					"FOREIGN KEY (`surname_id`) " +
-					"REFERENCES `servicedb`.`surname` (`id`) " +
+					"REFERENCES " + dbName + ".`surname` (`id`) " +
 					"ON DELETE NO ACTION " +
 					"ON UPDATE NO ACTION) " +
 					"ENGINE = InnoDB " +
@@ -182,7 +183,7 @@ public class DataBase {
                     -- Table `servicedb`.`brand`
             -- -----------------------------------------------------*/
                     statement.executeUpdate(
-                    "CREATE TABLE IF NOT EXISTS `servicedb`.`brand` ( " +
+                    "CREATE TABLE IF NOT EXISTS " + dbName + ".`brand` ( " +
 					"`id` INT NOT NULL AUTO_INCREMENT, " +
 					"`name` VARCHAR(45) NOT NULL, " +
 					"PRIMARY KEY (`id`), " +
@@ -195,7 +196,7 @@ public class DataBase {
                     -- Table `servicedb`.`type`
             -- -----------------------------------------------------*/
                     statement.executeUpdate(
-                    "CREATE TABLE IF NOT EXISTS `servicedb`.`type` ( " +
+                    "CREATE TABLE IF NOT EXISTS " + dbName + ".`type` ( " +
 					"`id` INT NOT NULL AUTO_INCREMENT, " +
 					"`name` VARCHAR(45) NOT NULL, " +
 					"PRIMARY KEY (`id`), " +
@@ -209,7 +210,7 @@ public class DataBase {
                     -- Table `servicedb`.`model`
             -- -----------------------------------------------------*/
                     statement.executeUpdate(
-                    "CREATE TABLE IF NOT EXISTS `servicedb`.`model` ( " +
+                    "CREATE TABLE IF NOT EXISTS " + dbName + ".`model` ( " +
 					"`id` INT NOT NULL AUTO_INCREMENT, " +
 					"`name` VARCHAR(45) NOT NULL, " +
 					"PRIMARY KEY (`id`), " +
@@ -223,7 +224,7 @@ public class DataBase {
                     -- Table `servicedb`.`defect`
             -- -----------------------------------------------------*/
                     statement.executeUpdate(
-                    "CREATE TABLE IF NOT EXISTS `servicedb`.`defect` ( " +
+                    "CREATE TABLE IF NOT EXISTS " + dbName + ".`defect` ( " +
 					"`id` INT NOT NULL AUTO_INCREMENT, " +
 					"`description` VARCHAR(500) NOT NULL, " +
 					"PRIMARY KEY (`id`), " +
@@ -237,7 +238,7 @@ public class DataBase {
                     -- Table `servicedb`.`device`
             -- -----------------------------------------------------*/
                     statement.executeUpdate(
-                    "CREATE TABLE IF NOT EXISTS `servicedb`.`device` ( " +
+                    "CREATE TABLE IF NOT EXISTS " + dbName + ".`device` ( " +
 					"`id` INT NOT NULL AUTO_INCREMENT, " +
 					"`type_id` INT NOT NULL, " +
 					"`brand_id` INT NOT NULL, " +
@@ -253,37 +254,45 @@ public class DataBase {
 					"INDEX `defect_idx` (`defect_id` ASC), " +
 					"CONSTRAINT `device_owner` " +
 					"FOREIGN KEY (`owner_id`) " +
-					"REFERENCES `servicedb`.`owner` (`id`) " +
+					"REFERENCES " + dbName + ".`owner` (`id`) " +
 					"ON DELETE NO ACTION " +
 					"ON UPDATE NO ACTION, " +
 					"CONSTRAINT `device_brand` " +
 					"FOREIGN KEY (`brand_id`) " +
-					"REFERENCES `servicedb`.`brand` (`id`) " +
+					"REFERENCES " + dbName + ".`brand` (`id`) " +
 					"ON DELETE NO ACTION " +
 					"ON UPDATE NO ACTION, " +
 					"CONSTRAINT `device_type` " +
 					"FOREIGN KEY (`type_id`) " +
-					"REFERENCES `servicedb`.`type` (`id`) " +
+					"REFERENCES " + dbName + ".`type` (`id`) " +
 					"ON DELETE NO ACTION " +
 					"ON UPDATE NO ACTION, " +
 					"CONSTRAINT `device_model` " +
 					"FOREIGN KEY (`model_id`) " +
-					"REFERENCES `servicedb`.`model` (`id`) " +
+					"REFERENCES " + dbName + ".`model` (`id`) " +
 					"ON DELETE NO ACTION " +
 					"ON UPDATE NO ACTION, " +
 					"CONSTRAINT `device_defect` " +
 					"FOREIGN KEY (`defect_id`) " +
-					"REFERENCES `servicedb`.`defect` (`id`) " +
+					"REFERENCES " + dbName + ".`defect` (`id`) " +
 					"ON DELETE NO ACTION " +
 					"ON UPDATE NO ACTION) " +
 					"ENGINE = InnoDB " +
 					"DEFAULT CHARACTER SET = utf8; ");
-					
+
+            statement.executeUpdate("INSERT INTO servicedb.user_group (`id`,`name`) VALUES (1, 'administrator');");
+            statement.executeUpdate("INSERT INTO servicedb.user_group (`id`,`name`) VALUES (2, 'manager');");
+            statement.executeUpdate("INSERT INTO servicedb.user_group (`id`,`name`) VALUES (3, 'user');");
+
+            statement.executeUpdate("INSERT INTO " + dbName + ".`user` (`id`, `login`, `password`, `user_group`)" +
+                            " VALUES ('1', 'admin', 'admin', '1')");
+
+            statement.close();
             con.close();
         }
         catch (SQLException sqlExep) {
             logger.error(sqlExep);
+            System.exit(0);
         }
-
     }
 }

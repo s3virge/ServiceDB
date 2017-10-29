@@ -18,6 +18,7 @@ public class MainApp extends Application {
 
     public static void main(String[] args) {
 
+        //если приложение запускается впервые, то базы данных нет
         DataBase.initialise();
 
         //launch GUI
