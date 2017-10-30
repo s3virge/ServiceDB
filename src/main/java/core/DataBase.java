@@ -31,31 +31,45 @@ public class DataBase {
     }
 
     // JDBC variables for opening and managing connection
-    private static Connection conn;
-    private static Statement stmt;
-    private static ResultSet rs;
+//    private Connection conn;
+//    private Statement stmt;
+//    private ResultSet rs;
 
     //а что если подключаться не к базе данных а к mysql
     //и проверять существует ли базе
+    public boolean isExist(){
+        boolean result = true; //база существует
+
+        //когда базы нет вываливается исключение
+        try(Connection con = DriverManager.getConnection(url, user, password);
+        Statement st = con.createStatement())
+        {
+            st.execute("USE  " + dbName);
+        }
+        catch(Exception ex){
+            logger.error(ex);
+            result = false;
+        }
+
+        return result;
+    }
+
     //нужно инициализировать статические поля класса
-    public static void initialise() {
+    public void initialise() {
         logger.debug("DataBase.initialise() is executed.\n     Try to connect to DB server");
 
-        try{
-            conn = DriverManager.getConnection(url, user, password);
-            stmt = conn.createStatement();
+        try(Connection conn = DriverManager.getConnection(url, user, password);
+			Statement stmt = conn.createStatement())
+		{
             stmt.execute("USE  " + dbName);
-
-            rs = stmt.executeQuery("SELECT * FROM user;");
+        	ResultSet rs = stmt.executeQuery("SELECT * FROM user;");
 
             while (rs.next()) {
-                String count = rs.getString(2);
-                System.out.println(count);
+                int id = rs.getInt(1);
+                String login = rs.getString("login");
+                String password = rs.getString("password");
+                System.out.printf("id: %d login: %s; password: %s\n", id, login, password);
             }
-
-            rs.close();
-            stmt.close();
-            conn.close();
         }
         catch (Exception exception){
             logger.error(exception);
@@ -64,30 +78,7 @@ public class DataBase {
     }
 
     //создать базу и все таблицы которые будем использовать
-    public static void initialise1() {
-        logger.debug("DataBase.initialise() is executed!");
-
-        try {
-            //пытаемся подключиться к базе данных
-            conn = DriverManager.getConnection(url, user, password);
-        }
-        catch(Exception connEx) {
-            logger.debug("Облом с подключением к " + dbName );
-            logger.error(connEx);
-            createDB();
-        }
-
-        try {
-        	if (conn != null)
-        	    conn.close();
-        }
-        catch (SQLException sqlEx) {
-        	logger.error(sqlEx);
-        	System.exit(0);
-        }
-    }
-
-    private static void createDB() {
+    public void createDB() {
 		logger.debug("Launch createDB()");
         String serverUrl = "jdbc:mysql://" + host + ":" + port;
 
@@ -96,7 +87,7 @@ public class DataBase {
             Statement statement = con.createStatement();
 
             statement.executeUpdate("CREATE SCHEMA IF NOT EXISTS " + dbName + " DEFAULT CHARACTER SET utf8");
-            statement.executeUpdate( "USE " + dbName + "");
+            statement.executeUpdate( "USE " + dbName);
 
             /*-- -----------------------------------------------------
                     -- Table `servicedb`.`user_group`
