@@ -20,6 +20,9 @@ public class MainApp extends Application {
 
         //если приложение запускается впервые, то базы данных нет
         DataBase db = new DataBase();
+
+        db.initialise();
+
         if(!db.isExist()){
             db.createDB();
         }

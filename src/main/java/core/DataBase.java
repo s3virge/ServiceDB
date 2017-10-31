@@ -73,7 +73,7 @@ public class DataBase {
         }
         catch (Exception exception){
             logger.error(exception);
-            System.exit(0);
+			throw new RuntimeException("error in initialise()");
         }
     }
 
