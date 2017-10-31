@@ -54,8 +54,7 @@ public class DataBase {
         return result;
     }
 
-    //нужно инициализировать статические поля класса
-    public void initialise() {
+    public void getUser() {
         logger.debug("DataBase.initialise() is executed.\n     Try to connect to DB server");
 
         try(Connection conn = DriverManager.getConnection(url, user, password);
