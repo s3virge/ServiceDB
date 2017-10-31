@@ -19,15 +19,19 @@ public class LoginWndController {
     @FXML private TextField loginField;
     @FXML private TextField passwordField;
 
+
     // Reference to the main application
     private MainApp mainApp;
 
     @FXML
     protected void handleSubmitButtonAction(ActionEvent event) {
         if(isInputValid()){
-            //соединиться с базой данных
-            //найти логин пользователя
-            //если такого логина нет
+            String login = loginField.getText();
+            String pass= passwordField.getText();
+
+            DataBase dataBase = new DataBase();
+            dataBase.getUser();
+            //если такого логина/пароля нет
             //показать сообщение с ошибкой - ТАкой комбинации логина и пароля не существует
 
             //главное окно для разных групп пользователь буде отображаться по разному.
@@ -40,10 +44,6 @@ public class LoginWndController {
                 case Employee:
                     showMainWnd();
             }
-
-            // Show the error message.
-            showErrorMsg("Такой комбинации логина и пароля\nне существует.");
-            loginField.requestFocus();
         }
     }
 
@@ -67,16 +67,6 @@ public class LoginWndController {
 
         errorLabel.setText("");
         return true;
-    }
-
-    private void showErrorMsg(String message) {
-        Alert alert = new Alert(Alert.AlertType.ERROR);
-        alert.initOwner(mainApp.getPrimaryStage());
-        alert.setTitle("Что-то пошло не так.");
-        alert.setHeaderText(null);
-//        alert.setHeaderText("Please correct invalid fields");
-        alert.setContentText(message);
-        alert.showAndWait();
     }
 
     private void showMainWnd() {

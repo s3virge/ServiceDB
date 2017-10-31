@@ -24,24 +24,20 @@ public class DataBase {
         //String dbName = properties.getString("dataBase.name");
         dbName = properties.getString("dataBase.name");
 
-        //url = "jdbc:mysql://" + host + ":" + port + "/" + dbName;
-        url = "jdbc:mysql://" + host + ":" + port;
+        url = "jdbc:mysql://" + host + ":" + port + "/" + dbName;
+
         user = properties.getString("dataBase.login");
         password = properties.getString("dataBase.password");
     }
-
-    // JDBC variables for opening and managing connection
-//    private Connection conn;
-//    private Statement stmt;
-//    private ResultSet rs;
 
     //а что если подключаться не к базе данных а к mysql
     //и проверять существует ли базе
     public boolean isExist(){
         boolean result = true; //база существует
+		String serverUrl = "jdbc:mysql://" + host + ":" + port;
 
-        //когда базы нет вываливается исключение
-        try(Connection con = DriverManager.getConnection(url, user, password);
+		//когда базы нет вываливается исключение
+        try(Connection con = DriverManager.getConnection(serverUrl, user, password);
         Statement st = con.createStatement())
         {
             st.execute("USE  " + dbName);
@@ -55,24 +51,24 @@ public class DataBase {
     }
 
     public void getUser() {
-        logger.debug("DataBase.initialise() is executed.\n     Try to connect to DB server");
+        logger.debug("DataBase.getUser() is executed.\n     Try to connect to DB server");
 
         try(Connection conn = DriverManager.getConnection(url, user, password);
 			Statement stmt = conn.createStatement())
 		{
-            stmt.execute("USE  " + dbName);
+            //stmt.execute("USE  " + dbName);
         	ResultSet rs = stmt.executeQuery("SELECT * FROM user;");
 
             while (rs.next()) {
                 int id = rs.getInt(1);
                 String login = rs.getString("login");
                 String password = rs.getString("password");
-                System.out.printf("id: %d login: %s; password: %s\n", id, login, password);
+                System.out.printf("id: %d; login: %s; password: %s;\n", id, login, password);
             }
         }
         catch (Exception exception){
             logger.error(exception);
-			throw new RuntimeException("error in initialise()");
+			throw new RuntimeException("error in DataBase.getUser()");
         }
     }
 
