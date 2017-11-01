@@ -99,6 +99,7 @@ public class LoginWndController {
         Scene scene = new Scene(layout);
         mainWindow.setTitle("A simple database of the service center");
         mainWindow.setScene(scene);
+        mainWindow.centerOnScreen();
         //mainWindow.setFullScreen(true);
         mainWindow.show();
     }

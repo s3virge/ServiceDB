@@ -306,7 +306,9 @@ public class DataBase {
 
             statement.executeUpdate("INSERT INTO servicedb.user_group (`id`,`name`) VALUES (1, 'administrator');");
             statement.executeUpdate("INSERT INTO servicedb.user_group (`id`,`name`) VALUES (2, 'manager');");
-            statement.executeUpdate("INSERT INTO servicedb.user_group (`id`,`name`) VALUES (3, 'user');");
+            statement.executeUpdate("INSERT INTO servicedb.user_group (`id`,`name`) VALUES (3, 'master');");
+            //acceptor - приемщик, тот кто принимает
+            statement.executeUpdate("INSERT INTO servicedb.user_group (`id`,`name`) VALUES (4, 'acceptor');");
 
             statement.executeUpdate("INSERT INTO " + dbName + ".`user` (`id`, `login`, `password`, `user_group`)" +
                             " VALUES ('1', 'admin', 'admin', '1')");
