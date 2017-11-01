@@ -95,7 +95,6 @@ public class LoginWndController {
             System.out.println( "    ----------------------------------------\n" );
         }
 
-        //показываем окно ввода логина и пароля
         Scene scene = new Scene(layout);
         mainWindow.setTitle("A simple database of the service center");
         mainWindow.setScene(scene);
