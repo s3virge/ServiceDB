@@ -50,6 +50,9 @@ public class DataBase {
         return result;
     }
 
+    /**
+    * возвращает пустого User если в базе нет пользователя с логином strLogin
+    */
     public User getUser(String strLogin) {
         logger.debug("DataBase.getUser() is executed.\n     Try to connect to DB server");
 
@@ -65,7 +68,7 @@ public class DataBase {
             while (rs.next()) {
                 user.setId(rs.getInt("id"));
                 user.setLogin(rs.getString("login"));
-                user.setPassword(rs.getString("dbPassword"));
+                user.setPassword(rs.getString("password"));
 
                 //System.out.printf("id: %d; login: %s; dbPassword: %s;\n", id, login, password);
             }

@@ -37,4 +37,11 @@ public class User {
     public void setGroup(String group) {
         this.group = group;
     }
+
+    public boolean isEmpty(){
+        if (id == 0 && login == null && password == null){
+            return true;
+        }
+        return false;
+    }
 }

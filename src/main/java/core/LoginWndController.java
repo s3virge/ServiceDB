@@ -19,7 +19,6 @@ public class LoginWndController {
     @FXML private TextField loginField;
     @FXML private TextField passwordField;
 
-
     // Reference to the main application
     private MainApp mainApp;
 
@@ -27,28 +26,33 @@ public class LoginWndController {
     protected void handleSubmitButtonAction(ActionEvent event) {
         if(isInputValid()){
             String login = loginField.getText();
-            String pass= passwordField.getText();
+            String paswd = passwordField.getText();
 
             DataBase dataBase = new DataBase();
             User user = dataBase.getUser(login);
 
-            //если такого логина/пароля нет
-            if (user.getLogin() != login){
-                //показать сообщение с ошибкой
-                MsgBox.show("Такой комбинации логина и пароля не существует.", MsgBox.Type.MB_ERROR);
-                loginField.requestFocus();
+            //если юзера нет
+            if (user.isEmpty()){
+                showLoginError();
                 return;
             }
 
-            //главное окно для разных групп пользователь буде отображаться по разному.
-            //нужно получить из контроллера группу пользователя который залогинился.
-            UserGroup userGroupLoggedIn = UserGroup.Employee;
+            if (user.getPassword().equals(paswd)) {
+                //главное окно для разных групп пользователь буде отображаться по разному.
+                //нужно получить из контроллера группу пользователя который залогинился.
+                UserGroup userGroupLoggedIn = UserGroup.Employee;
 
-            switch (userGroupLoggedIn) {
-                case Administrator:
-                case Manager:
-                case Employee:
-                    showMainWnd();
+                switch (userGroupLoggedIn) {
+                    case Administrator:
+                    case Manager:
+                    case Employee:
+                        showMainWnd();
+                }
+            }
+            else{
+                //показать сообщение с ошибкой
+                showLoginError();
+                return;
             }
         }
     }
@@ -97,5 +101,11 @@ public class LoginWndController {
         mainWindow.setScene(scene);
         //mainWindow.setFullScreen(true);
         mainWindow.show();
+    }
+
+    private void showLoginError(){
+        MsgBox.show("Такой комбинации логина и пароля не существует.", MsgBox.Type.MB_ERROR);
+        loginField.requestFocus();
+        passwordField.setText("");
     }
 }
