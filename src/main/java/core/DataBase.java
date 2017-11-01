@@ -8,37 +8,37 @@ import java.util.ResourceBundle;
 public class DataBase {
     private static final Logger logger = Logger.getLogger(DataBase.class);
 
-    // JDBC URL, username and password of MySQL server
-    private static final String url;
-    private static final String user;
-    private static final String password;
-    private static final String host;
-    private static final String port;
+    // JDBC URL, username and dbPassword of MySQL server
+    private static final String dbUrl;
+    private static final String dbUser;
+    private static final String dbPassword;
+    private static final String dbHost;
+    private static final String dbPort;
     private static final String dbName;
 
     static {
         ResourceBundle properties = ResourceBundle.getBundle("dataBase");
-        //String host = properties.getString("dataBase.host");
-        host = properties.getString("dataBase.host");
-        port = properties.getString("dataBase.port");
+        //String dbHost = properties.getString("dataBase.dbHost");
+        dbHost = properties.getString("dataBase.host");
+        dbPort = properties.getString("dataBase.port");
         //String dbName = properties.getString("dataBase.name");
         dbName = properties.getString("dataBase.name");
 
-        url = "jdbc:mysql://" + host + ":" + port + "/" + dbName;
+        dbUrl = "jdbc:mysql://" + dbHost + ":" + dbPort + "/" + dbName;
 
-        user = properties.getString("dataBase.login");
-        password = properties.getString("dataBase.password");
+        dbUser = properties.getString("dataBase.login");
+        dbPassword = properties.getString("dataBase.password");
     }
 
     //а что если подключаться не к базе данных а к mysql
     //и проверять существует ли базе
     public boolean isExist(){
         boolean result = true; //база существует
-		String serverUrl = "jdbc:mysql://" + host + ":" + port;
+		String serverUrl = "jdbc:mysql://" + dbHost + ":" + dbPort;
 
 		//когда базы нет вываливается исключение
-        try(Connection con = DriverManager.getConnection(serverUrl, user, password);
-        Statement st = con.createStatement())
+        try(Connection con = DriverManager.getConnection(serverUrl, dbUser, dbPassword);
+			Statement st = con.createStatement())
         {
             st.execute("USE  " + dbName);
         }
@@ -50,21 +50,27 @@ public class DataBase {
         return result;
     }
 
-    public void getUser() {
+    public User getUser(String strLogin) {
         logger.debug("DataBase.getUser() is executed.\n     Try to connect to DB server");
 
-        try(Connection conn = DriverManager.getConnection(url, user, password);
+
+        try(Connection conn = DriverManager.getConnection(dbUrl, dbUser, dbPassword);
 			Statement stmt = conn.createStatement())
 		{
             //stmt.execute("USE  " + dbName);
-        	ResultSet rs = stmt.executeQuery("SELECT * FROM user;");
+        	ResultSet rs = stmt.executeQuery("select * from user where login='"+ strLogin + "';");
+
+        	User user = new User();
 
             while (rs.next()) {
-                int id = rs.getInt(1);
-                String login = rs.getString("login");
-                String password = rs.getString("password");
-                System.out.printf("id: %d; login: %s; password: %s;\n", id, login, password);
+                user.setId(rs.getInt("id"));
+                user.setLogin(rs.getString("login"));
+                user.setPassword(rs.getString("dbPassword"));
+
+                //System.out.printf("id: %d; login: %s; dbPassword: %s;\n", id, login, password);
             }
+
+            return user;
         }
         catch (Exception exception){
             logger.error(exception);
@@ -75,10 +81,10 @@ public class DataBase {
     //создать базу и все таблицы которые будем использовать
     public void createDB() {
 		logger.debug("Launch createDB()");
-        String serverUrl = "jdbc:mysql://" + host + ":" + port;
+        String serverUrl = "jdbc:mysql://" + dbHost + ":" + dbPort;
 
         try {
-            Connection con = DriverManager.getConnection(serverUrl, user, password);
+            Connection con = DriverManager.getConnection(serverUrl, dbUser, dbPassword);
             Statement statement = con.createStatement();
 
             statement.executeUpdate("CREATE SCHEMA IF NOT EXISTS " + dbName + " DEFAULT CHARACTER SET utf8");
@@ -98,7 +104,7 @@ public class DataBase {
 
 
             /*-- -----------------------------------------------------
-                    -- Table `servicedb`.`user`
+                    -- Table `servicedb`.`dbUser`
             -- -----------------------------------------------------*/
             statement.executeUpdate(
                     "CREATE TABLE IF NOT EXISTS " + dbName + ".`user` " +

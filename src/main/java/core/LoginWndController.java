@@ -30,9 +30,15 @@ public class LoginWndController {
             String pass= passwordField.getText();
 
             DataBase dataBase = new DataBase();
-            dataBase.getUser();
+            User user = dataBase.getUser(login);
+
             //если такого логина/пароля нет
-            //показать сообщение с ошибкой - ТАкой комбинации логина и пароля не существует
+            if (user.getLogin() != login){
+                //показать сообщение с ошибкой
+                MsgBox.show("Такой комбинации логина и пароля не существует.", MsgBox.Type.MB_ERROR);
+                loginField.requestFocus();
+                return;
+            }
 
             //главное окно для разных групп пользователь буде отображаться по разному.
             //нужно получить из контроллера группу пользователя который залогинился.
