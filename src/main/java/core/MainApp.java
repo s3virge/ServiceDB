@@ -17,14 +17,6 @@ public class MainApp extends Application {
     private Stage loginWindow;
 
     public static void main(String[] args) {
-
-        //если приложение запускается впервые, то базы данных нет
-        DataBase db = new DataBase();
-
-        if(!db.isExist()){
-            db.createDB();
-        }
-
         //launch GUI
         launch(args);
     }
@@ -43,6 +35,13 @@ public class MainApp extends Application {
 
     private void showLoginWindow() {
         logger.debug("execute showLoginWindow()");
+
+        //если приложение запускается впервые, то базы данных нет
+        DataBase db = new DataBase();
+
+        if(!db.isExist()){
+            db.createDB();
+        }
 
         Parent layout = null;
         String sceneFile = "/LoginWindow/LoginWnd.fxml";

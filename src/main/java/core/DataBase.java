@@ -89,6 +89,7 @@ public class DataBase {
         try {
             Connection con = DriverManager.getConnection(serverUrl, dbUser, dbPassword);
             Statement statement = con.createStatement();
+			con.setAutoCommit(false);
 
             statement.executeUpdate("CREATE SCHEMA IF NOT EXISTS " + dbName + " DEFAULT CHARACTER SET utf8");
             statement.executeUpdate( "USE " + dbName);
@@ -311,13 +312,15 @@ public class DataBase {
             statement.executeUpdate("INSERT INTO servicedb.user_group (`id`,`name`) VALUES (4, 'acceptor');");
 
             statement.executeUpdate("INSERT INTO " + dbName + ".`user` (`id`, `login`, `password`, `user_group`)" +
-                            " VALUES ('1', 'admin', 'admin', '1')");
+                            " VALUES ( '1','admin', 'admin', '1')");
 
             statement.close();
             con.close();
         }
         catch (SQLException sqlExep) {
             logger.error(sqlExep);
+            String msg = "SQLException в createDB() - > " + sqlExep.getMessage();
+            MsgBox.show(msg, MsgBox.Type.MB_ERROR);
             System.exit(0);
         }
     }

@@ -10,5 +10,4 @@ public enum UserGroup {
         String lowercase = name().toLowerCase();
         return lowercase;
     }
-
 }
