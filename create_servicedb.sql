@@ -7,6 +7,10 @@ SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='TRADITIONAL,ALLOW_INVALID_DATES';
 -- -----------------------------------------------------
 -- Schema servicedb
 -- -----------------------------------------------------
+
+-- -----------------------------------------------------
+-- Schema servicedb
+-- -----------------------------------------------------
 CREATE SCHEMA IF NOT EXISTS `servicedb` DEFAULT CHARACTER SET utf8 ;
 USE `servicedb` ;
 
@@ -149,7 +153,7 @@ CREATE TABLE IF NOT EXISTS `servicedb`.`model` (
   UNIQUE INDEX `name_UNIQUE` (`name` ASC))
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8
-COMMENT = 'таблица для хранения модели устройства';
+COMMENT = 'таблица для хранения модели устр' /* comment truncated */ /*ойства*/;
 
 
 -- -----------------------------------------------------
@@ -166,6 +170,40 @@ COMMENT = 'неисправности';
 
 
 -- -----------------------------------------------------
+-- Table `servicedb`.`status`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `servicedb`.`status` (
+  `id` INT NOT NULL AUTO_INCREMENT,
+  `value` VARCHAR(45) NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE INDEX `value_UNIQUE` (`value` ASC))
+ENGINE = InnoDB
+DEFAULT CHARACTER SET = utf8
+COMMENT = 'этап ремонта';
+
+
+-- -----------------------------------------------------
+-- Table `servicedb`.`repair`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `servicedb`.`repair` (
+  `id` INT NOT NULL AUTO_INCREMENT,
+  `master_comments` VARCHAR(1024) NULL,
+  `diagnostic_result` VARCHAR(1024) NULL,
+  `repair_result` VARCHAR(450) NULL,
+  `status_id` INT NOT NULL,
+  PRIMARY KEY (`id`),
+  INDEX `repair_status_idx` (`status_id` ASC),
+  CONSTRAINT `repair_status`
+    FOREIGN KEY (`status_id`)
+    REFERENCES `servicedb`.`status` (`id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB
+DEFAULT CHARACTER SET = utf8
+COMMENT = 'таблица для резу�' /* comment truncated */ /*�ьтатов диагностики-ремонта */;
+
+
+-- -----------------------------------------------------
 -- Table `servicedb`.`device`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `servicedb`.`device` (
@@ -176,12 +214,14 @@ CREATE TABLE IF NOT EXISTS `servicedb`.`device` (
   `serial_number` VARCHAR(45) NULL,
   `defect_id` INT NOT NULL,
   `owner_id` INT NOT NULL,
+  `repair_id` INT NOT NULL,
   PRIMARY KEY (`id`),
   INDEX `owner_idx` (`owner_id` ASC),
   INDEX `brand_idx` (`brand_id` ASC),
   INDEX `type_idx` (`type_id` ASC),
   INDEX `model_idx` (`model_id` ASC),
   INDEX `defect_idx` (`defect_id` ASC),
+  INDEX `device_repair_idx` (`repair_id` ASC),
   CONSTRAINT `device_owner`
     FOREIGN KEY (`owner_id`)
     REFERENCES `servicedb`.`owner` (`id`)
@@ -206,6 +246,11 @@ CREATE TABLE IF NOT EXISTS `servicedb`.`device` (
     FOREIGN KEY (`defect_id`)
     REFERENCES `servicedb`.`defect` (`id`)
     ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `device_repair`
+    FOREIGN KEY (`repair_id`)
+    REFERENCES `servicedb`.`repair` (`id`)
+    ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8;
@@ -214,3 +259,40 @@ DEFAULT CHARACTER SET = utf8;
 SET SQL_MODE=@OLD_SQL_MODE;
 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;
 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS;
+
+-- -----------------------------------------------------
+-- Data for table `servicedb`.`user_group`
+-- -----------------------------------------------------
+START TRANSACTION;
+USE `servicedb`;
+INSERT INTO `servicedb`.`user_group` (`id`, `name`) VALUES (1, 'administrator');
+INSERT INTO `servicedb`.`user_group` (`id`, `name`) VALUES (2, 'manager');
+INSERT INTO `servicedb`.`user_group` (`id`, `name`) VALUES (3, 'master');
+INSERT INTO `servicedb`.`user_group` (`id`, `name`) VALUES (4, 'acceptor');
+
+COMMIT;
+
+
+-- -----------------------------------------------------
+-- Data for table `servicedb`.`user`
+-- -----------------------------------------------------
+START TRANSACTION;
+USE `servicedb`;
+INSERT INTO `servicedb`.`user` (`id`, `login`, `password`, `user_group`) VALUES (1, 'admin', md5('admin'), 1);
+
+COMMIT;
+
+
+-- -----------------------------------------------------
+-- Data for table `servicedb`.`status`
+-- -----------------------------------------------------
+START TRANSACTION;
+USE `servicedb`;
+INSERT INTO `servicedb`.`status` (`id`, `value`) VALUES (1, 'Оформлен');
+INSERT INTO `servicedb`.`status` (`id`, `value`) VALUES (2, 'Диагностика');
+INSERT INTO `servicedb`.`status` (`id`, `value`) VALUES (3, 'Ожидание комплектующих');
+INSERT INTO `servicedb`.`status` (`id`, `value`) VALUES (4, 'Ремонт');
+INSERT INTO `servicedb`.`status` (`id`, `value`) VALUES (5, 'Выдано');
+
+COMMIT;
+
