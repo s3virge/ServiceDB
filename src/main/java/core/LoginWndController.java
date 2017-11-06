@@ -84,6 +84,7 @@ public class LoginWndController {
         logger.debug("execute showMainWnd()");
 
         Parent layout = null;
+        //Поскольку имя начинается с символа '/' – оно считается абсолютным. Без / - считается относительным
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/MainWindow/MainWnd.fxml"));
 
         try {

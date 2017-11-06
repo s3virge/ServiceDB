@@ -1,13 +1,4 @@
--- MySQL Workbench Forward Engineering
-
-SET @OLD_UNIQUE_CHECKS = @@UNIQUE_CHECKS, UNIQUE_CHECKS = 0;
-SET @OLD_FOREIGN_KEY_CHECKS = @@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS = 0;
-SET @OLD_SQL_MODE = @@SQL_MODE, SQL_MODE = '' TRADITIONAL, ALLOW_INVALID_DATES'';
-
--- -----------------------------------------------------
--- Schema servicedb
--- -----------------------------------------------------
-
+-- MySQL Workbench Forward Engineerin
 -- -----------------------------------------------------
 -- Schema servicedb
 -- -----------------------------------------------------
@@ -71,7 +62,7 @@ CREATE TABLE IF NOT EXISTS `servicedb`.`patronymic` (
 )
   ENGINE = InnoDB
   DEFAULT CHARACTER SET = utf8
-  COMMENT = '' отчества'';
+  COMMENT = 'отчества';
 
 -- -----------------------------------------------------
 -- Table `servicedb`.`surname`
@@ -84,7 +75,7 @@ CREATE TABLE IF NOT EXISTS `servicedb`.`surname` (
 )
   ENGINE = InnoDB
   DEFAULT CHARACTER SET = utf8
-  COMMENT = '' фамилии тут'';
+  COMMENT = 'фамилии тут';
 
 -- -----------------------------------------------------
 -- Table `servicedb`.`owner`
@@ -117,7 +108,7 @@ CREATE TABLE IF NOT EXISTS `servicedb`.`owner` (
 )
   ENGINE = InnoDB
   DEFAULT CHARACTER SET = utf8
-  COMMENT = '' информация о пользователе'';
+  COMMENT = 'информация о пользователе';
 
 -- -----------------------------------------------------
 -- Table `servicedb`.`brand`
@@ -142,7 +133,7 @@ CREATE TABLE IF NOT EXISTS `servicedb`.`type` (
 )
   ENGINE = InnoDB
   DEFAULT CHARACTER SET = utf8
-  COMMENT = '' тип устройства'';
+  COMMENT = 'тип устройства';
 
 -- -----------------------------------------------------
 -- Table `servicedb`.`model`
@@ -155,7 +146,7 @@ CREATE TABLE IF NOT EXISTS `servicedb`.`model` (
 )
   ENGINE = InnoDB
   DEFAULT CHARACTER SET = utf8
-  COMMENT = '' таблица для хранения модели устр'' /* comment truncated */ /*ойства*/;
+  COMMENT = 'таблица для хранения модели устройства';
 
 -- -----------------------------------------------------
 -- Table `servicedb`.`defect`
@@ -181,7 +172,7 @@ CREATE TABLE IF NOT EXISTS `servicedb`.`status` (
 )
   ENGINE = InnoDB
   DEFAULT CHARACTER SET = utf8
-  COMMENT = '' этап ремонта'';
+  COMMENT = 'этап ремонта';
 
 -- -----------------------------------------------------
 -- Table `servicedb`.`repair`
@@ -267,10 +258,10 @@ SET UNIQUE_CHECKS = @OLD_UNIQUE_CHECKS;
 -- -----------------------------------------------------
 START TRANSACTION;
 USE `servicedb`;
-INSERT INTO `servicedb`.`user_group` (`id`, `name`) VALUES (1, ''administrator'');
-INSERT INTO `servicedb`.`user_group` (`id`, `name`) VALUES (2, ''manager'');
-INSERT INTO `servicedb`.`user_group` (`id`, `name`) VALUES (3, ''MASTER'');
-INSERT INTO `servicedb`.`user_group` (`id`, `name`) VALUES (4, ''acceptor'');
+INSERT INTO `servicedb`.`user_group` (`id`, `name`) VALUES (1, 'administrator');
+INSERT INTO `servicedb`.`user_group` (`id`, `name`) VALUES (2, 'manager');
+INSERT INTO `servicedb`.`user_group` (`id`, `name`) VALUES (3, 'MASTER');
+INSERT INTO `servicedb`.`user_group` (`id`, `name`) VALUES (4, 'acceptor');
 
 COMMIT;
 
@@ -279,7 +270,7 @@ COMMIT;
 -- -----------------------------------------------------
 START TRANSACTION;
 USE `servicedb`;
-INSERT INTO `servicedb`.`user` (`id`, `login`, `password`, `user_group`) VALUES (1, ''admin'', md5('' admin ''), 1);
+INSERT INTO `servicedb`.`user` (`id`, `login`, `password`, `user_group`) VALUES (1, 'admin', md5('admin'), 1);
 
 COMMIT;
 
@@ -288,11 +279,11 @@ COMMIT;
 -- -----------------------------------------------------
 START TRANSACTION;
 USE `servicedb`;
-INSERT INTO `servicedb`.`status` (`id`, `value`) VALUES (1, ''Оформлен'');
-INSERT INTO `servicedb`.`status` (`id`, `value`) VALUES (2, ''Диагностика'');
-INSERT INTO `servicedb`.`status` (`id`, `value`) VALUES (3, ''Ожидание комплектующих'');
-INSERT INTO `servicedb`.`status` (`id`, `value`) VALUES (4, ''Ремонт'');
-INSERT INTO `servicedb`.`status` (`id`, `value`) VALUES (5, ''Выдано'');
+INSERT INTO `servicedb`.`status` (`id`, `value`) VALUES (1, 'Оформлен');
+INSERT INTO `servicedb`.`status` (`id`, `value`) VALUES (2, 'Диагностика');
+INSERT INTO `servicedb`.`status` (`id`, `value`) VALUES (3, 'Ожидание комплектующих');
+INSERT INTO `servicedb`.`status` (`id`, `value`) VALUES (4, 'Ремонт');
+INSERT INTO `servicedb`.`status` (`id`, `value`) VALUES (5, 'Выдано');
 
 COMMIT;
 

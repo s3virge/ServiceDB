@@ -2,6 +2,9 @@ package core;
 
 import org.apache.log4j.Logger;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.URL;
 import java.sql.*;
 import java.util.ResourceBundle;
 
@@ -82,7 +85,7 @@ public class DataBase {
     }
 
     //создать базу и все таблицы которые будем использовать
-    public void createDB() {
+  /*  public void createDB() {
 		logger.debug("Launch createDB()");
         String serverUrl = "jdbc:mysql://" + dbHost + ":" + dbPort;
 
@@ -230,7 +233,7 @@ public class DataBase {
 )
 			ENGINE = InnoDB
 			DEFAULT CHARACTER SET = utf8
-			COMMENT = ' таблица для хранения модели устр' /* comment truncated */ /*ойства*/;
+			COMMENT = ' таблица для хранения модели устр' *//* comment truncated *//* *//*ойства*//*;
 
 			-- -----------------------------------------------------
 					-- Table `servicedb`.`defect`
@@ -377,5 +380,40 @@ public class DataBase {
             MsgBox.show(msg, MsgBox.Type.MB_ERROR);
             System.exit(0);
         }
-    }
+    }*/
+
+    public void createDB(){
+    	logger.debug("Launch createDB()");
+
+    	// получить текущий classloader
+		URL file = getClass().getResource("/sql/create_servicedb.sql");
+
+		InputStream stream = null;
+        String sqlScript = null;
+
+		try{
+			 stream = file.openStream();
+
+			 try {
+                 sqlScript = stream.toString();
+             }
+             catch (NullPointerException nullPtrExc){
+                 MsgBox.show(nullPtrExc.getMessage(), MsgBox.Type.MB_ERROR);
+             }
+		}
+		catch (IOException e){
+			MsgBox.show(e.getMessage(), MsgBox.Type.MB_ERROR);
+		}
+
+		String serverUrl = "jdbc:mysql://" + dbHost + ":" + dbPort;
+
+		try (Connection con = DriverManager.getConnection(serverUrl, dbUser, dbPassword);
+			 Statement statement = con.createStatement())
+		{
+			statement.execute(sqlScript);
+		}
+		catch (SQLException sqlEx) {
+			MsgBox.show(sqlEx.getMessage(), MsgBox.Type.MB_ERROR);
+		}
+	}
 }
