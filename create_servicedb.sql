@@ -168,7 +168,7 @@ CREATE TABLE IF NOT EXISTS `servicedb`.`defect` (
 )
   ENGINE = InnoDB
   DEFAULT CHARACTER SET = utf8
-  COMMENT = '' неисправности'';
+  COMMENT = 'неисправности';
 
 -- -----------------------------------------------------
 -- Table `servicedb`.`status`
@@ -202,7 +202,7 @@ CREATE TABLE IF NOT EXISTS `servicedb`.`repair` (
 )
   ENGINE = InnoDB
   DEFAULT CHARACTER SET = utf8
-  COMMENT = '' таблица для резуЧ /* comment truncated */ /*ܑ͑ÐёÐߐҠдиагностики-ремонта */;
+  COMMENT = 'таблица для результата диагностики-ремонта';
 
 -- -----------------------------------------------------
 -- Table `servicedb`.`device`
