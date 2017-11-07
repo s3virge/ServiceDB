@@ -2,11 +2,17 @@ package core;
 
 import org.apache.log4j.Logger;
 
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.URISyntaxException;
 import java.net.URL;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.sql.*;
 import java.util.ResourceBundle;
+import java.util.stream.Stream;
 
 public class DataBase {
     private static final Logger logger = Logger.getLogger(DataBase.class);
@@ -384,25 +390,47 @@ public class DataBase {
 
     public void createDB(){
     	logger.debug("Launch createDB()");
+        ClassLoader cl = this.getClass().getClassLoader();
+        URL resFile = cl.getResource("sql/create_servicedb.sql");
+
+        Path paths = null;
+        try {
+            paths = Paths.get(resFile.toURI());
+        }
+        catch (URISyntaxException uriExce){
+            logger.error(uriExce);
+        }
+
+        try {
+            final Stream<String> lines = Files.lines(paths);
+            String s = "";
+            for (String line : (Iterable<String>) () -> lines.iterator()) {
+                s += line;
+            }
+            lines.close();
+        }
+        catch (IOException ioEx) {
+            logger.error(ioEx);
+        }
+
 
     	// получить текущий classloader
-		URL file = getClass().getResource("/sql/create_servicedb.sql");
+		URL file = getClass().getResource("sql/create_servicedb.sql");
 
-		InputStream stream = null;
         String sqlScript = null;
+        String strFile = file.toString();
+        System.out.println(strFile);
 
-		try{
-			 stream = file.openStream();
-
-			 try {
-                 sqlScript = stream.toString();
-             }
-             catch (NullPointerException nullPtrExc){
-                 MsgBox.show(nullPtrExc.getMessage(), MsgBox.Type.MB_ERROR);
-             }
+		try(FileInputStream fis = new FileInputStream(strFile)){
+            System.out.println("РАзмер файла " + fis.available() + " байт");
+            int i = -1;
+            while ((i = fis.read()) != -1 ){
+                System.out.println((char)i);
+            }
 		}
 		catch (IOException e){
 			MsgBox.show(e.getMessage(), MsgBox.Type.MB_ERROR);
+			System.exit(0);
 		}
 
 		String serverUrl = "jdbc:mysql://" + dbHost + ":" + dbPort;
