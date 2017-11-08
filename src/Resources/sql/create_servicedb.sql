@@ -7,10 +7,6 @@ SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='TRADITIONAL,ALLOW_INVALID_DATES';
 -- -----------------------------------------------------
 -- Schema servicedb
 -- -----------------------------------------------------
-
--- -----------------------------------------------------
--- Schema servicedb
--- -----------------------------------------------------
 CREATE SCHEMA IF NOT EXISTS `servicedb` DEFAULT CHARACTER SET utf8 ;
 USE `servicedb` ;
 
@@ -153,7 +149,7 @@ CREATE TABLE IF NOT EXISTS `servicedb`.`model` (
   UNIQUE INDEX `name_UNIQUE` (`name` ASC))
   ENGINE = InnoDB
   DEFAULT CHARACTER SET = utf8
-  COMMENT = 'таблица для хранения модели устр' /* comment truncated */ /*ойства*/;
+  COMMENT = 'таблица для хранения модели устройства';
 
 
 -- -----------------------------------------------------
@@ -202,7 +198,7 @@ CREATE TABLE IF NOT EXISTS `servicedb`.`repair` (
     ON UPDATE NO ACTION)
   ENGINE = InnoDB
   DEFAULT CHARACTER SET = utf8
-  COMMENT = 'таблица для резу�' /* comment truncated */ /*�ьтатов диагностики-ремонта */;
+  COMMENT = 'таблица для результатов диагностики-ремонта';
 
 
 -- -----------------------------------------------------
