@@ -314,7 +314,7 @@ public class DataBase {
 
             statement.execute("START TRANSACTION;");
             statement.execute("USE `" + dbName + "`;");
-            statement.execute("INSERT INTO `" + dbName + "`.`user` (`id`, `login`, `password`, `user_group`) VALUES (1, 'admin', md5('admin'), 1);");
+            statement.execute("INSERT INTO `" + dbName + "`.`user` (`id`, `login`, `password`, `user_group`) VALUES (1, 'admin', '21232f297a57a5a743894a0e4a801fc3', 1);");
 
             statement.execute("COMMIT;");
 

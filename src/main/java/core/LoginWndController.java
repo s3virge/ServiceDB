@@ -26,7 +26,14 @@ public class LoginWndController {
     protected void handleSubmitButtonAction(ActionEvent event) {
         if(isInputValid()){
             String login = loginField.getText();
-            String paswd = passwordField.getText();
+            String paswd = null;
+
+            try {
+                paswd = MD5Hash.get(passwordField.getText());
+            }
+            catch (Exception e){
+                MsgBox.show(e.getMessage(), MsgBox.Type.MB_ERROR);
+            }
 
             DataBase dataBase = new DataBase();
             User user = dataBase.getUser(login);
@@ -39,7 +46,7 @@ public class LoginWndController {
 
             if (user.getPassword().equals(paswd)) {
                 //главное окно для разных групп пользователь буде отображаться по разному.
-                //нужно получить из контроллера группу пользователя который залогинился.
+                //нужно знать группу пользователя который залогинился.
                 UserGroup userGroupLoggedIn = UserGroup.Employee;
 
                 switch (userGroupLoggedIn) {
