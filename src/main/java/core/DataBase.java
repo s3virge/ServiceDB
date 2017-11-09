@@ -66,7 +66,6 @@ public class DataBase {
     public User getUser(String strLogin) {
         logger.debug("DataBase.getUser() is executed.\n     Try to connect to DB server");
 
-
         try(Connection conn = DriverManager.getConnection(dbUrl, dbUser, dbPassword);
 			Statement stmt = conn.createStatement())
 		{
@@ -93,18 +92,18 @@ public class DataBase {
 
     //создать базу и все таблицы которые будем использовать
   public void createDB() {
-		logger.debug("Launch createDB()");
+        logger.debug("Launch createDB()");
+
         String serverUrl = "jdbc:mysql://" + dbHost + ":" + dbPort;
+        // Параметры соединения с базой
+        Properties connProp = new Properties();
 
-      // Параметры соединения с базой
-      Properties connProp = new Properties();
+        connProp.put("user", dbUser);
+        connProp.put("password", dbPassword);
 
-      connProp.put("user", dbUser);
-      connProp.put("password", dbPassword);
-
-      connProp.put("useUnicode","true");
-      //connProp.put("characterEncoding","Cp1251");
-      connProp.put("charSet", "Cp1251");
+        connProp.put("useUnicode", "true");
+        //connProp.put("characterEncoding","Cp1251");
+        connProp.put("charSet", "Cp1251");
 
       try (Connection con = DriverManager.getConnection(serverUrl, connProp);
            Statement statement = con.createStatement())
@@ -338,10 +337,9 @@ public class DataBase {
           statement.execute("COMMIT;");
       }
       catch (SQLException sqlExep) {
-          logger.error(sqlExep);
-          String msg = sqlExep.getMessage();
-          MsgBox.show(msg, MsgBox.Type.MB_ERROR);
-          System.exit(0);
+          MsgBox.show(sqlExep.getMessage(), MsgBox.Type.MB_ERROR);
+          //System.exit(0);
+          throw new RuntimeException("Облом с созданием базы данных в createDB()");
       }
 
       logger.debug("createDB() successfully completed");
