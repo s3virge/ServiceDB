@@ -103,7 +103,8 @@ public class DataBase {
       connProp.put("password", dbPassword);
 
       connProp.put("useUnicode","true");
-      connProp.put("characterEncoding","Cp1251");
+      //connProp.put("characterEncoding","Cp1251");
+      connProp.put("charSet", "Cp1251");
 
       try (Connection con = DriverManager.getConnection(serverUrl, connProp);
            Statement statement = con.createStatement())
@@ -342,8 +343,6 @@ public class DataBase {
           MsgBox.show(msg, MsgBox.Type.MB_ERROR);
           System.exit(0);
       }
-
-
 
       logger.debug("createDB() successfully completed");
     }
