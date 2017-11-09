@@ -40,8 +40,7 @@ public class DataBase {
         dbPassword = properties.getString("dataBase.password");
     }
 
-    //а что если подключаться не к базе данных а к mysql
-    //и проверять существует ли база
+    /** существует ли база */
     public boolean isExist() {
         boolean result = true; //база существует
         String serverUrl = "jdbc:mysql://" + dbHost + ":" + dbPort;
@@ -59,9 +58,7 @@ public class DataBase {
         return result;
     }
 
-    /**
-     * возвращает пустого User если в базе нет пользователя с логином strLogin
-     */
+    /** возвращает пустого User если в базе нет пользователя с логином strLogin */
     public User getUser(String strLogin) {
         logger.debug("DataBase.getUser() is executed.\n     Try to connect to DB server");
 
