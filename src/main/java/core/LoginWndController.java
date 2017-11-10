@@ -39,7 +39,7 @@ public class LoginWndController {
             User user = dataBase.getUser(login);
 
             //если юзера нет
-            if (user.isEmpty()){
+            if (user.isEmpty()) {
                 showLoginError();
                 return;
             }
@@ -56,7 +56,7 @@ public class LoginWndController {
                         showMainWnd();
                 }
             }
-            else{
+            else {
                 //показать сообщение с ошибкой
                 showLoginError();
                 return;
@@ -100,7 +100,6 @@ public class LoginWndController {
         catch ( Exception ex ) {
             System.out.println( "Exception on FXMLLoader.load()" );
             System.out.println( "error - " + ex.getMessage() );   //-- Doesn't show in stack dump
-            System.out.println( "    ----------------------------------------\n" );
         }
 
         Scene scene = new Scene(layout);

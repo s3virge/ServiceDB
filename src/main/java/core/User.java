@@ -38,6 +38,10 @@ public class User {
         this.group = group;
     }
 
+    /**
+     * @return
+     * Возвращает true если пользователь пустой иначе false
+     */
     public boolean isEmpty(){
         if (id == 0 && login == null && password == null){
             return true;

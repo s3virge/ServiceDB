@@ -23,8 +23,9 @@ public class MainApp extends Application {
 
     @Override
     public void start(Stage primaryStage) {
-        loginWindow = primaryStage;
         logger.debug("start(Stage loginWindow) is executed!");
+
+        loginWindow = primaryStage;
 
         /* после подключениея Maven FXMLLoader нашел файл сцены только после создания паки Resouces и перемещения папки
         * LoginWindow туда, в pom.xml указана папка ресурсов*/

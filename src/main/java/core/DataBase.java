@@ -40,7 +40,9 @@ public class DataBase {
         dbPassword = properties.getString("dataBase.password");
     }
 
-    /** существует ли база */
+    /** @return
+     * возвращает true если база данных уже создана, иначе false
+     * */
     public boolean isExist() {
         boolean result = true; //база существует
         String serverUrl = "jdbc:mysql://" + dbHost + ":" + dbPort;
@@ -58,7 +60,10 @@ public class DataBase {
         return result;
     }
 
-    /** возвращает пустого User если в базе нет пользователя с логином strLogin */
+    /**
+     * @return
+     * возвращает пустого User если в базе нет пользователя с логином strLogin
+     */
     public User getUser(String strLogin) {
         logger.debug("DataBase.getUser() is executed.\n     Try to connect to DB server");
 
@@ -84,7 +89,9 @@ public class DataBase {
         }
     }
 
-    /** создать базу и все таблицы которые будем использовать */
+    /**
+     * создать базу и все таблицы которые будем использовать
+     */
     public void createDB() {
         logger.debug("Launch createDB()");
 
@@ -231,24 +238,41 @@ public class DataBase {
                     "DEFAULT CHARACTER SET = utf8 " +
                     "COMMENT = 'этап ремонта';");
 
-            statement.execute("CREATE TABLE IF NOT EXISTS `" + dbName + "`.`repair` (" +
-                    "`id` INT NOT NULL AUTO_INCREMENT," +
-                    "`master_comments` VARCHAR(1024) NULL," +
-                    "`diagnostic_result` VARCHAR(1024) NULL," +
-                    "`repair_result` VARCHAR(450) NULL," +
-                    "`status_id` INT NOT NULL," +
-                    "`date_of_accept` DATETIME NULL," +
-                    "`date_of_issue` DATETIME NULL," +
-                    "PRIMARY KEY (`id`)," +
-                    "INDEX `repair_status_idx` (`status_id` ASC)," +
-                    "CONSTRAINT `repair_status`" +
-                    "FOREIGN KEY (`status_id`)" +
-                    "REFERENCES `" + dbName + "`.`status` (`id`)" +
-                    "ON DELETE NO ACTION " +
-                    "ON UPDATE NO ACTION)" +
-                    "ENGINE = InnoDB " +
-                    "DEFAULT CHARACTER SET = utf8 " +
-                    "COMMENT = 'таблица для результатов диагностики-ремонта';");
+            //-- -----------------------------------------------------
+            //-- Table `servicedb`.`repair`\n" +
+            //-- -----------------------------------------------------
+            statement.execute("CREATE TABLE IF NOT EXISTS `" + dbName + "`.`repair` (\n" +
+                    "  `id` INT NOT NULL AUTO_INCREMENT,\n" +
+                    "  `acceptor_id` INT NOT NULL,\n" +
+                    "  `master_id` INT NOT NULL,\n" +
+                    "  `master_comments` VARCHAR(1024) NULL,\n" +
+                    "  `diagnostic_result` VARCHAR(1024) NULL,\n" +
+                    "  `repair_result` VARCHAR(450) NULL,\n" +
+                    "  `status_id` INT NOT NULL,\n" +
+                    "  `date_of_accept` DATETIME NOT NULL,\n" +
+                    "  `date_of_give_out` DATETIME NOT NULL,\n" +
+                    "  PRIMARY KEY (`id`),\n" +
+                    "  INDEX `repair_status_idx` (`status_id` ASC),\n" +
+                    "  INDEX `repair_acceptor_idx` (`acceptor_id` ASC),\n" +
+                    "  INDEX `repair_master_idx` (`master_id` ASC),\n" +
+                    "  CONSTRAINT `repair_status`\n" +
+                    "    FOREIGN KEY (`status_id`)\n" +
+                    "    REFERENCES `" + dbName + "`.`status` (`id`)\n" +
+                    "    ON DELETE NO ACTION\n" +
+                    "    ON UPDATE NO ACTION,\n" +
+                    "  CONSTRAINT `repair_acceptor`\n" +
+                    "    FOREIGN KEY (`acceptor_id`)\n" +
+                    "    REFERENCES `" + dbName + "`.`user` (`id`)\n" +
+                    "    ON DELETE NO ACTION\n" +
+                    "    ON UPDATE NO ACTION,\n" +
+                    "  CONSTRAINT `repair_master`\n" +
+                    "    FOREIGN KEY (`master_id`)\n" +
+                    "    REFERENCES `" + dbName + "`.`user` (`id`)\n" +
+                    "    ON DELETE NO ACTION\n" +
+                    "    ON UPDATE NO ACTION)\n" +
+                    "ENGINE = InnoDB\n" +
+                    "DEFAULT CHARACTER SET = utf8\n" +
+                    "COMMENT = 'таблица для результатов диагностики-ремонта ';\n");
 
             statement.execute("CREATE TABLE IF NOT EXISTS `" + dbName + "`.`device` (" +
                     "`id` INT NOT NULL AUTO_INCREMENT," +
@@ -340,6 +364,9 @@ public class DataBase {
         logger.debug("createDB() successfully completed");
     }
 
+    /**
+     * удалить буза
+     */
     private void removeDB() {
         String servUrl = "jdbc:mysql://" + dbHost + ":" + dbPort;
 

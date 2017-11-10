@@ -1,40 +1,33 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.String?>
-<?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Menu?>
 <?import javafx.scene.control.MenuBar?>
 <?import javafx.scene.control.MenuItem?>
 <?import javafx.scene.control.SeparatorMenuItem?>
-<?import javafx.scene.control.ToolBar?>
-<?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.layout.BorderPane?>
-<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.input.KeyCodeCombination?>
 <?import javafx.scene.layout.VBox?>
-
-<?import javafx.scene.layout.Region?>
-<?import javafx.scene.layout.HBox?>
-
-<?import java.net.URL?>
 
 <VBox prefHeight="600.0" prefWidth="1024.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="core.MainWndController">
   <children>
     <MenuBar VBox.vgrow="NEVER">
       <menus>
-        <Menu mnemonicParsing="false" text="File">
+        <Menu mnemonicParsing="false" text="Ремонт">
           <items>
-            <MenuItem mnemonicParsing="false" text="New" />
-            <MenuItem mnemonicParsing="false" text="Open…" />
-            <Menu mnemonicParsing="false" text="Open Recent" />
+            <MenuItem fx:id="NewRepair" mnemonicParsing="false" onAction="#handleFindDeviceNumber" text="Новый">
+                     <accelerator>
+                        <KeyCodeCombination alt="UP" code="N" control="ANY" meta="UP" shift="UP" shortcut="UP" />
+                     </accelerator></MenuItem>
+            <MenuItem fx:id="OpenRepair" mnemonicParsing="false" text="Открыть" />
+            <Menu fx:id="OpenResent" mnemonicParsing="false" text="Открыть последний" />
             <SeparatorMenuItem mnemonicParsing="false" />
-            <MenuItem mnemonicParsing="false" text="Close" />
-            <MenuItem mnemonicParsing="false" text="Save" />
-            <MenuItem mnemonicParsing="false" text="Save As…" />
-            <MenuItem mnemonicParsing="false" text="Revert" />
-            <SeparatorMenuItem mnemonicParsing="false" />
-            <MenuItem mnemonicParsing="false" text="Preferences…" />
-            <SeparatorMenuItem mnemonicParsing="false" />
-            <MenuItem mnemonicParsing="false" text="Quit" />
+            <MenuItem mnemonicParsing="false" text="Выдать" />
+            <!--<MenuItem mnemonicParsing="false" text="Save" />-->
+            <!--<MenuItem mnemonicParsing="false" text="Save As…" />-->
+            <!--<MenuItem mnemonicParsing="false" text="Revert" />-->
+            <!--<SeparatorMenuItem mnemonicParsing="false" />-->
+            <!--<MenuItem mnemonicParsing="false" text="Preferences…" />-->
+            <!--<SeparatorMenuItem mnemonicParsing="false" />-->
+            <!--<MenuItem mnemonicParsing="false" text="Quit" />-->
           </items>
         </Menu>
         <Menu mnemonicParsing="false" text="Edit">
@@ -58,31 +51,31 @@
         </Menu>
       </menus>
     </MenuBar>
-    <AnchorPane maxHeight="-1.0" maxWidth="-1.0" prefHeight="-1.0" prefWidth="-1.0" VBox.vgrow="ALWAYS">
-         <children>
-            <BorderPane layoutY="59.0" prefHeight="227.0" prefWidth="640.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-               <top>
-                   <ToolBar id="background">
-                       <items>
-                           <Region styleClass="spacer" />
-                           <HBox styleClass="segmented-button-bar">
-                               <Button text="Tasks" styleClass="first" />
-                               <Button text="Administrator" />
-                               <Button text="Search" />
-                               <Button text="Line" />
-                               <Button text="Process" styleClass="last" />
-                           </HBox>
-                       </items>
-                       <stylesheets>
-                           <URL value="@toolbar.css" />
-                       </stylesheets>
-                   </ToolBar>
-               </top>
-               <center>
-                  <Pane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER" />
-               </center>
-            </BorderPane>
-         </children>
-    </AnchorPane>
+    <!--<AnchorPane maxHeight="-1.0" maxWidth="-1.0" prefHeight="-1.0" prefWidth="-1.0" VBox.vgrow="ALWAYS">-->
+         <!--<children>-->
+            <!--<BorderPane layoutY="59.0" prefHeight="227.0" prefWidth="640.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">-->
+               <!--<top>-->
+                   <!--<ToolBar id="background">-->
+                       <!--<items>-->
+                           <!--<Region styleClass="spacer" />-->
+                           <!--<HBox styleClass="segmented-button-bar">-->
+                               <!--<Button text="Оформить" styleClass="first" />-->
+                               <!--<Button text="Найти" />-->
+                               <!--<Button text="" />-->
+                               <!--<Button text="Line" />-->
+                               <!--<Button text="Process" styleClass="last" />-->
+                           <!--</HBox>-->
+                       <!--</items>-->
+                       <!--<stylesheets>-->
+                           <!--<URL value="@toolbar.css" />-->
+                       <!--</stylesheets>-->
+                   <!--</ToolBar>-->
+               <!--</top>-->
+               <!--<center>-->
+                  <!--<Pane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER" />-->
+               <!--</center>-->
+            <!--</BorderPane>-->
+         <!--</children>-->
+    <!--</AnchorPane>-->
   </children>
 </VBox>
