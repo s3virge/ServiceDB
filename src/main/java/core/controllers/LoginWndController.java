@@ -1,11 +1,16 @@
-package core;
+package core.controllers;
 
+import core.utils.DataBase;
+import core.MainApp;
+import core.models.User;
+import core.models.UserGroup;
+import core.utils.MD5Hash;
+import core.utils.MsgBox;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Alert;
 import javafx.scene.control.TextField;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
@@ -13,7 +18,6 @@ import org.apache.log4j.Logger;
 
 public class LoginWndController {
     private static final Logger logger = Logger.getLogger(LoginWndController.class);
-    private Stage mainWindow;
 
     @FXML private Text errorLabel;
     @FXML private TextField loginField;
@@ -22,9 +26,19 @@ public class LoginWndController {
     // Reference to the main application
     private MainApp mainApp;
 
+    public void setDefaultTextFieldValue() {
+        loginField.setText("admin");
+        passwordField.setText("admin");
+    }
+
     @FXML
     protected void handleSubmitButtonAction(ActionEvent event) {
-        if(isInputValid()){
+
+        //logger.debug("Пропускаем проверку логина и пароля");
+        //showMainWnd();
+
+        if(isInputValid()) {
+
             String login = loginField.getText();
             String paswd = null;
 
@@ -47,12 +61,9 @@ public class LoginWndController {
             if (user.getPassword().equals(paswd)) {
                 //главное окно для разных групп пользователь буде отображаться по разному.
                 //нужно знать группу пользователя который залогинился.
-                UserGroup userGroupLoggedIn = UserGroup.Employee;
 
-                switch (userGroupLoggedIn) {
-                    case Administrator:
-                    case Manager:
-                    case Employee:
+                switch (user.getGroup()) {
+                    case "administrator":
                         showMainWnd();
                 }
             }
@@ -87,12 +98,14 @@ public class LoginWndController {
     }
 
     private void showMainWnd() {
-        mainWindow = mainApp.getPrimaryStage();
         logger.debug("execute showMainWnd()");
+
+        Stage mainWindow = mainApp.getPrimaryStage();
 
         Parent layout = null;
         //Поскольку имя начинается с символа '/' – оно считается абсолютным. Без / - считается относительным
-        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/MainWindow/MainWnd.fxml"));
+        //FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/MainWindow/MainWnd.fxml"));
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/MainWindow/MainWindow.fxml"));
 
         try {
             layout = fxmlLoader.load();

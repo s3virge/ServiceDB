@@ -3,6 +3,8 @@ package core; /**
  *  взято отсюда http://docs.oracle.com/javafx/2/get_started/fxml_tutorial.htm
  */
 
+import core.controllers.LoginWndController;
+import core.utils.DataBase;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -57,8 +59,9 @@ public class MainApp extends Application {
         }
 
         // Give the controller access to the main app.
-        LoginWndController controller = fxmlLoader.getController();
-        controller.setMainApp(this);
+        LoginWndController loginWndController = fxmlLoader.getController();
+        loginWndController.setMainApp(this);
+        loginWndController.setDefaultTextFieldValue();
 
         //показываем окно ввода логина и пароля
         Scene scene = new Scene(layout, 360, 220);

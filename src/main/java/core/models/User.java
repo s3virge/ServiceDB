@@ -1,6 +1,7 @@
-package core;
+package core.models;
 
 public class User {
+
     private int id;
     private String login;
     private String password;
@@ -30,6 +31,9 @@ public class User {
         this.password = password;
     }
 
+    /**
+     * @return строку с названием группы пользователя
+     */
     public String getGroup() {
         return group;
     }

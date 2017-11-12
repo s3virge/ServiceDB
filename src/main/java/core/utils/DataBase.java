@@ -1,19 +1,11 @@
-package core;
+package core.utils;
 
+import core.models.User;
 import org.apache.log4j.Logger;
 
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.net.URISyntaxException;
-import java.net.URL;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.sql.*;
 import java.util.Properties;
 import java.util.ResourceBundle;
-import java.util.stream.Stream;
 
 public class DataBase {
     private static final Logger logger = Logger.getLogger(DataBase.class);
@@ -67,26 +59,35 @@ public class DataBase {
     public User getUser(String strLogin) {
         logger.debug("DataBase.getUser() is executed.\n     Try to connect to DB server");
 
+        User user = new User();
+
         try (Connection conn = DriverManager.getConnection(dbUrl, dbUser, dbPassword);
              Statement stmt = conn.createStatement()) {
-            //stmt.execute("USE  " + dbName);
-            ResultSet rs = stmt.executeQuery("select * from user where login='" + strLogin + "';");
-
-            User user = new User();
+            /*
+            выбрать id, login. password, value
+            из user внутренне соединенной с user_group через user.user_group с user_group.id
+            где login = admin
+            * */
+            ResultSet rs = stmt.executeQuery("SELECT user.id, user.login, user.password, user_group.value " +
+                    "FROM user INNER JOIN user_group ON user.user_group = user_group.id " +
+                    "where user.login='" + strLogin + "';");
 
             while (rs.next()) {
                 user.setId(rs.getInt("id"));
                 user.setLogin(rs.getString("login"));
                 user.setPassword(rs.getString("password"));
+                //получить значение столбца value из связанной таблицы
+                user.setGroup(rs.getString("value"));
 
                 //System.out.printf("id: %d; login: %s; dbPassword: %s;\n", id, login, password);
             }
-
-            return user;
-        } catch (Exception exception) {
-            logger.error(exception);
-            throw new RuntimeException("error in DataBase.getUser()");
         }
+        catch (Exception exception) {
+            logger.error(exception);
+            System.exit(0);
+        }
+
+        return user;
     }
 
     /**
@@ -107,6 +108,7 @@ public class DataBase {
 
         try (Connection con = DriverManager.getConnection(serverUrl, connProp);
              Statement statement = con.createStatement()) {
+
             statement.execute("SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0;");
             statement.execute("SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0;");
             statement.execute("SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='TRADITIONAL,ALLOW_INVALID_DATES';");
@@ -116,9 +118,9 @@ public class DataBase {
 
             statement.execute("CREATE TABLE IF NOT EXISTS `" + dbName + "`.`user_group` (" +
                     "`id` INT NOT NULL AUTO_INCREMENT, " +
-                    "`name` VARCHAR(45) NOT NULL, " +
+                    "`value` VARCHAR(45) NOT NULL, " +
                     "PRIMARY KEY (`id`), " +
-                    "UNIQUE INDEX `name_UNIQUE` (`name` ASC)) " +
+                    "UNIQUE INDEX `value_UNIQUE` (`value` ASC)) " +
                     "ENGINE = InnoDB " +
                     "DEFAULT CHARACTER SET = utf8;");
 
@@ -137,11 +139,11 @@ public class DataBase {
                     "ON UPDATE NO ACTION) " +
                     "ENGINE = InnoDB; ");
 
-            statement.execute("CREATE TABLE IF NOT EXISTS `" + dbName + "`.`name` (" +
+            statement.execute("CREATE TABLE IF NOT EXISTS `" + dbName + "`.`value` (" +
                     "`id` INT NOT NULL AUTO_INCREMENT, " +
                     "`value` VARCHAR(45) NOT NULL, " +
                     "PRIMARY KEY (`id`), " +
-                    "UNIQUE INDEX `name_UNIQUE` (`value` ASC), " +
+                    "UNIQUE INDEX `value_UNIQUE` (`value` ASC), " +
                     "UNIQUE INDEX `id_UNIQUE` (`id` ASC)) " +
                     "ENGINE = InnoDB " +
                     "DEFAULT CHARACTER SET = utf8 " +
@@ -177,7 +179,7 @@ public class DataBase {
                     "INDEX `owner_surname_idx` (`surname_id` ASC)," +
                     "CONSTRAINT `owner_name` " +
                     "FOREIGN KEY (`name_id`) " +
-                    "REFERENCES `" + dbName + "`.`name` (`id`) " +
+                    "REFERENCES `" + dbName + "`.`value` (`id`) " +
                     "ON DELETE NO ACTION " +
                     "ON UPDATE NO ACTION," +
                     "CONSTRAINT `owner_patronymic` " +
@@ -196,26 +198,26 @@ public class DataBase {
 
             statement.execute("CREATE TABLE IF NOT EXISTS `" + dbName + "`.`brand` (" +
                     "`id` INT NOT NULL AUTO_INCREMENT," +
-                    "`name` VARCHAR(45) NOT NULL," +
+                    "`value` VARCHAR(45) NOT NULL," +
                     "PRIMARY KEY (`id`)," +
-                    "UNIQUE INDEX `name_UNIQUE` (`name` ASC)) " +
+                    "UNIQUE INDEX `value_UNIQUE` (`value` ASC)) " +
                     "ENGINE = InnoDB " +
                     "DEFAULT CHARACTER SET = utf8;");
 
             statement.execute("CREATE TABLE IF NOT EXISTS `" + dbName + "`.`type` (" +
                     "`id` INT NOT NULL AUTO_INCREMENT," +
-                    "`name` VARCHAR(45) NOT NULL," +
+                    "`value` VARCHAR(45) NOT NULL," +
                     "PRIMARY KEY (`id`)," +
-                    "UNIQUE INDEX `name_UNIQUE` (`name` ASC)) " +
+                    "UNIQUE INDEX `value_UNIQUE` (`value` ASC)) " +
                     "ENGINE = InnoDB " +
                     "DEFAULT CHARACTER SET = utf8 " +
                     "COMMENT = 'тип устройства';");
 
             statement.execute("CREATE TABLE IF NOT EXISTS `" + dbName + "`.`model` (" +
                     "`id` INT NOT NULL AUTO_INCREMENT," +
-                    "`name` VARCHAR(45) NOT NULL," +
+                    "`value` VARCHAR(45) NOT NULL," +
                     "PRIMARY KEY (`id`)," +
-                    "UNIQUE INDEX `name_UNIQUE` (`name` ASC))" +
+                    "UNIQUE INDEX `value_UNIQUE` (`value` ASC))" +
                     "ENGINE = InnoDB " +
                     "DEFAULT CHARACTER SET = utf8 " +
                     "COMMENT = 'таблица для хранения модели устройства';");
@@ -329,10 +331,10 @@ public class DataBase {
 
             statement.execute("START TRANSACTION;");
             statement.execute("USE `" + dbName + "`;");
-            statement.execute("INSERT INTO `" + dbName + "`.`user_group` (`id`, `name`) VALUES (1, 'administrator');");
-            statement.execute("INSERT INTO `" + dbName + "`.`user_group` (`id`, `name`) VALUES (2, 'manager');");
-            statement.execute("INSERT INTO `" + dbName + "`.`user_group` (`id`, `name`) VALUES (3, 'master');");
-            statement.execute("INSERT INTO `" + dbName + "`.`user_group` (`id`, `name`) VALUES (4, 'acceptor');");
+            statement.execute("INSERT INTO `" + dbName + "`.`user_group` (`id`, `value`) VALUES (1, 'administrator');");
+            statement.execute("INSERT INTO `" + dbName + "`.`user_group` (`id`, `value`) VALUES (2, 'manager');");
+            statement.execute("INSERT INTO `" + dbName + "`.`user_group` (`id`, `value`) VALUES (3, 'master');");
+            statement.execute("INSERT INTO `" + dbName + "`.`user_group` (`id`, `value`) VALUES (4, 'acceptor');");
 
             statement.execute("COMMIT;");
 
@@ -353,12 +355,13 @@ public class DataBase {
             statement.execute("COMMIT;");
         }
         catch (SQLException sqlExep) {
+            MsgBox.show("Облом в createDB() -> " + sqlExep.getMessage(), MsgBox.Type.MB_ERROR);
+
             //что-то пошло не так...
             removeDB();
 
-            MsgBox.show(sqlExep.getMessage(), MsgBox.Type.MB_ERROR);
-            //System.exit(0);
-            throw new RuntimeException("Облом с созданием базы данных в createDB()");
+            System.exit(0);
+            //throw new RuntimeException("Облом с созданием базы данных в createDB()");
         }
 
         logger.debug("createDB() successfully completed");
