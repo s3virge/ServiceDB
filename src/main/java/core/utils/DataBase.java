@@ -1,6 +1,7 @@
 package core.utils;
 
 import core.models.User;
+import core.models.UserGroup;
 import org.apache.log4j.Logger;
 
 import java.sql.*;
@@ -331,10 +332,10 @@ public class DataBase {
 
             statement.execute("START TRANSACTION;");
             statement.execute("USE `" + dbName + "`;");
-            statement.execute("INSERT INTO `" + dbName + "`.`user_group` (`id`, `value`) VALUES (1, 'administrator');");
-            statement.execute("INSERT INTO `" + dbName + "`.`user_group` (`id`, `value`) VALUES (2, 'manager');");
-            statement.execute("INSERT INTO `" + dbName + "`.`user_group` (`id`, `value`) VALUES (3, 'master');");
-            statement.execute("INSERT INTO `" + dbName + "`.`user_group` (`id`, `value`) VALUES (4, 'acceptor');");
+            statement.execute("INSERT INTO `" + dbName + "`.`user_group` (`id`, `value`) VALUES (1, '" + UserGroup.ADMIN + "');");
+            statement.execute("INSERT INTO `" + dbName + "`.`user_group` (`id`, `value`) VALUES (2, '" + UserGroup.MANAGER + "');");
+            statement.execute("INSERT INTO `" + dbName + "`.`user_group` (`id`, `value`) VALUES (3, '" + UserGroup.MASTER + "');");
+            statement.execute("INSERT INTO `" + dbName + "`.`user_group` (`id`, `value`) VALUES (4, '" + UserGroup.ACCEPTOR + "');");
 
             statement.execute("COMMIT;");
 
