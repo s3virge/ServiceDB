@@ -15,6 +15,17 @@ import java.io.IOException;
 public class MainWndController {
     private static final Logger logger = Logger.getLogger(LoginWndController.class);
 
+    // Reference to the main application
+    private MainApp mainApp;
+
+    /**
+     * Получить доступ к главному классу приложения для возможности получения ссылки на
+     * primaryStage
+     */
+    public void setMainApp(MainApp mainApp) {
+        this.mainApp = mainApp;
+    }
+
     public MainWndController() {
         logger.debug("execute core.MainWndController constructor");
     }
@@ -26,13 +37,13 @@ public class MainWndController {
             // для всплывающего диалогового окна.
             FXMLLoader loader = new FXMLLoader();
             loader.setLocation(MainApp.class.getResource("/Dialogs/NewRepairDlg.fxml"));
-            AnchorPane page = (AnchorPane) loader.load();
+            AnchorPane page = loader.load();
 
             // Создаём диалоговое окно Stage.
             Stage dialogStage = new Stage();
             dialogStage.setTitle("Edit Person");
             dialogStage.initModality(Modality.WINDOW_MODAL);
-            //dialogStage.initOwner(mainApp.getPrimaryStage());
+            dialogStage.initOwner(mainApp.getPrimaryStage());
             Scene scene = new Scene(page);
             dialogStage.setScene(scene);
 

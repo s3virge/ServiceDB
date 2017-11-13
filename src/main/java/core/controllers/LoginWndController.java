@@ -35,16 +35,13 @@ public class LoginWndController {
         setDefaultTextFieldValue();
     }
 
-    public void setDefaultTextFieldValue() {
+    private void setDefaultTextFieldValue() {
         loginField.setText("admin");
         passwordField.setText("admin");
     }
 
     @FXML
     protected void handleSubmitButtonAction(ActionEvent event) {
-
-        //logger.debug("Пропускаем проверку логина и пароля");
-        //showMainWnd();
 
         if(isInputValid()) {
 
@@ -84,6 +81,9 @@ public class LoginWndController {
         }
     }
 
+    /**
+     * Получить доступ к главному классу приложения
+    */
     public void setMainApp(MainApp mainApp) {
         this.mainApp = mainApp;
     }
@@ -113,7 +113,6 @@ public class LoginWndController {
 
         Parent layout = null;
         //Поскольку имя начинается с символа '/' – оно считается абсолютным. Без / - считается относительным
-        //FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/MainWindow/MainWnd.fxml"));
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/MainWindow/MainWindow.fxml"));
 
         try {
@@ -123,6 +122,10 @@ public class LoginWndController {
             System.out.println( "Exception on FXMLLoader.load()" );
             System.out.println( "error - " + ex.getMessage() );   //-- Doesn't show in stack dump
         }
+
+        // Give the controller access to the main app.
+        MainWndController mainWndController = fxmlLoader.getController();
+        mainWndController.setMainApp(mainApp);
 
         Scene scene = new Scene(layout);
         mainWindow.setTitle("A simple database of the service center");

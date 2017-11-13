@@ -60,6 +60,7 @@ public class MainApp extends Application {
 
         // Give the controller access to the main app.
         LoginWndController loginWndController = fxmlLoader.getController();
+        //теперь контроллер может вызвать getPrimaryStage()
         loginWndController.setMainApp(this);
 
         //показываем окно ввода логина и пароля
