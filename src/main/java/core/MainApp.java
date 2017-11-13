@@ -61,7 +61,6 @@ public class MainApp extends Application {
         // Give the controller access to the main app.
         LoginWndController loginWndController = fxmlLoader.getController();
         loginWndController.setMainApp(this);
-        loginWndController.setDefaultTextFieldValue();
 
         //показываем окно ввода логина и пароля
         Scene scene = new Scene(layout, 360, 220);

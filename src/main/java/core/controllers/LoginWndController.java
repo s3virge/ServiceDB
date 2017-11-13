@@ -26,6 +26,15 @@ public class LoginWndController {
     // Reference to the main application
     private MainApp mainApp;
 
+    /**
+     * Инициализирует класс-контроллер. Этот метод вызывается автоматически
+     * после того, как fxml-файл будет загружен.
+     */
+    @FXML
+    private void initialize() {
+        setDefaultTextFieldValue();
+    }
+
     public void setDefaultTextFieldValue() {
         loginField.setText("admin");
         passwordField.setText("admin");
