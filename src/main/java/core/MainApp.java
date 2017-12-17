@@ -1,4 +1,5 @@
-package core; /**
+package core;
+/**
  * Created by s3virge on 04.10.17.
  *  взято отсюда http://docs.oracle.com/javafx/2/get_started/fxml_tutorial.htm
  */
@@ -27,16 +28,17 @@ public class MainApp extends Application {
     public void start(Stage primaryStage) {
         logger.debug("start(Stage loginWindow) is executed!");
 
+        //сохраняем главные подмостки для возможности загружать в них новые сцены
         loginWindow = primaryStage;
 
         /* после подключениея Maven FXMLLoader нашел файл сцены только после создания паки Resouces и перемещения папки
         * LoginWindow туда, в pom.xml указана папка ресурсов*/
 
         //показываем окно ввода логина и пароля.
-       showLoginWindow();
+       showLoginWindow(primaryStage);
     }
 
-    private void showLoginWindow() {
+    private void showLoginWindow(Stage loginWindow) {
         logger.debug("execute showLoginWindow()");
 
         //если приложение запускается впервые, то базы данных нет
@@ -45,6 +47,13 @@ public class MainApp extends Application {
         if(!db.isExist()){
             db.createDB();
         }
+
+        /**********************************************************************************************
+            FXMLLoader f = new FXMLLoader();
+            final Parent fxmlRoot = (Parent)f.load(new FileInputStream(new File("JavaFx2Menus.fxml")));
+            stage.setScene(new Scene(fxmlRoot));
+            stage.show();
+        ***********************************************************************************************/
 
         Parent layout = null;
         String sceneFile = "/LoginWindow/LoginWnd.fxml";
@@ -75,7 +84,5 @@ public class MainApp extends Application {
      * Returns the main stage.
      * @return
      */
-    public Stage getPrimaryStage() {
-        return loginWindow;
-    }
+    public Stage getPrimaryStage() { return loginWindow; }
 }

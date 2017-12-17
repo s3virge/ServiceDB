@@ -3,7 +3,6 @@ package core.controllers;
 import core.utils.DataBase;
 import core.MainApp;
 import core.models.User;
-import core.models.UserGroup;
 import core.utils.MD5Hash;
 import core.utils.MsgBox;
 import javafx.event.ActionEvent;
@@ -22,9 +21,6 @@ public class LoginWndController {
     @FXML private Text errorLabel;
     @FXML private TextField loginField;
     @FXML private TextField passwordField;
-
-    // Reference to the main application
-    private MainApp mainApp;
 
     /**
      * Инициализирует класс-контроллер. Этот метод вызывается автоматически
@@ -81,6 +77,9 @@ public class LoginWndController {
         }
     }
 
+    // Reference to the main application
+    private MainApp mainApp;
+
     /**
      * Получить доступ к главному классу приложения
     */
@@ -111,25 +110,20 @@ public class LoginWndController {
 
         Stage mainWindow = mainApp.getPrimaryStage();
 
-        Parent layout = null;
+        Parent mainWndLayout = null;
         //Поскольку имя начинается с символа '/' – оно считается абсолютным. Без / - считается относительным
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/MainWindow/MainWindow.fxml"));
 
         try {
-            layout = fxmlLoader.load();
+            mainWndLayout = fxmlLoader.load();
         }
         catch ( Exception ex ) {
             System.out.println( "Exception on FXMLLoader.load()" );
             System.out.println( "error - " + ex.getMessage() );   //-- Doesn't show in stack dump
         }
 
-        // Give the controller access to the main app.
-        MainWndController mainWndController = fxmlLoader.getController();
-        mainWndController.setMainApp(mainApp);
-
-        Scene scene = new Scene(layout);
         mainWindow.setTitle("A simple database of the service center");
-        mainWindow.setScene(scene);
+        mainWindow.setScene(new Scene(mainWndLayout));
         mainWindow.centerOnScreen();
         //mainWindow.setFullScreen(true);
         mainWindow.show();

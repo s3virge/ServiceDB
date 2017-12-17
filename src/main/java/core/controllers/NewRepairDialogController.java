@@ -40,24 +40,6 @@ public class NewRepairDialogController {
     }
 
     /**
-     * Устанавливает сцену для этого окна.
-     *
-     * @param dialogStage
-     */
-    public void setDialogStage(Stage dialogStage) {
-        this.dialogStage = dialogStage;
-    }
-
-    /**
-     * Returns true, если пользователь кликнул OK, в другом случае false.
-     *
-     * @return
-     */
-    public boolean isOkClicked() {
-        return okClicked;
-    }
-
-    /**
      * Вызывается, когда пользователь кликнул по кнопке OK.
      */
     @FXML
@@ -97,7 +79,8 @@ public class NewRepairDialogController {
 
         if (postalCodeField.getText() == null || postalCodeField.getText().length() == 0) {
             errorMessage += "No valid postal code!\n";
-        } else {
+        }
+        else {
             // пытаемся преобразовать почтовый код в int.
             try {
                 Integer.parseInt(postalCodeField.getText());
@@ -112,13 +95,15 @@ public class NewRepairDialogController {
 
         if (birthdayField.getText() == null || birthdayField.getText().length() == 0) {
             errorMessage += "No valid birthday!\n";
-        } else {
+        }
+        else {
 
         }
 
         if (errorMessage.length() == 0) {
             return true;
-        } else {
+        }
+        else {
             // Показываем сообщение об ошибке.
             Alert alert = new Alert(AlertType.ERROR);
             alert.initOwner(dialogStage);
