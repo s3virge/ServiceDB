@@ -1,9 +1,12 @@
 package core.controllers;
 
 import core.MainApp;
+import core.utils.MsgBox;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
+import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 
@@ -13,6 +16,12 @@ import javafx.stage.Stage;
  * @author Marco Jakob
  */
 public class NewRepairDialogController {
+
+    public Button btnFirst;
+    public Button btnSecond;
+    public Button btnThird;
+    public Button btnOk;
+    public Button btnCancel;
 
     @FXML
     private TextField firstNameField;
@@ -26,7 +35,6 @@ public class NewRepairDialogController {
     private TextField cityField;
     @FXML
     private TextField birthdayField;
-
 
     private Stage dialogStage;
     private boolean okClicked = false;
@@ -114,6 +122,30 @@ public class NewRepairDialogController {
             alert.showAndWait();
 
             return false;
+        }
+    }
+
+    public void onBtnActions(ActionEvent actionEvent) {
+        Object source = actionEvent.getSource();
+
+        if(!(source instanceof Button)){
+            return;
+        }
+
+        Button clickedButton = (Button) source;
+
+        switch(clickedButton.getId()){
+            case "btnFirst":
+                MsgBox.show("Нажали на первую педальё", MsgBox.Type.MB_INFO);
+                break;
+
+            case "btnSecond":
+                MsgBox.show("Нажали на вторую педаль", MsgBox.Type.MB_INFO);
+                break;
+
+            case "btnThird":
+                MsgBox.show("Нажали на третюю педаль", MsgBox.Type.MB_INFO);
+                break;
         }
     }
 }
