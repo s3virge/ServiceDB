@@ -1,11 +1,9 @@
 package core.controllers;
 
-import core.MainApp;
 import core.utils.MsgBox;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Alert.AlertType;
+import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
@@ -36,8 +34,7 @@ public class NewRepairDialogController {
     @FXML
     private TextField birthdayField;
 
-    private Stage dialogStage;
-    private boolean okClicked = false;
+    //private Stage dialogStage;
 
     /**
      * Инициализирует класс-контроллер. Этот метод вызывается автоматически
@@ -45,26 +42,10 @@ public class NewRepairDialogController {
      */
     @FXML
     private void initialize() {
-    }
-
-    /**
-     * Вызывается, когда пользователь кликнул по кнопке OK.
-     */
-    @FXML
-    private void handleOk() {
-        if (isInputValid()) {
-
-            okClicked = true;
-            dialogStage.close();
-        }
-    }
-
-    /**
-     * Вызывается, когда пользователь кликнул по кнопке Cancel.
-     */
-    @FXML
-    private void handleCancel() {
-        dialogStage.close();
+        /*if (dialogStage == null){
+            MsgBox.show("dialogStage stage is empty", MsgBox.Type.MB_ERROR);
+            System.exit(0);
+        }*/
     }
 
     /**
@@ -113,17 +94,17 @@ public class NewRepairDialogController {
         }
         else {
             // Показываем сообщение об ошибке.
-            Alert alert = new Alert(AlertType.ERROR);
-            alert.initOwner(dialogStage);
-            alert.setTitle("Invalid Fields");
-            alert.setHeaderText("Please correct invalid fields");
-            alert.setContentText(errorMessage);
-
-            alert.showAndWait();
-
             return false;
         }
     }
+
+    /**
+     *
+     * @param
+     */
+    /*public void setMainStage(Stage majorStage){
+        dialogStage = majorStage;
+    }*/
 
     public void onBtnActions(ActionEvent actionEvent) {
         Object source = actionEvent.getSource();
@@ -148,4 +129,27 @@ public class NewRepairDialogController {
                 break;
         }
     }
+
+    /**
+     * Вызывается, когда пользователь кликнул по кнопке OK.
+     */
+    @FXML
+    private void handleOk(ActionEvent actionEvent) {
+        //получить источник события
+        Node source = (Node) actionEvent.getSource();
+        Stage stage = (Stage) source.getScene().getWindow();
+        stage.close();
+    }
+
+    /**
+     * Вызывается, когда пользователь кликнул по кнопке Cancel.
+     */
+    @FXML
+    private void handleCancel(ActionEvent actionEvent) {
+        //получить источник события
+        Node source = (Node) actionEvent.getSource();
+        Stage stage = (Stage) source.getScene().getWindow();
+        stage.close();
+    }
+
 }

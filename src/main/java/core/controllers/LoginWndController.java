@@ -22,6 +22,16 @@ public class LoginWndController {
     @FXML private TextField loginField;
     @FXML private TextField passwordField;
 
+    // Reference to the main application
+    private MainApp mainApp;
+
+    /**
+     * Получить доступ к главному классу приложения
+     */
+    public void setMainApp(MainApp mainApp) {
+        this.mainApp = mainApp;
+    }
+
     /**
      * Инициализирует класс-контроллер. Этот метод вызывается автоматически
      * после того, как fxml-файл будет загружен.
@@ -72,19 +82,8 @@ public class LoginWndController {
             else {
                 //показать сообщение с ошибкой
                 showLoginError();
-                return;
             }
         }
-    }
-
-    // Reference to the main application
-    private MainApp mainApp;
-
-    /**
-     * Получить доступ к главному классу приложения
-    */
-    public void setMainApp(MainApp mainApp) {
-        this.mainApp = mainApp;
     }
 
     private boolean isInputValid() {
@@ -108,7 +107,7 @@ public class LoginWndController {
     private void showMainWnd() {
         logger.debug("execute showMainWnd()");
 
-        Stage mainWindow = mainApp.getPrimaryStage();
+        Stage stage = mainApp.getPrimaryStage();
 
         Parent mainWndLayout = null;
         //Поскольку имя начинается с символа '/' – оно считается абсолютным. Без / - считается относительным
@@ -122,11 +121,15 @@ public class LoginWndController {
             System.out.println( "error - " + ex.getMessage() );   //-- Doesn't show in stack dump
         }
 
-        mainWindow.setTitle("A simple database of the service center");
-        mainWindow.setScene(new Scene(mainWndLayout));
-        mainWindow.centerOnScreen();
+        //передаем контроллеру дальше ссылку на главный класс
+        MainWndController mainWndController = fxmlLoader.getController();
+        mainWndController.setMainApp(mainApp);
+
+        stage.setTitle("A simple database of the service center");
+        stage.setScene(new Scene(mainWndLayout));
+        stage.centerOnScreen();
         //mainWindow.setFullScreen(true);
-        mainWindow.show();
+        stage.show();
     }
 
     private void showLoginError(){

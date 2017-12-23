@@ -63,8 +63,8 @@
         </GridPane>
         <HBox layoutX="281.0" layoutY="323.0" prefWidth="185.0" spacing="5.0" AnchorPane.bottomAnchor="22.0" AnchorPane.rightAnchor="14.0">
             <children>
-                <Button fx:id="btnOk" layoutX="197.1875" layoutY="241.0" mnemonicParsing="false" onAction="#handleOk" prefWidth="90.0" text="OK" />
-                <Button fx:id="btnCancel" layoutX="249.375" layoutY="241.0" mnemonicParsing="false" onAction="#handleCancel" prefWidth="90.0" text="Cancel" />
+                <Button fx:id="btnOk" onAction="#handleOk" defaultButton="true" layoutX="197.1875" layoutY="241.0" mnemonicParsing="false" prefWidth="90.0" text="OK" />
+                <Button fx:id="btnCancel" onAction="#handleCancel" cancelButton="true" layoutX="249.375" layoutY="241.0" mnemonicParsing="false" prefWidth="90.0" text="Cancel" />
             </children>
         </HBox>
     </children>

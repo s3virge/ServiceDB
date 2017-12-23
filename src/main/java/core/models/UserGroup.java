@@ -19,4 +19,6 @@ public class UserGroup {
     final public static String MANAGER = "manager";
     final public static String MASTER = "master";
     final public static String ACCEPTOR = "acceptor";
+
+
 }

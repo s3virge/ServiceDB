@@ -17,7 +17,7 @@ public class MainApp extends Application {
 
     private static final Logger logger = Logger.getLogger(MainApp.class);
 
-    private Stage loginWindow;
+    private Stage mainStage;
 
     public static void main(String[] args) {
         //launch GUI
@@ -26,10 +26,10 @@ public class MainApp extends Application {
 
     @Override
     public void start(Stage primaryStage) {
-        logger.debug("start(Stage loginWindow) is executed!");
+        logger.debug("start(Stage mainStage) is executed!");
 
         //сохраняем главные подмостки для возможности загружать в них новые сцены
-        loginWindow = primaryStage;
+        mainStage = primaryStage;
 
         /* после подключениея Maven FXMLLoader нашел файл сцены только после создания паки Resouces и перемещения папки
         * LoginWindow туда, в pom.xml указана папка ресурсов*/
@@ -69,7 +69,9 @@ public class MainApp extends Application {
 
         // Give the controller access to the main app.
         LoginWndController loginWndController = fxmlLoader.getController();
-        //теперь контроллер может вызвать getPrimaryStage()
+        //передаем контроллеру ссылку на главный класс для
+        //возможности вызова из контроллера открытых методов
+        //главного класса - primaryStage()
         loginWndController.setMainApp(this);
 
         //показываем окно ввода логина и пароля
@@ -84,5 +86,5 @@ public class MainApp extends Application {
      * Returns the main stage.
      * @return
      */
-    public Stage getPrimaryStage() { return loginWindow; }
+    public Stage getPrimaryStage() { return mainStage; }
 }
