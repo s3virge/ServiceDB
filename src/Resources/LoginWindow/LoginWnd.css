@@ -1,9 +1,11 @@
 root {
     display: block;
 }
+
 .root {
     -fx-background-image: url("background.jpg");
 }
+
 .label {
     -fx-font-size: 12px;
     -fx-font-weight: bold;
@@ -17,6 +19,7 @@ root {
     -fx-fill: #818181;
     -fx-effect: innershadow( three-pass-box , rgba(0,0,0,0.7) , 6, 0.0 , 0 , 2 );
 }
+
 #errorLabel {
     -fx-fill: FIREBRICK;
     -fx-font-weight: bold;

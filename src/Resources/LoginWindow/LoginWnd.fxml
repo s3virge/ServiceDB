@@ -37,6 +37,7 @@
     <stylesheets>
         <URL value="@LoginWnd.css" />
     </stylesheets>
+
    <columnConstraints>
       <ColumnConstraints />
       <ColumnConstraints />

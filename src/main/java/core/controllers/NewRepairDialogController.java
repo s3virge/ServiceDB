@@ -18,23 +18,6 @@ public class NewRepairDialogController {
     public Button btnFirst;
     public Button btnSecond;
     public Button btnThird;
-    public Button btnOk;
-    public Button btnCancel;
-
-    @FXML
-    private TextField firstNameField;
-    @FXML
-    private TextField lastNameField;
-    @FXML
-    private TextField streetField;
-    @FXML
-    private TextField postalCodeField;
-    @FXML
-    private TextField cityField;
-    @FXML
-    private TextField birthdayField;
-
-    //private Stage dialogStage;
 
     /**
      * Инициализирует класс-контроллер. Этот метод вызывается автоматически
@@ -53,7 +36,7 @@ public class NewRepairDialogController {
      *
      * @return true, если пользовательский ввод корректен
      */
-    private boolean isInputValid() {
+    /*private boolean isInputValid() {
         String errorMessage = "";
 
         if (firstNameField.getText() == null || firstNameField.getText().length() == 0) {
@@ -96,7 +79,7 @@ public class NewRepairDialogController {
             // Показываем сообщение об ошибке.
             return false;
         }
-    }
+    }*/
 
     /**
      *

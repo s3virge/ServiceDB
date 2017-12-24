@@ -1,71 +1,92 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import java.net.URL?>
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ButtonBar?>
 <?import javafx.scene.control.Label?>
-<?import javafx.scene.control.TextArea?>
-<?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.RowConstraints?>
 
-<AnchorPane prefHeight="569.0" prefWidth="962.0" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="core.controllers.NewRepairDialogController">
+<AnchorPane prefHeight="645.0" prefWidth="556.0" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="core.controllers.NewRepairDialogController">
     <children>
-        <GridPane layoutX="-16.0" layoutY="12.0" prefHeight="500.0" prefWidth="837.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="12.0">
+
+      <HBox id="deviceNumber" layoutX="68.0" layoutY="14.0" prefHeight="37.0" prefWidth="469.0" stylesheets="@NewRepairDlg.css">
+         <children>
+            <GridPane prefHeight="17.0" prefWidth="488.0">
+              <columnConstraints>
+                <ColumnConstraints hgrow="SOMETIMES" maxWidth="218.0" minWidth="10.0" prefWidth="165.0" />
+                <ColumnConstraints hgrow="SOMETIMES" maxWidth="289.0" minWidth="10.0" prefWidth="284.0" />
+              </columnConstraints>
+              <rowConstraints>
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+              </rowConstraints>
+               <children>
+                      <Label alignment="CENTER" text="Номер устройства" GridPane.halignment="CENTER" />
+                      <Label fx:id="DeviceNumber" maxHeight="1.7976931348623157E308" prefHeight="16.0" prefWidth="235.0" stylesheets="@NewRepairDlg.css" text="deviceNumber" GridPane.columnIndex="1" GridPane.halignment="CENTER" />
+               </children>
+            </GridPane>
+         </children>
+         <padding>
+            <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+         </padding>
+      </HBox>
+        <GridPane layoutX="-16.0" layoutY="74.0" prefHeight="438.0" prefWidth="617.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="74.0">
             <columnConstraints>
-                <ColumnConstraints hgrow="SOMETIMES" maxWidth="232.0" minWidth="10.0" prefWidth="184.0" />
-                <ColumnConstraints hgrow="SOMETIMES" maxWidth="359.0" minWidth="10.0" prefWidth="212.0" />
-            <ColumnConstraints hgrow="SOMETIMES" maxWidth="453.0" minWidth="10.0" prefWidth="230.0" />
-            <ColumnConstraints hgrow="SOMETIMES" maxWidth="453.0" minWidth="10.0" prefWidth="264.0" />
+                <ColumnConstraints hgrow="SOMETIMES" maxWidth="247.0" minWidth="10.0" prefWidth="185.0" />
+                <ColumnConstraints hgrow="SOMETIMES" maxWidth="393.0" minWidth="10.0" prefWidth="351.0" />
             </columnConstraints>
             <rowConstraints>
-                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                <RowConstraints maxHeight="88.0" minHeight="10.0" prefHeight="81.0" vgrow="SOMETIMES" />
-                <RowConstraints maxHeight="62.0" minHeight="10.0" prefHeight="27.0" vgrow="SOMETIMES" />
-                <RowConstraints minHeight="10.0" prefHeight="70.0" vgrow="SOMETIMES" />
-                <RowConstraints minHeight="10.0" prefHeight="70.0" vgrow="SOMETIMES" />
-            <RowConstraints minHeight="10.0" prefHeight="70.0" vgrow="SOMETIMES" />
-            <RowConstraints minHeight="10.0" prefHeight="70.0" vgrow="SOMETIMES" />
+                <RowConstraints maxHeight="30.0" minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                <RowConstraints maxHeight="30.0" minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                <RowConstraints maxHeight="30.0" minHeight="10.0" prefHeight="90.0" vgrow="SOMETIMES" />
+                <RowConstraints maxHeight="30.0" minHeight="10.0" prefHeight="19.0" vgrow="SOMETIMES" />
+                <RowConstraints maxHeight="30.0" minHeight="10.0" prefHeight="27.0" vgrow="SOMETIMES" />
+                <RowConstraints maxHeight="30.0" minHeight="10.0" prefHeight="70.0" vgrow="SOMETIMES" />
+            <RowConstraints maxHeight="30.0" minHeight="10.0" prefHeight="70.0" vgrow="SOMETIMES" />
+            <RowConstraints maxHeight="30.0" minHeight="10.0" prefHeight="70.0" vgrow="SOMETIMES" />
+            <RowConstraints maxHeight="30.0" minHeight="10.0" prefHeight="70.0" vgrow="SOMETIMES" />
+            <RowConstraints maxHeight="30.0" minHeight="10.0" prefHeight="70.0" vgrow="SOMETIMES" />
+            <RowConstraints maxHeight="30.0" minHeight="10.0" prefHeight="70.0" vgrow="SOMETIMES" />
+            <RowConstraints maxHeight="30.0" minHeight="10.0" prefHeight="70.0" vgrow="SOMETIMES" />
+            <RowConstraints maxHeight="30.0" minHeight="10.0" prefHeight="70.0" vgrow="SOMETIMES" />
+            <RowConstraints maxHeight="30.0" minHeight="10.0" prefHeight="70.0" vgrow="SOMETIMES" />
+            <RowConstraints maxHeight="30.0" minHeight="10.0" prefHeight="70.0" vgrow="SOMETIMES" />
             </rowConstraints>
             <children>
-                <Label text="Номер устройства" />
-                <Label text="Тип устройства" GridPane.halignment="CENTER" GridPane.rowIndex="1" />
-                <Label text="Брэнд" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="1" />
-                <Label text="Модель" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.rowIndex="1" />
-                <Label text="Сериный номер" GridPane.columnIndex="3" GridPane.halignment="CENTER" GridPane.rowIndex="1" />
-                <Label text="Комплектность" GridPane.halignment="CENTER" GridPane.rowIndex="3" />
-                <Label text="Внешний вид" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.rowIndex="3" />
-                <Label text="Неисправность" GridPane.halignment="CENTER" GridPane.rowIndex="5" />
-                <Label text="Примечание" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.rowIndex="5" />
-                <Label fx:id="DeviceNumber" prefHeight="16.0" prefWidth="127.0" GridPane.columnIndex="1" />
-                <TextField fx:id="DeviceType" editable="true" maxWidth="-Infinity" prefHeight="26.0" prefWidth="130.0" GridPane.halignment="CENTER" GridPane.rowIndex="2" />
-                <TextField fx:id="BrandName" editable="true" maxWidth="-Infinity" prefHeight="26.0" prefWidth="205.0" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="2" />
-                <TextField fx:id="DeviceModel" editable="true" maxWidth="-Infinity" prefHeight="26.0" prefWidth="310.0" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.rowIndex="2" />
-                <TextField fx:id="SerialNumber" maxWidth="-Infinity" prefHeight="26.0" prefWidth="257.0" GridPane.columnIndex="3" GridPane.halignment="CENTER" GridPane.rowIndex="2" />
-                <TextArea fx:id="CompleteSet" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="72.0" prefWidth="347.0" wrapText="true" GridPane.columnSpan="2" GridPane.halignment="CENTER" GridPane.rowIndex="4" />
-                <TextArea fx:id="Appearance" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="72.0" prefWidth="407.0" wrapText="true" GridPane.columnIndex="2" GridPane.columnSpan="2" GridPane.halignment="CENTER" GridPane.rowIndex="4" />
-                <TextArea fx:id="Defect" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="63.0" prefWidth="404.0" wrapText="true" GridPane.columnIndex="2" GridPane.columnSpan="2" GridPane.halignment="CENTER" GridPane.rowIndex="6" />
-                <TextArea fx:id="Note" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="60.0" prefWidth="342.0" wrapText="true" GridPane.columnSpan="2" GridPane.halignment="CENTER" GridPane.rowIndex="6" />
-            <Label text="Владелец" GridPane.rowIndex="7" />
-            <ButtonBar prefHeight="70.0" prefWidth="293.0" GridPane.columnSpan="2" GridPane.halignment="CENTER" GridPane.rowIndex="9" GridPane.valignment="CENTER">
+                <Label text="Тип устройства" GridPane.halignment="RIGHT" />
+                <Label text="Брэнд" GridPane.halignment="RIGHT" GridPane.rowIndex="1" />
+                <Label text="Модель" GridPane.halignment="RIGHT" GridPane.rowIndex="2" />
+                <Label text="Сериный номер" GridPane.halignment="RIGHT" GridPane.rowIndex="3" />
+                <Label text="Комплектность" GridPane.halignment="RIGHT" GridPane.rowIndex="4" />
+                <Label text="Внешний вид" GridPane.halignment="RIGHT" GridPane.rowIndex="5" />
+                <Label text="Неисправность" GridPane.halignment="RIGHT" GridPane.rowIndex="6" />
+                <Label text="Примечание" GridPane.halignment="RIGHT" GridPane.rowIndex="7" />
+            <Label text="Владелец" GridPane.halignment="RIGHT" GridPane.rowIndex="8" />
+            <ButtonBar prefHeight="70.0" prefWidth="293.0" GridPane.columnSpan="2" GridPane.halignment="CENTER" GridPane.rowIndex="14" GridPane.valignment="CENTER">
               <buttons>
                   <Button fx:id="btnFirst" mnemonicParsing="false" onAction="#onBtnActions" text="Первая" />
                 <Button fx:id="btnSecond" mnemonicParsing="false" onAction="#onBtnActions" text="Вторая" />
                   <Button fx:id="btnThird" mnemonicParsing="false" onAction="#onBtnActions" text="Третяя" />
               </buttons>
             </ButtonBar>
+            <Label text="Телефон" GridPane.halignment="RIGHT" GridPane.rowIndex="9" />
+            <Label text="E-mail" GridPane.halignment="RIGHT" GridPane.rowIndex="10" />
             </children>
         </GridPane>
         <HBox layoutX="281.0" layoutY="323.0" prefWidth="185.0" spacing="5.0" AnchorPane.bottomAnchor="22.0" AnchorPane.rightAnchor="14.0">
             <children>
-                <Button fx:id="btnOk" onAction="#handleOk" defaultButton="true" layoutX="197.1875" layoutY="241.0" mnemonicParsing="false" prefWidth="90.0" text="OK" />
-                <Button fx:id="btnCancel" onAction="#handleCancel" cancelButton="true" layoutX="249.375" layoutY="241.0" mnemonicParsing="false" prefWidth="90.0" text="Cancel" />
+                <Button defaultButton="true" layoutX="197.1875" layoutY="241.0" mnemonicParsing="false" onAction="#handleOk" prefWidth="90.0" text="OK" />
+                <Button cancelButton="true" layoutX="249.375" layoutY="241.0" mnemonicParsing="false" onAction="#handleCancel" prefWidth="90.0" text="Cancel" />
             </children>
         </HBox>
+
     </children>
+
+    <stylesheets>
+        <URL value="@NewRepairDlg.css" />
+    </stylesheets>
 </AnchorPane>

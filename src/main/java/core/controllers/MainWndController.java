@@ -1,6 +1,5 @@
 package core.controllers;
 
-import com.sun.org.apache.bcel.internal.generic.NEW;
 import core.MainApp;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
