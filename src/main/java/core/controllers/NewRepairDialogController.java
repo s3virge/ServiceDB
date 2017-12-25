@@ -6,6 +6,8 @@ import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.stage.Stage;
 
 /**
@@ -18,6 +20,7 @@ public class NewRepairDialogController {
     public Button btnFirst;
     public Button btnSecond;
     public Button btnThird;
+    public TextField tfDeviceType;
 
     /**
      * Инициализирует класс-контроллер. Этот метод вызывается автоматически
@@ -135,4 +138,9 @@ public class NewRepairDialogController {
         stage.close();
     }
 
+    public void handleKeyPress(KeyEvent keyEvent) {
+        if (keyEvent.getCode() == KeyCode.ENTER) {
+            System.out.println("нажали педаль ентер в поле tfDeviceType");
+        }
+    }
 }
