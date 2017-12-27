@@ -1,10 +1,13 @@
 package core.controllers;
 
+import core.utils.AutoCompleteComboBox;
+import core.utils.AutoCompleteComboBoxListener;
 import core.utils.MsgBox;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextField;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
@@ -21,6 +24,7 @@ public class NewRepairDialogController {
     public Button btnSecond;
     public Button btnThird;
     public TextField tfDeviceType;
+    public AutoCompleteComboBox cbBrand;
 
     /**
      * Инициализирует класс-контроллер. Этот метод вызывается автоматически
@@ -140,7 +144,7 @@ public class NewRepairDialogController {
 
     public void handleTextFieldDeviceTypeKeyPress(KeyEvent keyEvent) {
         if (keyEvent.getCode() == KeyCode.ENTER) {
-            System.out.println("нажали педаль ентер в поле tfDeviceType");
+            cbBrand.setEditable(true);
         }
     }
 }
