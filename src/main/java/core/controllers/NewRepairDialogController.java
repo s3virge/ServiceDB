@@ -138,7 +138,7 @@ public class NewRepairDialogController {
         stage.close();
     }
 
-    public void handleKeyPress(KeyEvent keyEvent) {
+    public void handleTextFieldDeviceTypeKeyPress(KeyEvent keyEvent) {
         if (keyEvent.getCode() == KeyCode.ENTER) {
             System.out.println("нажали педаль ентер в поле tfDeviceType");
         }

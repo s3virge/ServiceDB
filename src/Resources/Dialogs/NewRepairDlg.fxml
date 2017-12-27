@@ -27,7 +27,7 @@
               </rowConstraints>
                <children>
                       <Label alignment="CENTER" text="Номер устройства" GridPane.halignment="CENTER" />
-                      <Label fx:id="DeviceNumber" maxHeight="1.7976931348623157E308" prefHeight="16.0" prefWidth="235.0" stylesheets="@NewRepairDlg.css" text="deviceNumber" GridPane.columnIndex="1" GridPane.halignment="CENTER" />
+                      <Label fx:id="DeviceNumber" text="deviceNumber" GridPane.columnIndex="1" GridPane.halignment="CENTER" />
                </children>
             </GridPane>
          </children>
@@ -86,12 +86,12 @@
             <TextField GridPane.columnIndex="1" GridPane.rowIndex="8" />
             <TextField GridPane.columnIndex="1" GridPane.rowIndex="9" />
             <TextField GridPane.columnIndex="1" GridPane.rowIndex="10" />
-            <TextField fx:id="tfDeviceType" onKeyPressed="#handleKeyPress" GridPane.columnIndex="1" />
+            <TextField fx:id="tfDeviceType" onKeyPressed="#handleTextFieldDeviceTypeKeyPress" GridPane.columnIndex="1" />
             </children>
         </GridPane>
         <HBox layoutX="281.0" layoutY="323.0" prefWidth="185.0" spacing="5.0" AnchorPane.bottomAnchor="22.0" AnchorPane.rightAnchor="14.0">
             <children>
-                <Button defaultButton="true" layoutX="197.1875" layoutY="241.0" mnemonicParsing="false" onAction="#handleOk" prefWidth="90.0" text="OK" />
+                <Button defaultButton="false" layoutX="197.1875" layoutY="241.0" mnemonicParsing="false" onAction="#handleOk" prefWidth="90.0" text="OK" />
                 <Button cancelButton="true" layoutX="249.375" layoutY="241.0" mnemonicParsing="false" onAction="#handleCancel" prefWidth="90.0" text="Cancel" />
             </children>
         </HBox>
