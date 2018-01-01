@@ -2,6 +2,7 @@ package core.controllers;
 
 import core.utils.AutoCompleteComboBox;
 import core.utils.AutoCompleteComboBoxListener;
+import core.utils.AutoCompleteTextField;
 import core.utils.MsgBox;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -12,6 +13,8 @@ import javafx.scene.control.TextField;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.stage.Stage;
+
+import java.util.Arrays;
 
 /**
  * Окно для изменения информации об адресате.
@@ -24,7 +27,7 @@ public class NewRepairDialogController {
     public Button btnSecond;
     public Button btnThird;
     public TextField tfDeviceType;
-    public AutoCompleteComboBox cbBrand;
+    public AutoCompleteTextField cbBrand;
 
     /**
      * Инициализирует класс-контроллер. Этот метод вызывается автоматически
@@ -36,6 +39,8 @@ public class NewRepairDialogController {
             MsgBox.show("dialogStage stage is empty", MsgBox.Type.MB_ERROR);
             System.exit(0);
         }*/
+        cbBrand.getEntries().addAll(Arrays.asList("Asus", "Acer", "Dell", "HP", "EMashines", "Fujitsu-Siemens"));
+        cbBrand.setPromptText("введите название брэнда для подсказки");
     }
 
     /**
@@ -143,8 +148,8 @@ public class NewRepairDialogController {
     }
 
     public void handleTextFieldDeviceTypeKeyPress(KeyEvent keyEvent) {
-        if (keyEvent.getCode() == KeyCode.ENTER) {
+        /*if (keyEvent.getCode() == KeyCode.ENTER) {
             cbBrand.setEditable(true);
-        }
+        }*/
     }
 }

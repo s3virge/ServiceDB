@@ -14,6 +14,7 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import core.utils.AutoCompleteComboBox?>
 
+<?import core.utils.AutoCompleteTextField?>
 <AnchorPane prefHeight="645.0" prefWidth="556.0" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="core.controllers.NewRepairDialogController">
     <children>
 
@@ -88,7 +89,7 @@
             <TextField GridPane.columnIndex="1" GridPane.rowIndex="9" />
             <TextField GridPane.columnIndex="1" GridPane.rowIndex="10" />
             <TextField fx:id="tfDeviceType"  GridPane.columnIndex="1" />
-            <AutoCompleteComboBox fx:id="cbBrand" onKeyPressed="#handleTextFieldDeviceTypeKeyPress" prefWidth="150.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+            <AutoCompleteTextField fx:id="cbBrand" onKeyPressed="#handleTextFieldDeviceTypeKeyPress" prefWidth="150.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
             </children>
         </GridPane>
         <HBox layoutX="281.0" layoutY="323.0" prefWidth="185.0" spacing="5.0" AnchorPane.bottomAnchor="22.0" AnchorPane.rightAnchor="14.0">
