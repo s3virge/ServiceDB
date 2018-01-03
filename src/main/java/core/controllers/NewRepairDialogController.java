@@ -40,7 +40,7 @@ public class NewRepairDialogController {
             System.exit(0);
         }*/
         cbBrand.getEntries().addAll(Arrays.asList("Asus", "Acer", "Dell", "HP", "EMashines", "Fujitsu-Siemens"));
-        cbBrand.setPromptText("введите название брэнда для подсказки");
+        cbBrand.setPromptText("введите название брэнда");
     }
 
     /**
