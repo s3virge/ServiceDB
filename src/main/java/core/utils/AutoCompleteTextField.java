@@ -46,6 +46,13 @@ public class AutoCompleteTextField extends TextField
 
                 /*searchResult.addAll(entries.subSet(getText(), getText() + Character.MAX_VALUE));*/
 
+                /**
+                 * Stream API это новый способ работать со структурами данных в функциональном стиле.
+                 * Чаще всего с помощью stream в Java 8 работают с коллекциями, но на самом деле этот механизм может
+                 * использоваться для самых различных данных.
+                 * https://habrahabr.ru/company/luxoft/blog/270383/
+                 * */
+
                 //String реалезует интерфей CharSequence. getText возвращает String
                 //получаем введенный в поле ввода текст. Делаем все буктвы прописными
                 CharSequence charSequence = getText().toLowerCase();
@@ -57,12 +64,7 @@ public class AutoCompleteTextField extends TextField
                 // collection.stream().filter((s) -> s.contains(«1»)).collect(Collectors.toList())
                 final List <String> filteredEntries = filteredEntriesStream.collect(Collectors.toList());
 
-                //LinkedList<String> searchResult = new LinkedList<>();
-                //добавляем в список все строки которые содержат введенную в поле ввода последовательность
-                //searchResult.addAll(filteredEntries);
-
                 if (entries.size() > 0) {
-                    //populatePopup(searchResult);
                     populatePopup(filteredEntries);
 
                     if (!entriesPopup.isShowing()) {
