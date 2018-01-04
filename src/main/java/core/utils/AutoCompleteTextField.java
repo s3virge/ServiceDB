@@ -94,26 +94,34 @@ public class AutoCompleteTextField extends TextField
      * Заполняем всплывающее меню данными
      */
     private void populatePopup(List<String> searchResult) {
+        //List - interface, LinkedList его реалицазия
         List<CustomMenuItem> menuItems = new LinkedList<>();
         // If you'd like more entries, modify this line.
         int maxEntries = 10;
+        //выбираем наименьшее из двух чисел
         int count = Math.min(searchResult.size(), maxEntries);
+
+        Label entryLabel;
+        CustomMenuItem menuItem;
 
         for (int i = 0; i < count; i++)
         {
             final String result = searchResult.get(i);
-            Label entryLabel = new Label(result);
-            CustomMenuItem menuItem = new CustomMenuItem(entryLabel, true);
+            entryLabel = new Label(result);
+            menuItem = new CustomMenuItem(entryLabel, true);
 
+            //каждому пункту меню создаем реакцию на событие
             menuItem.setOnAction(event -> {
-                setText(result);
-                entriesPopup.hide();
+                setText(result); //установить текст выбранного пункта меню в textField
             });
 
+            //добавляем новый пункт меню в список
             menuItems.add(menuItem);
         }
 
+        //сначала убираем все пункты в выпадающем меню
         entriesPopup.getItems().clear();
+        //и добавляем все новые пунты
         entriesPopup.getItems().addAll(menuItems);
     }
 }
