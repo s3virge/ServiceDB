@@ -1,16 +1,12 @@
 package core.controllers;
 
-import core.utils.AutoCompleteComboBox;
-import core.utils.AutoCompleteComboBoxListener;
 import core.utils.AutoCompleteTextField;
 import core.utils.MsgBox;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
-import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextField;
-import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.stage.Stage;
 
@@ -26,8 +22,9 @@ public class NewRepairDialogController {
     public Button btnFirst;
     public Button btnSecond;
     public Button btnThird;
-    public TextField tfDeviceType;
-    public AutoCompleteTextField cbBrand;
+
+    public AutoCompleteTextField tfDeviceType;
+    public AutoCompleteTextField tfBrand;
 
     /**
      * Инициализирует класс-контроллер. Этот метод вызывается автоматически
@@ -35,12 +32,9 @@ public class NewRepairDialogController {
      */
     @FXML
     private void initialize() {
-        /*if (dialogStage == null){
-            MsgBox.show("dialogStage stage is empty", MsgBox.Type.MB_ERROR);
-            System.exit(0);
-        }*/
-        cbBrand.getEntries().addAll(Arrays.asList("Asus", "Acer", "Dell", "HP", "EMashines", "Fujitsu-Siemens"));
-        cbBrand.setPromptText("введите название брэнда");
+        //получить из базы данных список производителей
+        tfBrand.getEntries().addAll(Arrays.asList("Asus", "Acer", "Dell", "HP", "EMashines", "Fujitsu-Siemens"));
+        tfBrand.setPromptText("Введите название брэнда");
     }
 
     /**
@@ -93,14 +87,6 @@ public class NewRepairDialogController {
         }
     }*/
 
-    /**
-     *
-     * @param
-     */
-    /*public void setMainStage(Stage majorStage){
-        dialogStage = majorStage;
-    }*/
-
     public void onBtnActions(ActionEvent actionEvent) {
         Object source = actionEvent.getSource();
 
@@ -112,7 +98,7 @@ public class NewRepairDialogController {
 
         switch(clickedButton.getId()){
             case "btnFirst":
-                MsgBox.show("Нажали на первую педальё", MsgBox.Type.MB_INFO);
+                MsgBox.show("Нажали на первую педаль", MsgBox.Type.MB_INFO);
                 break;
 
             case "btnSecond":
@@ -125,31 +111,12 @@ public class NewRepairDialogController {
         }
     }
 
-    /**
-     * Вызывается, когда пользователь кликнул по кнопке OK.
-     */
     @FXML
-    private void handleOk(ActionEvent actionEvent) {
+    /*закрываем диалог когда нажали кнопку ок или cancel*/
+    private void closeDlg(ActionEvent actionEvent){
         //получить источник события
         Node source = (Node) actionEvent.getSource();
         Stage stage = (Stage) source.getScene().getWindow();
         stage.close();
-    }
-
-    /**
-     * Вызывается, когда пользователь кликнул по кнопке Cancel.
-     */
-    @FXML
-    private void handleCancel(ActionEvent actionEvent) {
-        //получить источник события
-        Node source = (Node) actionEvent.getSource();
-        Stage stage = (Stage) source.getScene().getWindow();
-        stage.close();
-    }
-
-    public void handleTextFieldDeviceTypeKeyPress(KeyEvent keyEvent) {
-        /*if (keyEvent.getCode() == KeyCode.ENTER) {
-            cbBrand.setEditable(true);
-        }*/
     }
 }

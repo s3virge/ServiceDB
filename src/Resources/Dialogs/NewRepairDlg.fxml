@@ -88,14 +88,14 @@
             <TextField GridPane.columnIndex="1" GridPane.rowIndex="8" />
             <TextField GridPane.columnIndex="1" GridPane.rowIndex="9" />
             <TextField GridPane.columnIndex="1" GridPane.rowIndex="10" />
-            <TextField fx:id="tfDeviceType"  GridPane.columnIndex="1" />
-            <AutoCompleteTextField fx:id="cbBrand" onKeyPressed="#handleTextFieldDeviceTypeKeyPress" prefWidth="150.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+            <AutoCompleteTextField fx:id="tfDeviceType"  GridPane.columnIndex="1" />
+            <AutoCompleteTextField fx:id="tfBrand" prefWidth="150.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
             </children>
         </GridPane>
         <HBox layoutX="281.0" layoutY="323.0" prefWidth="185.0" spacing="5.0" AnchorPane.bottomAnchor="22.0" AnchorPane.rightAnchor="14.0">
             <children>
-                <Button defaultButton="false" layoutX="197.1875" layoutY="241.0" mnemonicParsing="false" onAction="#handleOk" prefWidth="90.0" text="OK" />
-                <Button cancelButton="true" layoutX="249.375" layoutY="241.0" mnemonicParsing="false" onAction="#handleCancel" prefWidth="90.0" text="Cancel" />
+                <Button defaultButton="false" layoutX="197.1875" layoutY="241.0" mnemonicParsing="false" onAction="#closeDlg" prefWidth="90.0" text="OK" />
+                <Button cancelButton="true" layoutX="249.375" layoutY="241.0" mnemonicParsing="false" onAction="#closeDlg" prefWidth="90.0" text="Cancel" />
             </children>
         </HBox>
 
