@@ -117,4 +117,8 @@ public class NewRepairDialogController {
         Stage stage = (Stage) source.getScene().getWindow();
         stage.close();
     }
+
+    public void onBtnAdd(ActionEvent actionEvent) {
+        MsgBox.show("Нежнее нажимай, дырку сделаешь.", MsgBox.Type.MB_INFO);
+    }
 }
