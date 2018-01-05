@@ -1,13 +1,11 @@
 package core.controllers;
 
-import core.utils.AutoCompleteTextField;
+//import core.utils.AutoCompleteTextField;
 import core.utils.MsgBox;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
-import javafx.scene.control.TextField;
-import javafx.scene.input.KeyEvent;
 import javafx.stage.Stage;
 
 import java.util.Arrays;
@@ -23,8 +21,8 @@ public class NewRepairDialogController {
     public Button btnSecond;
     public Button btnThird;
 
-    public AutoCompleteTextField tfDeviceType;
-    public AutoCompleteTextField tfBrand;
+   /* public AutoCompleteTextField tfDeviceType;
+    public AutoCompleteTextField tfBrand;*/
 
     /**
      * Инициализирует класс-контроллер. Этот метод вызывается автоматически
@@ -33,8 +31,8 @@ public class NewRepairDialogController {
     @FXML
     private void initialize() {
         //получить из базы данных список производителей
-        tfBrand.getEntries().addAll(Arrays.asList("Asus", "Acer", "Dell", "HP", "EMashines", "Fujitsu-Siemens"));
-        tfBrand.setPromptText("Введите название брэнда");
+        //tfBrand.getEntries().addAll(Arrays.asList("Asus", "Acer", "Dell", "HP", "EMashines", "Fujitsu-Siemens"));
+        //tfBrand.setPromptText("Введите название брэнда");
     }
 
     /**
