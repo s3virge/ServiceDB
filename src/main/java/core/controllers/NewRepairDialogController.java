@@ -12,7 +12,9 @@ import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.Arrays;
 
 /**
@@ -50,14 +52,41 @@ public class NewRepairDialogController {
      */
     @FXML
     private void initialize() {
-        //получить из базы данных список производителей
-        getEntriesFromDataBase(tfDeviceType);
-        tfBrand.getEntries().addAll(Arrays.asList("Asus", "Acer", "Dell", "HP", "EMashines", "Fujitsu-Siemens"));
         //tfBrand.setPromptText("Введите название брэнда");
+
+        //получить из базы данных список производителей
+        getEntriesFromDataBase(tfDeviceType, "devicetype");
+        getEntriesFromDataBase(tfBrand, "brand");
+        getEntriesFromDataBase(tfModel, "devicemodel");
+        getEntriesFromDataBase(tfCompleteness, "completeness");
+        getEntriesFromDataBase(tfAppearance, "appearance");
+        getEntriesFromDataBase(tfDefect, "defect");
     }
 
-    private void getEntriesFromDataBase(AutoSuggestTextField autoTextFiels) {
+    private void getEntriesFromDataBase(AutoSuggestTextField autoTextFields, String strTable) {
+        //установить соединение с бд
+        DataBase db = new DataBase();
+        String strSql = "SELECT * FROM " + strTable + ";";
 
+        ArrayList <String> stringArrayList = new ArrayList<>();
+
+        //получить данные из указанной таблицы
+        try {
+            PreparedStatement statement = db.connect().prepareStatement(strSql);
+            ResultSet resultSet = statement.executeQuery();
+            while (resultSet.next()) {
+                stringArrayList.add(resultSet.getString("value"));
+            }
+        }
+        catch (SQLException e) {
+            e.printStackTrace();
+        }
+        finally {
+            db.disconnect();
+        }
+
+        //заполнить выпадающий список подсказок
+        autoTextFields.getEntries().addAll(stringArrayList);
     }
 
     @FXML
@@ -135,11 +164,21 @@ public class NewRepairDialogController {
             return;
         }
 
-        //цифры, символы, пробел нельзя, только буквы
-        if (!isOnlyLetters(strTfText)) {
-            MsgBox.show("Можно вводить только буквы.", MsgBox.Type.MB_ERROR);
-            textField.requestFocus();
-            return;
+        if (textField == tfDeviceType || textField == tfBrand || textField == tfModel) {
+            //цифры, символы, пробел нельзя, только буквы
+            if (!isOnlyLetters(strTfText)) {
+                MsgBox.show("Можно вводить только буквы.", MsgBox.Type.MB_ERROR);
+                textField.requestFocus();
+                return;
+            }
+        }
+        else {
+            //то можно запятую и пробел
+            if (!strTfText.matches("[a-zA-Zа-яА-Я, ]+")) {
+                MsgBox.show("Можно вводить только буквы, пробел и запятую", MsgBox.Type.MB_ERROR);
+                textField.requestFocus();
+                return;
+            }
         }
 
         //Сделать первую букву заглавной, а остальные прописными

@@ -167,8 +167,8 @@ public class DataBase {
             try {
                 runner.runScript(new BufferedReader(new FileReader(file)));
             }
-            catch (IOException fileExeption) {
-                fileExeption.getMessage();
+            catch (IOException fileException) {
+                fileException.getMessage();
             }
 //
 //            statement.execute("SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0;");
@@ -436,8 +436,8 @@ public class DataBase {
 //
 //            statement.execute("COMMIT;");
         }
-        catch (SQLException sqlExep) {
-            MsgBox.show("Облом в createDB() -> " + sqlExep.getMessage(), MsgBox.Type.MB_ERROR);
+        catch (SQLException sqlExcep) {
+            MsgBox.show("Облом в createDB() -> " + sqlExcep.getMessage(), MsgBox.Type.MB_ERROR);
 
             //что-то пошло не так...
             removeDB();
