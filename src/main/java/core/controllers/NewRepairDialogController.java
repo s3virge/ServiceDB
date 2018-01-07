@@ -138,14 +138,14 @@ public class NewRepairDialogController {
     }
 
     private void makeDataBaseRecord(String strValue) {
-        DataBase mysqlConnect = new DataBase();
+        DataBase dataBase = new DataBase();
 
         //String sql = "INSERT INTO devicetype (value) VALUE ('Планшет')";
         String sql = "INSERT INTO devicetype (value) VALUE ('" + strValue + "')";
         //String sql = "INSERT INTO devicetype (value) VALUE (?)";
 
         try {
-            PreparedStatement statement = mysqlConnect.connect().prepareStatement(sql);
+            PreparedStatement statement = dataBase.connect().prepareStatement(sql);
             //statement.setString(1, strValue);
 
             statement.execute();
@@ -154,7 +154,7 @@ public class NewRepairDialogController {
             e.printStackTrace();
         }
         finally {
-            mysqlConnect.disconnect();
+            dataBase.disconnect();
         }
     }
 }
