@@ -2,6 +2,7 @@ package core.controllers;
 
 //import core.utils.AutoCompleteTextField;
 import core.utils.AutoCompleteTextField;
+import core.utils.DataBase;
 import core.utils.MsgBox;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -9,6 +10,8 @@ import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.stage.Stage;
 
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
 import java.util.Arrays;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
@@ -43,56 +46,6 @@ public class NewRepairDialogController {
         //tfBrand.getEntries().addAll(Arrays.asList("Asus", "Acer", "Dell", "HP", "EMashines", "Fujitsu-Siemens"));
         //tfBrand.setPromptText("Введите название брэнда");
     }
-
-    /**
-     * Проверяет пользовательский ввод в текстовых полях.
-     *
-     * @return true, если пользовательский ввод корректен
-     */
-    /*private boolean isInputValid() {
-        String errorMessage = "";
-
-        if (firstNameField.getText() == null || firstNameField.getText().length() == 0) {
-            errorMessage += "No valid first name!\n";
-        }
-        if (lastNameField.getText() == null || lastNameField.getText().length() == 0) {
-            errorMessage += "No valid last name!\n";
-        }
-        if (streetField.getText() == null || streetField.getText().length() == 0) {
-            errorMessage += "No valid street!\n";
-        }
-
-        if (postalCodeField.getText() == null || postalCodeField.getText().length() == 0) {
-            errorMessage += "No valid postal code!\n";
-        }
-        else {
-            // пытаемся преобразовать почтовый код в int.
-            try {
-                Integer.parseInt(postalCodeField.getText());
-            } catch (NumberFormatException e) {
-                errorMessage += "No valid postal code (must be an integer)!\n";
-            }
-        }
-
-        if (cityField.getText() == null || cityField.getText().length() == 0) {
-            errorMessage += "No valid city!\n";
-        }
-
-        if (birthdayField.getText() == null || birthdayField.getText().length() == 0) {
-            errorMessage += "No valid birthday!\n";
-        }
-        else {
-
-        }
-
-        if (errorMessage.length() == 0) {
-            return true;
-        }
-        else {
-            // Показываем сообщение об ошибке.
-            return false;
-        }
-    }*/
 
     @FXML
     private void onBtnActions(ActionEvent actionEvent) {
@@ -141,39 +94,67 @@ public class NewRepairDialogController {
 
     private void AddDeviceType() {
         //получить введенный текст из textfield
-        String strDeviceType = tfDeviceType.getText();
+        String strDeviceTypeText = tfDeviceType.getText();
         //если ничего не введено
-        if (strDeviceType.isEmpty()) {
+        if (strDeviceTypeText.isEmpty()) {
             MsgBox.show("Для начала нужно что-то написать в поле ввода", MsgBox.Type.MB_ERROR);
             tfDeviceType.requestFocus();
             return;
         }
 
         //цифры, символы, пробел нельзя, только буквы
-        if (!isOnlyLetters(strDeviceType)) {
+        if (!isOnlyLetters(strDeviceTypeText)) {
             MsgBox.show("Можно вводить только буквы.", MsgBox.Type.MB_ERROR);
             tfDeviceType.requestFocus();
             return;
         }
 
         //Сделать первую букву заглавной, а остальные прописными
-        char firstChar = Character.toUpperCase(strDeviceType.charAt(0));
-        String firstUpperLetter = String.valueOf(firstChar);
-        //String characterToString = Character.toString('c');
-        firstUpperLetter += strDeviceType.substring(1);
-
-        System.out.println(firstUpperLetter);
+        String strDeviceType = makeFirstLetterBig(strDeviceTypeText);
 
         //если такая запись в базе уже есть
         //Сказать что запись есть и дубликатов быть не может
+
         //сделать запись в таблицу базы данных
+        makeDataBaseRecord(strDeviceType);
+
         //если в базу все записалось
+        tfDeviceType.setText(strDeviceType);
         //то вставить в поле ввода новую строку с большой первой буквой
-        //передать фокус ввода следующему полю ввода
+        //передать фокус ввода следующему полю ввода (программно нажать Tab кнопку)
     }
 
     private boolean isOnlyLetters(String strToVerification) {
         return strToVerification.matches("[a-zA-Zа-яА-Я]+");
         //+ значит один и более символов
+    }
+
+    //make the first letter big
+    private String makeFirstLetterBig(String strToMod){
+        char firstChar = Character.toUpperCase(strToMod.charAt(0));
+        String strReuslt = String.valueOf(firstChar);
+        //String characterToString = Character.toString('c');
+        return strReuslt += strToMod.substring(1);
+    }
+
+    private void makeDataBaseRecord(String strValue) {
+        DataBase mysqlConnect = new DataBase();
+
+        //String sql = "INSERT INTO devicetype (value) VALUE ('Планшет')";
+        String sql = "INSERT INTO devicetype (value) VALUE ('" + strValue + "')";
+        //String sql = "INSERT INTO devicetype (value) VALUE (?)";
+
+        try {
+            PreparedStatement statement = mysqlConnect.connect().prepareStatement(sql);
+            //statement.setString(1, strValue);
+
+            statement.execute();
+        }
+        catch (SQLException e) {
+            e.printStackTrace();
+        }
+        finally {
+            mysqlConnect.disconnect();
+        }
     }
 }

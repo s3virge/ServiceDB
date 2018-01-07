@@ -19,6 +19,7 @@ public class DataBase {
     private static final String dbPort;
     private static final String dbName;
 
+    //init static variables
     static {
         ResourceBundle properties = ResourceBundle.getBundle("dataBase");
         //String dbHost = properties.getString("dataBase.dbHost");
@@ -31,6 +32,53 @@ public class DataBase {
 
         dbUser = properties.getString("dataBase.login");
         dbPassword = properties.getString("dataBase.password");
+    }
+
+    // init connection object
+    private Connection connection;
+    // init properties object
+    private Properties properties;
+
+    // create properties
+    private Properties getProperties() {
+        if (properties == null) {
+            properties = new Properties();
+            properties.setProperty("user", dbUser);
+            properties.setProperty("password", dbPassword);
+
+            properties.put("useUnicode", "true");
+            properties.put("characterEncoding","Cp1251");
+        }
+        return properties;
+    }
+
+    /**
+     * @return
+     * возвращает connection
+     */
+    // connect database
+    public Connection connect() {
+        if (connection == null) {
+            try {
+                connection = DriverManager.getConnection(dbUrl, getProperties());
+            }
+            catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+        return connection;
+    }
+
+    // disconnect database
+    public void disconnect() {
+        if (connection != null) {
+            try {
+                connection.close();
+                connection = null;
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
     }
 
     /** @return
@@ -205,7 +253,7 @@ public class DataBase {
                     "ENGINE = InnoDB " +
                     "DEFAULT CHARACTER SET = utf8;");
 
-            statement.execute("CREATE TABLE IF NOT EXISTS `" + dbName + "`.`type` (" +
+            statement.execute("CREATE TABLE IF NOT EXISTS `" + dbName + "`.`devicetype` (" +
                     "`id` INT NOT NULL AUTO_INCREMENT," +
                     "`value` VARCHAR(45) NOT NULL," +
                     "PRIMARY KEY (`id`)," +
@@ -214,7 +262,7 @@ public class DataBase {
                     "DEFAULT CHARACTER SET = utf8 " +
                     "COMMENT = 'тип устройства';");
 
-            statement.execute("CREATE TABLE IF NOT EXISTS `" + dbName + "`.`model` (" +
+            statement.execute("CREATE TABLE IF NOT EXISTS `" + dbName + "`.`devicemodel` (" +
                     "`id` INT NOT NULL AUTO_INCREMENT," +
                     "`value` VARCHAR(45) NOT NULL," +
                     "PRIMARY KEY (`id`)," +
@@ -305,12 +353,12 @@ public class DataBase {
                     "ON UPDATE NO ACTION, " +
                     "CONSTRAINT `device_type` " +
                     "FOREIGN KEY (`type_id`) " +
-                    "REFERENCES `" + dbName + "`.`type` (`id`) " +
+                    "REFERENCES `" + dbName + "`.`devicetype` (`id`) " +
                     "ON DELETE NO ACTION " +
                     "ON UPDATE NO ACTION," +
                     "CONSTRAINT `device_model` " +
                     "FOREIGN KEY (`model_id`) " +
-                    "REFERENCES `" + dbName + "`.`model` (`id`) " +
+                    "REFERENCES `" + dbName + "`.`devicemodel` (`id`) " +
                     "ON DELETE NO ACTION " +
                     "ON UPDATE NO ACTION, " +
                     "CONSTRAINT `device_defect` " +
@@ -382,4 +430,6 @@ public class DataBase {
             logger.error(ex);
         }
     }
+
+
 }
