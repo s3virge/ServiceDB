@@ -325,6 +325,19 @@ public class DataBase {
                     "DEFAULT CHARACTER SET = utf8\n" +
                     "COMMENT = 'таблица для результатов диагностики-ремонта ';\n");
 
+            //-- -----------------------------------------------------
+            //        -- Table `servicedb`.`completeness`
+            //-- -----------------------------------------------------
+            statement.execute("CREATE TABLE IF NOT EXISTS `" + dbName + "`.`completeness` (\n" +
+                "`id` INT NOT NULL AUTO_INCREMENT,\n" +
+                "`value` VARCHAR(255) NOT NULL,\n" +
+                "PRIMARY KEY (`id`),\n" +
+                "UNIQUE INDEX `id_UNIQUE` (`id` ASC),\n" +
+                "UNIQUE INDEX `value_UNIQUE` (`value` ASC))\n" +
+                "ENGINE = InnoDB\n" +
+                "DEFAULT CHARACTER SET = utf8\n" +
+                "COMMENT = 'комплектация устройства'");
+
             statement.execute("CREATE TABLE IF NOT EXISTS `" + dbName + "`.`device` (" +
                     "`id` INT NOT NULL AUTO_INCREMENT," +
                     "`type_id` INT NOT NULL," +
@@ -334,6 +347,7 @@ public class DataBase {
                     "`defect_id` INT NOT NULL," +
                     "`owner_id` INT NOT NULL," +
                     "`repair_id` INT NOT NULL," +
+                    "`completeness_id` INT NOT NULL," +
                     "PRIMARY KEY (`id`)," +
                     "INDEX `owner_idx` (`owner_id` ASC)," +
                     "INDEX `brand_idx` (`brand_id` ASC)," +
@@ -341,6 +355,7 @@ public class DataBase {
                     "INDEX `model_idx` (`model_id` ASC)," +
                     "INDEX `defect_idx` (`defect_id` ASC)," +
                     "INDEX `device_repair_idx` (`repair_id` ASC)," +
+                    "INDEX `device_completeness_idx` (`completeness_id` ASC)," +
                     "CONSTRAINT `device_owner` " +
                     "FOREIGN KEY (`owner_id`) " +
                     "REFERENCES `" + dbName + "`.`owner` (`id`) " +
@@ -370,7 +385,12 @@ public class DataBase {
                     "FOREIGN KEY (`repair_id`) " +
                     "REFERENCES `" + dbName + "`.`repair` (`id`) " +
                     "ON DELETE NO ACTION " +
-                    "ON UPDATE NO ACTION) " +
+                    "ON UPDATE NO ACTION,\n" +
+                    "CONSTRAINT `device_completeness`\n" +
+                    "FOREIGN KEY (`completeness_id`)\n" +
+                    "REFERENCES `" + dbName + "`.`completeness` (`id`)\n" +
+                    "ON DELETE NO ACTION\n" +
+                    "ON UPDATE NO ACTION)" +
                     "ENGINE = InnoDB " +
                     "DEFAULT CHARACTER SET = utf8;");
 

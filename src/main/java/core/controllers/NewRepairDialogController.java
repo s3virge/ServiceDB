@@ -8,13 +8,11 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
+import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
-import java.util.Arrays;
-import java.util.stream.IntStream;
-import java.util.stream.Stream;
 
 /**
  * Окно для изменения информации об адресате.
@@ -23,18 +21,27 @@ import java.util.stream.Stream;
  */
 public class NewRepairDialogController {
 
-    @FXML private Button btnAddDeviceType;
+    /*@FXML private Button btnAddDeviceType;
     @FXML private Button btnAddBrand;
     @FXML private Button btnAddModel;
-    @FXML private Button btnAddcCmpleteness;
+    @FXML private Button btnAddCompleteness;
     @FXML private Button btnAddAppearance;
-    @FXML private Button btnAddMalfunction;
+    @FXML private Button btnAddDefect;
     @FXML private Button btnFirst;
     @FXML private Button btnSecond;
-    @FXML private Button btnThird;
+    @FXML private Button btnThird;*/
 
-   @FXML private AutoCompleteTextField tfDeviceType;
+    @FXML private AutoCompleteTextField tfDeviceType;
     @FXML private AutoCompleteTextField tfBrand;
+    @FXML private AutoCompleteTextField tfModel;
+    @FXML private TextField tfSerialNumber;
+    @FXML private AutoCompleteTextField tfCompleteness;
+    @FXML private AutoCompleteTextField tfAppearance;
+    @FXML private AutoCompleteTextField tfDefect;
+    @FXML private TextField tfNote;
+    @FXML private TextField tfOwner;
+    @FXML private TextField tfPhone;
+    @FXML private TextField tfEmail;
 
     /**
      * Инициализирует класс-контроллер. Этот метод вызывается автоматически
@@ -87,39 +94,59 @@ public class NewRepairDialogController {
 
         switch(clickedBtn.getId()){
             case "btnAddDeviceType":
-                AddDeviceType();
+                recordToDataBase(tfDeviceType, "devicetype");
             break;
+
+            case "btnAddBrand":
+                recordToDataBase(tfBrand, "brand");
+                break;
+
+            case "btnAddModel":
+                recordToDataBase(tfModel, "devicemodel");
+                break;
+
+            case "btnAddCompleteness":
+                recordToDataBase(tfCompleteness, "completeness");
+                break;
+
+            case "btnAddAppearance":
+                recordToDataBase(tfAppearance, "devicemodel");
+                break;
+
+            case "btnAddDefect":
+                recordToDataBase(tfModel, "devicemodel");
+                break;
         }
     }
 
-    private void AddDeviceType() {
+    private void recordToDataBase(AutoCompleteTextField textField, String strDBTable ) {
         //получить введенный текст из textfield
-        String strDeviceTypeText = tfDeviceType.getText();
+        String strTfText = textField.getText();
         //если ничего не введено
-        if (strDeviceTypeText.isEmpty()) {
+        if (strTfText.isEmpty()) {
             MsgBox.show("Для начала нужно что-то написать в поле ввода", MsgBox.Type.MB_ERROR);
-            tfDeviceType.requestFocus();
+            textField.requestFocus();
             return;
         }
 
         //цифры, символы, пробел нельзя, только буквы
-        if (!isOnlyLetters(strDeviceTypeText)) {
+        if (!isOnlyLetters(strTfText)) {
             MsgBox.show("Можно вводить только буквы.", MsgBox.Type.MB_ERROR);
-            tfDeviceType.requestFocus();
+            textField.requestFocus();
             return;
         }
 
         //Сделать первую букву заглавной, а остальные прописными
-        String strDeviceType = makeFirstLetterBig(strDeviceTypeText);
+        String strDbValue = makeFirstLetterBig(strTfText);
 
         //если такая запись в базе уже есть
         //Сказать что запись есть и дубликатов быть не может
 
         //сделать запись в таблицу базы данных
-        makeDataBaseRecord(strDeviceType);
+        makeDataBaseRecord(strDBTable, strDbValue);
 
         //если в базу все записалось
-        tfDeviceType.setText(strDeviceType);
+        textField.setText(strDbValue);
         //то вставить в поле ввода новую строку с большой первой буквой
         //передать фокус ввода следующему полю ввода (программно нажать Tab кнопку)
     }
@@ -129,19 +156,19 @@ public class NewRepairDialogController {
         //+ значит один и более символов
     }
 
-    //make the first letter big
+    //make the first letter big а остальные маленькие
     private String makeFirstLetterBig(String strToMod){
         char firstChar = Character.toUpperCase(strToMod.charAt(0));
         String strReuslt = String.valueOf(firstChar);
         //String characterToString = Character.toString('c');
-        return strReuslt += strToMod.substring(1);
+        return strReuslt += strToMod.substring(1).toLowerCase();
     }
 
-    private void makeDataBaseRecord(String strValue) {
+    private void makeDataBaseRecord(String strTable, String strValue) {
         DataBase dataBase = new DataBase();
 
         //String sql = "INSERT INTO devicetype (value) VALUE ('Планшет')";
-        String sql = "INSERT INTO devicetype (value) VALUE ('" + strValue + "')";
+        String sql = "INSERT INTO " + strTable + " (value) VALUE ('" + strValue + "')";
         //String sql = "INSERT INTO devicetype (value) VALUE (?)";
 
         try {
