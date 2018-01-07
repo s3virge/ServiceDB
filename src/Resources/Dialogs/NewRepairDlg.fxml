@@ -14,6 +14,7 @@
 
 <!--<?import core.utils.AutoCompleteTextField?>-->
 
+<?import core.utils.AutoCompleteTextField?>
 <AnchorPane prefHeight="604.0" prefWidth="556.0" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="core.controllers.NewRepairDialogController">
     <children>
 
@@ -132,20 +133,20 @@
                         <Insets right="10.0" />
                      </GridPane.margin>
                   </Label>
-                  <TextField GridPane.columnIndex="1" GridPane.rowIndex="2" />
-                  <TextField GridPane.columnIndex="1" GridPane.rowIndex="3" />
-                  <TextField GridPane.columnIndex="1" GridPane.rowIndex="4" />
-                  <TextField GridPane.columnIndex="1" GridPane.rowIndex="5" />
-                  <TextField GridPane.columnIndex="1" GridPane.rowIndex="6" />
-                  <TextField GridPane.columnIndex="1" GridPane.rowIndex="7" />
-                  <TextField GridPane.columnIndex="1" GridPane.rowIndex="8" />
-                  <TextField GridPane.columnIndex="1" GridPane.rowIndex="9" />
-                  <TextField GridPane.columnIndex="1" GridPane.rowIndex="10" />
-                  <!--<TextField fx:id="tfDeviceType"  GridPane.columnIndex="1" />-->
-                  <TextField GridPane.columnIndex="1" />
-                  <!--<TextField fx:id="tfBrand" prefWidth="150.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />-->
-                  <TextField prefWidth="150.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-                  <Button fx:id="btnAddDeviceType" mnemonicParsing="false" onAction="#onBtnAdd" prefHeight="26.0" prefWidth="21.0" text="+" GridPane.columnIndex="2">
+
+                      <AutoCompleteTextField fx:id="tfDeviceType"  GridPane.columnIndex="1" GridPane.rowIndex="0" />
+                      <AutoCompleteTextField fx:id="tfBrand" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                      <TextField GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                      <TextField GridPane.columnIndex="1" GridPane.rowIndex="3" />
+                      <TextField GridPane.columnIndex="1" GridPane.rowIndex="4" />
+                      <TextField GridPane.columnIndex="1" GridPane.rowIndex="5" />
+                      <TextField GridPane.columnIndex="1" GridPane.rowIndex="6" />
+                      <TextField GridPane.columnIndex="1" GridPane.rowIndex="7" />
+                      <TextField GridPane.columnIndex="1" GridPane.rowIndex="8" />
+                      <TextField GridPane.columnIndex="1" GridPane.rowIndex="9" />
+                      <TextField GridPane.columnIndex="1" GridPane.rowIndex="10" />
+
+                      <Button fx:id="btnAddDeviceType" mnemonicParsing="false" onAction="#onBtnAdd" prefHeight="26.0" prefWidth="21.0" text="+" GridPane.columnIndex="2">
                      <GridPane.margin>
                         <Insets left="10.0" />
                      </GridPane.margin>

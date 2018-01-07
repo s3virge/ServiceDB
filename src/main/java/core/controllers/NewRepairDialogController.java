@@ -1,6 +1,7 @@
 package core.controllers;
 
 //import core.utils.AutoCompleteTextField;
+import core.utils.AutoCompleteTextField;
 import core.utils.MsgBox;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -9,6 +10,8 @@ import javafx.scene.control.Button;
 import javafx.stage.Stage;
 
 import java.util.Arrays;
+import java.util.stream.IntStream;
+import java.util.stream.Stream;
 
 /**
  * Окно для изменения информации об адресате.
@@ -17,12 +20,18 @@ import java.util.Arrays;
  */
 public class NewRepairDialogController {
 
-    public Button btnFirst;
-    public Button btnSecond;
-    public Button btnThird;
+    @FXML private Button btnAddDeviceType;
+    @FXML private Button btnAddBrand;
+    @FXML private Button btnAddModel;
+    @FXML private Button btnAddcCmpleteness;
+    @FXML private Button btnAddAppearance;
+    @FXML private Button btnAddMalfunction;
+    @FXML private Button btnFirst;
+    @FXML private Button btnSecond;
+    @FXML private Button btnThird;
 
-   /* public AutoCompleteTextField tfDeviceType;
-    public AutoCompleteTextField tfBrand;*/
+   @FXML private AutoCompleteTextField tfDeviceType;
+    @FXML private AutoCompleteTextField tfBrand;
 
     /**
      * Инициализирует класс-контроллер. Этот метод вызывается автоматически
@@ -85,7 +94,8 @@ public class NewRepairDialogController {
         }
     }*/
 
-    public void onBtnActions(ActionEvent actionEvent) {
+    @FXML
+    private void onBtnActions(ActionEvent actionEvent) {
         Object source = actionEvent.getSource();
 
         if(!(source instanceof Button)){
@@ -118,7 +128,48 @@ public class NewRepairDialogController {
         stage.close();
     }
 
-    public void onBtnAdd(ActionEvent actionEvent) {
-        MsgBox.show("Нежнее нажимай, дырку сделаешь.", MsgBox.Type.MB_INFO);
+    @FXML
+    private void onBtnAdd(ActionEvent actionEvent) {
+        Button clickedBtn = (Button) actionEvent.getSource();
+
+        switch(clickedBtn.getId()){
+            case "btnAddDeviceType":
+                AddDeviceType();
+            break;
+        }
+    }
+
+    private void AddDeviceType() {
+        //получить введенный текст из textfield
+        String strDeviceType = tfDeviceType.getText();
+        //если ничего не введено
+        if (strDeviceType.isEmpty()) {
+            MsgBox.show("Для начала нужно что-то написать в поле ввода", MsgBox.Type.MB_ERROR);
+            tfDeviceType.requestFocus();
+            return;
+        }
+
+        //цифры, символы, пробел нельзя, только буквы
+        if (!isOnlyLetters(strDeviceType)) {
+            MsgBox.show("Можно вводить только буквы.", MsgBox.Type.MB_ERROR);
+            tfDeviceType.requestFocus();
+            return;
+        }
+
+        //Сделать первую букву заглавной, а остальные прописными
+        char firstChar = Character.toUpperCase(strDeviceType.charAt(0));
+        String firstUpperLetter = String.valueOf(firstChar);
+        //String characterToString = Character.toString('c');
+        firstUpperLetter += strDeviceType.substring(1);
+
+        System.out.println(firstUpperLetter);
+
+        //если такая запись в базе уже есть
+        //Сказать что запись есть и дубликатов быть не может
+        //сделать запись в таблицу базы данных
+    }
+
+    private boolean isOnlyLetters(String strToVerification) {
+        return strToVerification.matches("[a-zA-Zа-яА-Я]+");
     }
 }
