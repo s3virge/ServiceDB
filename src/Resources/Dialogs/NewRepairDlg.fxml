@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import core.utils.AutoCompleteTextField?>
+<?import core.utils.AutoSuggestTextField?>
 <?import java.net.URL?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
@@ -13,7 +13,7 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.RowConstraints?>
 
-<!--<?import core.utils.AutoCompleteTextField?>-->
+<!--<?import core.utils.AutoSuggestTextField>-->
 
 <AnchorPane prefHeight="604.0" prefWidth="556.0" xmlns="http://javafx.com/javafx/8.0.152" xmlns:fx="http://javafx.com/fxml/1" fx:controller="core.controllers.NewRepairDialogController">
     <children>
@@ -134,13 +134,13 @@
                      </GridPane.margin>
                   </Label>
 
-                      <AutoCompleteTextField fx:id="tfDeviceType" GridPane.columnIndex="1" GridPane.rowIndex="0" />
-                      <AutoCompleteTextField fx:id="tfBrand" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-                      <AutoCompleteTextField fx:id="tfModel" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                      <AutoSuggestTextField fx:id="tfDeviceType" GridPane.columnIndex="1" GridPane.rowIndex="0" />
+                      <AutoSuggestTextField fx:id="tfBrand" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                      <AutoSuggestTextField fx:id="tfModel" GridPane.columnIndex="1" GridPane.rowIndex="2" />
                       <TextField fx:id="tfSerialNumber" GridPane.columnIndex="1" GridPane.rowIndex="3" />
-                      <AutoCompleteTextField fx:id="tfCompleteness" GridPane.columnIndex="1" GridPane.rowIndex="4" />
-                      <AutoCompleteTextField fx:id="tfAppearance" GridPane.columnIndex="1" GridPane.rowIndex="5" />
-                      <AutoCompleteTextField fx:id="tfDefect" GridPane.columnIndex="1" GridPane.rowIndex="6" />
+                      <AutoSuggestTextField fx:id="tfCompleteness" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+                      <AutoSuggestTextField fx:id="tfAppearance" GridPane.columnIndex="1" GridPane.rowIndex="5" />
+                      <AutoSuggestTextField fx:id="tfDefect" GridPane.columnIndex="1" GridPane.rowIndex="6" />
                       <TextField fx:id="tfNote" GridPane.columnIndex="1" GridPane.rowIndex="7" />
                       <TextField fx:id="tfOwner" GridPane.columnIndex="1" GridPane.rowIndex="8" />
                       <TextField fx:id="tfPhone" GridPane.columnIndex="1" GridPane.rowIndex="9" />

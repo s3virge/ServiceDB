@@ -1,7 +1,7 @@
 package core.controllers;
 
-//import core.utils.AutoCompleteTextField;
-import core.utils.AutoCompleteTextField;
+//import core.utils.AutoSuggestTextField;
+import core.utils.AutoSuggestTextField;
 import core.utils.DataBase;
 import core.utils.MsgBox;
 import javafx.event.ActionEvent;
@@ -13,6 +13,7 @@ import javafx.stage.Stage;
 
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
+import java.util.Arrays;
 
 /**
  * Окно для изменения информации об адресате.
@@ -31,13 +32,13 @@ public class NewRepairDialogController {
     @FXML private Button btnSecond;
     @FXML private Button btnThird;*/
 
-    @FXML private AutoCompleteTextField tfDeviceType;
-    @FXML private AutoCompleteTextField tfBrand;
-    @FXML private AutoCompleteTextField tfModel;
+    @FXML private AutoSuggestTextField tfDeviceType;
+    @FXML private AutoSuggestTextField tfBrand;
+    @FXML private AutoSuggestTextField tfModel;
     @FXML private TextField tfSerialNumber;
-    @FXML private AutoCompleteTextField tfCompleteness;
-    @FXML private AutoCompleteTextField tfAppearance;
-    @FXML private AutoCompleteTextField tfDefect;
+    @FXML private AutoSuggestTextField tfCompleteness;
+    @FXML private AutoSuggestTextField tfAppearance;
+    @FXML private AutoSuggestTextField tfDefect;
     @FXML private TextField tfNote;
     @FXML private TextField tfOwner;
     @FXML private TextField tfPhone;
@@ -50,8 +51,13 @@ public class NewRepairDialogController {
     @FXML
     private void initialize() {
         //получить из базы данных список производителей
-        //tfBrand.getEntries().addAll(Arrays.asList("Asus", "Acer", "Dell", "HP", "EMashines", "Fujitsu-Siemens"));
+        getEntriesFromDataBase(tfDeviceType);
+        tfBrand.getEntries().addAll(Arrays.asList("Asus", "Acer", "Dell", "HP", "EMashines", "Fujitsu-Siemens"));
         //tfBrand.setPromptText("Введите название брэнда");
+    }
+
+    private void getEntriesFromDataBase(AutoSuggestTextField autoTextFiels) {
+
     }
 
     @FXML
@@ -110,16 +116,16 @@ public class NewRepairDialogController {
                 break;
 
             case "btnAddAppearance":
-                recordToDataBase(tfAppearance, "devicemodel");
+                recordToDataBase(tfAppearance, "appearance");
                 break;
 
             case "btnAddDefect":
-                recordToDataBase(tfModel, "devicemodel");
+                recordToDataBase(tfModel, "defect");
                 break;
         }
     }
 
-    private void recordToDataBase(AutoCompleteTextField textField, String strDBTable ) {
+    private void recordToDataBase(AutoSuggestTextField textField, String strDBTable ) {
         //получить введенный текст из textfield
         String strTfText = textField.getText();
         //если ничего не введено

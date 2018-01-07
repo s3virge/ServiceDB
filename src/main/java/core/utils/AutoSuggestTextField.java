@@ -17,15 +17,15 @@ import java.util.stream.Stream;
  * This class is a TextField which implements an "autocomplete" functionality, based on a supplied list of entries.
  * @author Caleb Brinkman
  */
-public class AutoCompleteTextField extends TextField
+public class AutoSuggestTextField extends TextField
 {
     /** The existing autocomplete entries. */
     private final TreeSet<String> entries;
     /** The popup used to select an entry. */
     private ContextMenu entriesPopup;
 
-    /** Construct a new AutoCompleteTextField. */
-    public AutoCompleteTextField() {
+    /** Construct a new AutoSuggestTextField. */
+    public AutoSuggestTextField() {
         super();
 
         /**
@@ -68,7 +68,7 @@ public class AutoCompleteTextField extends TextField
                     populatePopup(filteredEntries);
 
                     if (!entriesPopup.isShowing()) {
-                        entriesPopup.show(AutoCompleteTextField.this, Side.BOTTOM, 0, 0);
+                        entriesPopup.show(AutoSuggestTextField.this, Side.BOTTOM, 0, 0);
                     }
                 }
                 else {
