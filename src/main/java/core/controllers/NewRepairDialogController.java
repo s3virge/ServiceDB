@@ -1,6 +1,5 @@
 package core.controllers;
 
-//import core.utils.AutoSuggestTextField;
 import core.utils.AutoSuggestTextField;
 import core.utils.DataBase;
 import core.utils.MsgBox;
@@ -24,16 +23,6 @@ import java.util.Arrays;
  */
 public class NewRepairDialogController {
 
-    /*@FXML private Button btnAddDeviceType;
-    @FXML private Button btnAddBrand;
-    @FXML private Button btnAddModel;
-    @FXML private Button btnAddCompleteness;
-    @FXML private Button btnAddAppearance;
-    @FXML private Button btnAddDefect;
-    @FXML private Button btnFirst;
-    @FXML private Button btnSecond;
-    @FXML private Button btnThird;*/
-
     @FXML private AutoSuggestTextField tfDeviceType;
     @FXML private AutoSuggestTextField tfBrand;
     @FXML private AutoSuggestTextField tfModel;
@@ -42,9 +31,10 @@ public class NewRepairDialogController {
     @FXML private AutoSuggestTextField tfAppearance;
     @FXML private AutoSuggestTextField tfDefect;
     @FXML private TextField tfNote;
-    @FXML private TextField tfOwner;
-    @FXML private TextField tfPhone;
-    @FXML private TextField tfEmail;
+    @FXML private AutoSuggestTextField tfSurname;
+    @FXML private AutoSuggestTextField tfName;
+    @FXML private AutoSuggestTextField tfPatronymic;
+    @FXML private AutoSuggestTextField tfPhone;
 
     /**
      * Инициализирует класс-контроллер. Этот метод вызывается автоматически
@@ -61,6 +51,9 @@ public class NewRepairDialogController {
         getEntriesFromDataBase(tfCompleteness, "completeness");
         getEntriesFromDataBase(tfAppearance, "appearance");
         getEntriesFromDataBase(tfDefect, "defect");
+        getEntriesFromDataBase(tfSurname, "surname");
+        getEntriesFromDataBase(tfName, "name");
+        getEntriesFromDataBase(tfPatronymic, "patronymic");
     }
 
     private void getEntriesFromDataBase(AutoSuggestTextField autoTextFields, String strTable) {
@@ -228,5 +221,20 @@ public class NewRepairDialogController {
         finally {
             dataBase.disconnect();
         }
+    }
+
+    private void onBtnOk() {
+        /*
+        * https://dev.mysql.com/doc/refman/5.7/en/getting-unique-id.html
+        * INSERT INTO foo (auto,text)
+            VALUES(NULL,'text');         # generate ID by inserting NULL
+            INSERT INTO foo2 (id,text)
+            VALUES(LAST_INSERT_ID(),'text');  # use ID in second table
+
+        Пока что алгоритм таков:
+        Вставить данные в первую таблицу
+            Получить id первой таблицы (SELECT id FROM tbl_1 WHERE string='$string')
+        Зная родительский id вставить данные во вторую таблицу.
+        */
     }
 }

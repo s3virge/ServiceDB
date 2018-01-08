@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import core.utils.AutoSuggestTextField?>
+<!--<?import core.utils.AutoSuggestTextField?>-->
+
 <?import java.net.URL?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
-<?import javafx.scene.control.ButtonBar?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
@@ -12,10 +12,9 @@
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.text.Font?>
 
-<!--<?import core.utils.AutoSuggestTextField>-->
-
-<AnchorPane prefHeight="604.0" prefWidth="556.0" xmlns="http://javafx.com/javafx/8.0.152" xmlns:fx="http://javafx.com/fxml/1" fx:controller="core.controllers.NewRepairDialogController">
+<AnchorPane prefHeight="604.0" prefWidth="556.0" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="core.controllers.NewRepairDialogController">
     <children>
 
       <HBox alignment="CENTER" layoutX="20.0" layoutY="15.0" prefHeight="46.0" prefWidth="522.0" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="20.0">
@@ -47,9 +46,9 @@
                 <Button cancelButton="true" layoutX="249.375" layoutY="241.0" mnemonicParsing="false" onAction="#closeDlg" prefWidth="90.0" text="Cancel" />
             </children>
         </HBox>
-      <HBox alignment="CENTER" layoutX="20.0" layoutY="70.0" prefHeight="458.0" prefWidth="516.0" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="20.0">
+      <HBox alignment="CENTER" layoutX="20.0" layoutY="70.0" prefHeight="308.0" prefWidth="516.0" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="20.0">
          <children>
-              <GridPane alignment="CENTER" prefHeight="378.0" prefWidth="477.0" vgap="10.0">
+              <GridPane alignment="CENTER" prefHeight="390.0" prefWidth="477.0" vgap="10.0">
                   <columnConstraints>
                       <ColumnConstraints hgrow="SOMETIMES" maxWidth="276.0" minWidth="10.0" prefWidth="141.0" />
                       <ColumnConstraints hgrow="SOMETIMES" maxWidth="476.0" minWidth="175.0" prefWidth="310.0" />
@@ -62,11 +61,6 @@
                       <RowConstraints maxHeight="30.0" minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                       <RowConstraints maxHeight="30.0" minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                       <RowConstraints maxHeight="30.0" minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                  <RowConstraints maxHeight="30.0" minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                  <RowConstraints maxHeight="30.0" minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                  <RowConstraints maxHeight="30.0" minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                  <RowConstraints maxHeight="30.0" minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                  <RowConstraints maxHeight="30.0" minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                   <RowConstraints maxHeight="30.0" minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                   <RowConstraints maxHeight="30.0" minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                   </rowConstraints>
@@ -111,40 +105,15 @@
                         <Insets right="10.0" />
                      </GridPane.margin>
                   </Label>
-                  <Label text="Владелец" GridPane.halignment="RIGHT" GridPane.rowIndex="8">
-                     <GridPane.margin>
-                        <Insets right="10.0" />
-                     </GridPane.margin>
-                  </Label>
-                  <ButtonBar prefHeight="70.0" prefWidth="293.0" GridPane.columnSpan="2" GridPane.halignment="CENTER" GridPane.rowIndex="12" GridPane.valignment="CENTER">
-                    <buttons>
-                        <Button fx:id="btnFirst" mnemonicParsing="false" onAction="#onBtnActions" text="Первая" />
-                      <Button fx:id="btnSecond" mnemonicParsing="false" onAction="#onBtnActions" text="Вторая" />
-                        <Button fx:id="btnThird" mnemonicParsing="false" onAction="#onBtnActions" text="Третяя" />
-                    </buttons>
-                  </ButtonBar>
-                  <Label text="Телефон" GridPane.halignment="RIGHT" GridPane.rowIndex="9">
-                     <GridPane.margin>
-                        <Insets right="10.0" />
-                     </GridPane.margin>
-                  </Label>
-                  <Label text="E-mail" GridPane.halignment="RIGHT" GridPane.rowIndex="10">
-                     <GridPane.margin>
-                        <Insets right="10.0" />
-                     </GridPane.margin>
-                  </Label>
 
-                      <AutoSuggestTextField fx:id="tfDeviceType" GridPane.columnIndex="1" GridPane.rowIndex="0" />
-                      <AutoSuggestTextField fx:id="tfBrand" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-                      <AutoSuggestTextField fx:id="tfModel" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                      <TextField fx:id="tfDeviceType" GridPane.columnIndex="1" GridPane.rowIndex="0" />
+                      <TextField fx:id="tfBrand" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                      <TextField fx:id="tfModel" GridPane.columnIndex="1" GridPane.rowIndex="2" />
                       <TextField fx:id="tfSerialNumber" GridPane.columnIndex="1" GridPane.rowIndex="3" />
-                      <AutoSuggestTextField fx:id="tfCompleteness" GridPane.columnIndex="1" GridPane.rowIndex="4" />
-                      <AutoSuggestTextField fx:id="tfAppearance" GridPane.columnIndex="1" GridPane.rowIndex="5" />
-                      <AutoSuggestTextField fx:id="tfDefect" GridPane.columnIndex="1" GridPane.rowIndex="6" />
+                      <TextField fx:id="tfCompleteness" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+                      <TextField fx:id="tfAppearance" GridPane.columnIndex="1" GridPane.rowIndex="5" />
+                      <TextField fx:id="tfDefect" GridPane.columnIndex="1" GridPane.rowIndex="6" />
                       <TextField fx:id="tfNote" GridPane.columnIndex="1" GridPane.rowIndex="7" />
-                      <TextField fx:id="tfOwner" GridPane.columnIndex="1" GridPane.rowIndex="8" />
-                      <TextField fx:id="tfPhone" GridPane.columnIndex="1" GridPane.rowIndex="9" />
-                      <TextField fx:id="tfEmail" GridPane.columnIndex="1" GridPane.rowIndex="10" />
 
                       <Button fx:id="btnAddDeviceType" mnemonicParsing="false" onAction="#onBtnAdd" prefHeight="26.0" prefWidth="21.0" text="+" GridPane.columnIndex="2">
                      <GridPane.margin>
@@ -178,6 +147,63 @@
                   </Button>
                   </children>
               </GridPane>
+         </children>
+         <padding>
+            <Insets bottom="20.0" top="20.0" />
+         </padding>
+      </HBox>
+      <HBox alignment="CENTER" layoutX="20.0" layoutY="370.0" prefHeight="176.0" prefWidth="516.0" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="20.0">
+         <children>
+            <GridPane prefHeight="140.0" prefWidth="396.0" vgap="10.0">
+              <columnConstraints>
+                <ColumnConstraints halignment="RIGHT" hgrow="SOMETIMES" maxWidth="210.0" minWidth="10.0" prefWidth="95.0" />
+                <ColumnConstraints hgrow="SOMETIMES" maxWidth="326.0" minWidth="10.0" prefWidth="303.0" />
+              </columnConstraints>
+              <rowConstraints>
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+              </rowConstraints>
+               <children>
+                  <TextField GridPane.columnIndex="1" />
+                  <Label text="Фамилия">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                     <GridPane.margin>
+                        <Insets right="10.0" />
+                     </GridPane.margin>
+                  </Label>
+                  <Label text="Имя" GridPane.rowIndex="1">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                     <GridPane.margin>
+                        <Insets right="10.0" />
+                     </GridPane.margin>
+                  </Label>
+                  <Label text="Отчество" GridPane.rowIndex="2">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                     <GridPane.margin>
+                        <Insets right="10.0" />
+                     </GridPane.margin>
+                  </Label>
+                  <TextField GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                  <TextField GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                  <Label text="Телефон" GridPane.rowIndex="3">
+                     <GridPane.margin>
+                        <Insets right="10.0" />
+                     </GridPane.margin>
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                  </Label>
+                  <TextField prefHeight="56.0" prefWidth="302.0" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+               </children>
+            </GridPane>
          </children>
          <padding>
             <Insets bottom="20.0" top="20.0" />
