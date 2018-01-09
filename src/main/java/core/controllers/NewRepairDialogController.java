@@ -51,9 +51,9 @@ public class NewRepairDialogController {
         getEntriesFromDataBase(tfCompleteness, "completeness");
         getEntriesFromDataBase(tfAppearance, "appearance");
         getEntriesFromDataBase(tfDefect, "defect");
-        getEntriesFromDataBase(tfSurname, "surname");
-        getEntriesFromDataBase(tfName, "name");
-        getEntriesFromDataBase(tfPatronymic, "patronymic");
+        //getEntriesFromDataBase(tfSurname, "surname");
+        //getEntriesFromDataBase(tfName, "name");
+        //getEntriesFromDataBase(tfPatronymic, "patronymic");
     }
 
     private void getEntriesFromDataBase(AutoSuggestTextField autoTextFields, String strTable) {

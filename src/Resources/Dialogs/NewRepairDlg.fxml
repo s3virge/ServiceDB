@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<!--<?import core.utils.AutoSuggestTextField?>-->
+<?import core.utils.AutoSuggestTextField?>
 
 <?import java.net.URL?>
 <?import javafx.geometry.Insets?>
@@ -106,13 +106,13 @@
                      </GridPane.margin>
                   </Label>
 
-                      <TextField fx:id="tfDeviceType" GridPane.columnIndex="1" GridPane.rowIndex="0" />
-                      <TextField fx:id="tfBrand" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-                      <TextField fx:id="tfModel" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                      <AutoSuggestTextField fx:id="tfDeviceType" GridPane.columnIndex="1" GridPane.rowIndex="0" />
+                      <AutoSuggestTextField fx:id="tfBrand" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                      <AutoSuggestTextField fx:id="tfModel" GridPane.columnIndex="1" GridPane.rowIndex="2" />
                       <TextField fx:id="tfSerialNumber" GridPane.columnIndex="1" GridPane.rowIndex="3" />
-                      <TextField fx:id="tfCompleteness" GridPane.columnIndex="1" GridPane.rowIndex="4" />
-                      <TextField fx:id="tfAppearance" GridPane.columnIndex="1" GridPane.rowIndex="5" />
-                      <TextField fx:id="tfDefect" GridPane.columnIndex="1" GridPane.rowIndex="6" />
+                      <AutoSuggestTextField fx:id="tfCompleteness" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+                      <AutoSuggestTextField fx:id="tfAppearance" GridPane.columnIndex="1" GridPane.rowIndex="5" />
+                      <AutoSuggestTextField fx:id="tfDefect" GridPane.columnIndex="1" GridPane.rowIndex="6" />
                       <TextField fx:id="tfNote" GridPane.columnIndex="1" GridPane.rowIndex="7" />
 
                       <Button fx:id="btnAddDeviceType" mnemonicParsing="false" onAction="#onBtnAdd" prefHeight="26.0" prefWidth="21.0" text="+" GridPane.columnIndex="2">
