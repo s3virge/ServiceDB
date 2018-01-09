@@ -7,6 +7,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 
@@ -14,19 +15,20 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
-
+import java.util.Arrays;
 
 
 public class NewRepairDialogController {
 
+    @FXML private Label lDeviceID;
     @FXML private AutoSuggestTextField tfDeviceType;
     @FXML private AutoSuggestTextField tfBrand;
     @FXML private AutoSuggestTextField tfModel;
-    @FXML private TextField tfSerialNumber;
+    @FXML private AutoSuggestTextField tfSerialNumber;
     @FXML private AutoSuggestTextField tfCompleteness;
     @FXML private AutoSuggestTextField tfAppearance;
     @FXML private AutoSuggestTextField tfDefect;
-    @FXML private TextField tfNote;
+    @FXML private AutoSuggestTextField tfNote;
     @FXML private AutoSuggestTextField tfSurname;
     @FXML private AutoSuggestTextField tfName;
     @FXML private AutoSuggestTextField tfPatronymic;
@@ -204,18 +206,24 @@ public class NewRepairDialogController {
 
     @FXML
     private void onBtnOk(ActionEvent actionEvent) {
+        //получить DeviceID
+
         //получить текст из всех полей ввода
-        if (tfDeviceType.getText().isEmpty()) {
-            MsgBox.show("Не введены данные.", MsgBox.Type.MB_ERROR);
-            tfDeviceType.requestFocus();
-            return;
+
+        //создадим список полей ввода
+        ArrayList <AutoSuggestTextField> arrayList = new ArrayList<>();
+
+        arrayList.addAll(Arrays.asList(tfDeviceType, tfBrand, tfModel, tfSerialNumber, tfCompleteness, tfAppearance,
+        tfDefect, tfSurname, tfName, tfPatronymic, tfPhone));
+
+        for (AutoSuggestTextField tf : arrayList) {
+            if (tf.getText().isEmpty()) {
+                MsgBox.show("В одно из полей ввода не введены данные", MsgBox.Type.MB_ERROR);
+                tf.requestFocus();
+                return;
+            }
         }
 
-        if (tfPhone.getText().isEmpty()) {
-            MsgBox.show("Не введены данные.", MsgBox.Type.MB_ERROR);
-            tfPhone.requestFocus();
-            return;
-        }
         //записать данные в таблицы
         /* https://dev.mysql.com/doc/refman/5.7/en/getting-unique-id.html
          INSERT INTO foo (auto,text)

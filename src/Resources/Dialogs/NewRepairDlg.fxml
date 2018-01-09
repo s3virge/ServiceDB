@@ -28,7 +28,7 @@
               </rowConstraints>
                <children>
                       <Label alignment="CENTER" prefHeight="20.0" prefWidth="168.0" text="Номер устройства" GridPane.halignment="CENTER" />
-                      <Label fx:id="DeviceNumber" text="deviceNumber" GridPane.columnIndex="1" GridPane.halignment="CENTER" />
+                      <Label fx:id="lDeviceID" text="deviceID" GridPane.columnIndex="1" GridPane.halignment="CENTER" />
                </children>
                <HBox.margin>
                   <Insets />
@@ -108,11 +108,11 @@
                       <AutoSuggestTextField fx:id="tfDeviceType" GridPane.columnIndex="1" GridPane.rowIndex="0" />
                       <AutoSuggestTextField fx:id="tfBrand" GridPane.columnIndex="1" GridPane.rowIndex="1" />
                       <AutoSuggestTextField fx:id="tfModel" GridPane.columnIndex="1" GridPane.rowIndex="2" />
-                      <TextField fx:id="tfSerialNumber" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+                      <AutoSuggestTextField fx:id="tfSerialNumber" GridPane.columnIndex="1" GridPane.rowIndex="3" />
                       <AutoSuggestTextField fx:id="tfCompleteness" GridPane.columnIndex="1" GridPane.rowIndex="4" />
                       <AutoSuggestTextField fx:id="tfAppearance" GridPane.columnIndex="1" GridPane.rowIndex="5" />
                       <AutoSuggestTextField fx:id="tfDefect" GridPane.columnIndex="1" GridPane.rowIndex="6" />
-                      <TextField fx:id="tfNote" GridPane.columnIndex="1" GridPane.rowIndex="7" />
+                      <AutoSuggestTextField fx:id="tfNote" GridPane.columnIndex="1" GridPane.rowIndex="7" />
 
                       <Button fx:id="btnAddDeviceType" mnemonicParsing="false" onAction="#onBtnAdd" prefHeight="26.0" prefWidth="21.0" text="+" GridPane.columnIndex="2">
                      <GridPane.margin>
