@@ -47,7 +47,54 @@ public class NewRepairDialogController {
         getEntriesFromDataBase(tfSurname,       "surname");
         getEntriesFromDataBase(tfName,          "name");
         getEntriesFromDataBase(tfPatronymic,    "patronymic");
-        getEntriesFromDataBase(tfPhone,         "phone");
+        //getEntriesFromDataBase(tfPhone,         "phone");
+    }
+
+    @FXML
+    private void closeDlg(ActionEvent actionEvent){
+        //получить источник события
+        Node source = (Node) actionEvent.getSource();
+        Stage stage = (Stage) source.getScene().getWindow();
+        stage.close();
+    }
+
+    private boolean isOnlyLetters(String strToVerification) {
+        return strToVerification.matches("[a-zA-Zа-яА-Я]+");
+        //+ значит один и более символов
+    }
+
+    private boolean isOnlyDigits(String strToVerification) {
+        return strToVerification.matches("[0-9]+");
+        //+ значит один и более символов
+    }
+
+    //make the first letter big а остальные маленькие
+    private String makeFirstLetterBig(String strToMod){
+        char firstChar = Character.toUpperCase(strToMod.charAt(0));
+        String strReuslt = String.valueOf(firstChar);
+        //String characterToString = Character.toString('c');
+        return strReuslt += strToMod.substring(1).toLowerCase();
+    }
+
+    private void makeDataBaseRecord(String strTable, String strValue) {
+        DataBase dataBase = new DataBase();
+
+        //String sql = "INSERT INTO devicetype (value) VALUE ('Планшет')";
+        String sql = "INSERT INTO " + strTable + " (value) VALUE ('" + strValue + "')";
+        //String sql = "INSERT INTO devicetype (value) VALUE (?)";
+
+        try {
+            PreparedStatement statement = dataBase.connect().prepareStatement(sql);
+            //statement.setString(1, strValue);
+
+            statement.execute();
+        }
+        catch (SQLException e) {
+            e.printStackTrace();
+        }
+        finally {
+            dataBase.disconnect();
+        }
     }
 
     private void getEntriesFromDataBase(AutoSuggestTextField autoTextFields, String strTable) {
@@ -74,51 +121,6 @@ public class NewRepairDialogController {
 
         //заполнить выпадающий список подсказок
         autoTextFields.getEntries().addAll(stringArrayList);
-    }
-
-    @FXML
-    private void closeDlg(ActionEvent actionEvent){
-        //получить источник события
-        Node source = (Node) actionEvent.getSource();
-        Stage stage = (Stage) source.getScene().getWindow();
-        stage.close();
-    }
-
-    @FXML
-    private void onBtnAdd(ActionEvent actionEvent) {
-        Button clickedBtn = (Button) actionEvent.getSource();
-
-        //Object source = actionEvent.getSource();
-        //
-        //        if(!(source instanceof Button)){
-        //            return;
-        //        }
-
-        switch(clickedBtn.getId()){
-            case "btnAddDeviceType":
-                recordToDataBase(tfDeviceType, "devicetype");
-            break;
-
-            case "btnAddBrand":
-                recordToDataBase(tfBrand, "brand");
-                break;
-
-            case "btnAddModel":
-                recordToDataBase(tfModel, "devicemodel");
-                break;
-
-            case "btnAddCompleteness":
-                recordToDataBase(tfCompleteness, "completeness");
-                break;
-
-            case "btnAddAppearance":
-                recordToDataBase(tfAppearance, "appearance");
-                break;
-
-            case "btnAddDefect":
-                recordToDataBase(tfModel, "defect");
-                break;
-        }
     }
 
     private void recordToDataBase(AutoSuggestTextField textField, String strDBTable ) {
@@ -163,47 +165,58 @@ public class NewRepairDialogController {
         //передать фокус ввода следующему полю ввода (программно нажать Tab кнопку)
     }
 
-    private boolean isOnlyLetters(String strToVerification) {
-        return strToVerification.matches("[a-zA-Zа-яА-Я]+");
-        //+ значит один и более символов
-    }
+    @FXML
+    private void onBtnAdd(ActionEvent actionEvent) {
+        Button clickedBtn = (Button) actionEvent.getSource();
 
-    private boolean isOnlyDigits(String strToVerification) {
-        return strToVerification.matches("[0-9]+");
-        //+ значит один и более символов
-    }
-
-    //make the first letter big а остальные маленькие
-    private String makeFirstLetterBig(String strToMod){
-        char firstChar = Character.toUpperCase(strToMod.charAt(0));
-        String strReuslt = String.valueOf(firstChar);
-        //String characterToString = Character.toString('c');
-        return strReuslt += strToMod.substring(1).toLowerCase();
-    }
-
-    private void makeDataBaseRecord(String strTable, String strValue) {
-        DataBase dataBase = new DataBase();
-
-        //String sql = "INSERT INTO devicetype (value) VALUE ('Планшет')";
-        String sql = "INSERT INTO " + strTable + " (value) VALUE ('" + strValue + "')";
-        //String sql = "INSERT INTO devicetype (value) VALUE (?)";
-
-        try {
-            PreparedStatement statement = dataBase.connect().prepareStatement(sql);
-            //statement.setString(1, strValue);
-
-            statement.execute();
-        }
-        catch (SQLException e) {
-            e.printStackTrace();
-        }
-        finally {
-            dataBase.disconnect();
-        }
-    }
-
-    private void onBtnOk() {
+        //Object source = actionEvent.getSource();
         //
+        //        if(!(source instanceof Button)){
+        //            return;
+        //        }
+
+        switch(clickedBtn.getId()){
+            case "btnAddDeviceType":
+                recordToDataBase(tfDeviceType, "devicetype");
+                break;
+
+            case "btnAddBrand":
+                recordToDataBase(tfBrand, "brand");
+                break;
+
+            case "btnAddModel":
+                recordToDataBase(tfModel, "devicemodel");
+                break;
+
+            case "btnAddCompleteness":
+                recordToDataBase(tfCompleteness, "completeness");
+                break;
+
+            case "btnAddAppearance":
+                recordToDataBase(tfAppearance, "appearance");
+                break;
+
+            case "btnAddDefect":
+                recordToDataBase(tfModel, "defect");
+                break;
+        }
+    }
+
+    @FXML
+    private void onBtnOk(ActionEvent actionEvent) {
+        //получить текст из всех полей ввода
+        if (tfDeviceType.getText().isEmpty()) {
+            MsgBox.show("Не введены данные.", MsgBox.Type.MB_ERROR);
+            tfDeviceType.requestFocus();
+            return;
+        }
+
+        if (tfPhone.getText().isEmpty()) {
+            MsgBox.show("Не введены данные.", MsgBox.Type.MB_ERROR);
+            tfPhone.requestFocus();
+            return;
+        }
+        //записать данные в таблицы
         /* https://dev.mysql.com/doc/refman/5.7/en/getting-unique-id.html
          INSERT INTO foo (auto,text)
             VALUES(NULL,'text');         # generate ID by inserting NULL
@@ -216,5 +229,7 @@ public class NewRepairDialogController {
         Зная родительский id вставить данные во вторую таблицу.
 
         */
+
+        closeDlg(actionEvent);
     }
 }
