@@ -14,13 +14,9 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.Arrays;
 
-/**
- * Окно для изменения информации об адресате.
- *
- * @author Marco Jakob
- */
+
+
 public class NewRepairDialogController {
 
     @FXML private AutoSuggestTextField tfDeviceType;
@@ -36,24 +32,22 @@ public class NewRepairDialogController {
     @FXML private AutoSuggestTextField tfPatronymic;
     @FXML private AutoSuggestTextField tfPhone;
 
-    /**
-     * Инициализирует класс-контроллер. Этот метод вызывается автоматически
-     * после того, как fxml-файл будет загружен.
-     */
     @FXML
     private void initialize() {
         //tfBrand.setPromptText("Введите название брэнда");
 
         //получить из базы данных список производителей
-        getEntriesFromDataBase(tfDeviceType, "devicetype");
-        getEntriesFromDataBase(tfBrand, "brand");
-        getEntriesFromDataBase(tfModel, "devicemodel");
-        getEntriesFromDataBase(tfCompleteness, "completeness");
-        getEntriesFromDataBase(tfAppearance, "appearance");
-        getEntriesFromDataBase(tfDefect, "defect");
-        //getEntriesFromDataBase(tfSurname, "surname");
-        //getEntriesFromDataBase(tfName, "name");
-        //getEntriesFromDataBase(tfPatronymic, "patronymic");
+        getEntriesFromDataBase(tfDeviceType,    "devicetype");
+        getEntriesFromDataBase(tfBrand,         "brand");
+        getEntriesFromDataBase(tfModel,         "devicemodel");
+        getEntriesFromDataBase(tfCompleteness,  "completeness");
+        getEntriesFromDataBase(tfAppearance,    "appearance");
+        getEntriesFromDataBase(tfDefect,        "defect");
+
+        getEntriesFromDataBase(tfSurname,       "surname");
+        getEntriesFromDataBase(tfName,          "name");
+        getEntriesFromDataBase(tfPatronymic,    "patronymic");
+        getEntriesFromDataBase(tfPhone,         "phone");
     }
 
     private void getEntriesFromDataBase(AutoSuggestTextField autoTextFields, String strTable) {
@@ -83,32 +77,6 @@ public class NewRepairDialogController {
     }
 
     @FXML
-    private void onBtnActions(ActionEvent actionEvent) {
-        Object source = actionEvent.getSource();
-
-        if(!(source instanceof Button)){
-            return;
-        }
-
-        Button clickedButton = (Button) source;
-
-        switch(clickedButton.getId()){
-            case "btnFirst":
-                MsgBox.show("Нажали на первую педаль", MsgBox.Type.MB_INFO);
-                break;
-
-            case "btnSecond":
-                MsgBox.show("Нажали на вторую педаль", MsgBox.Type.MB_INFO);
-                break;
-
-            case "btnThird":
-                MsgBox.show("Нажали на третюю педаль", MsgBox.Type.MB_INFO);
-                break;
-        }
-    }
-
-    @FXML
-    /*закрываем диалог когда нажали кнопку ок или cancel*/
     private void closeDlg(ActionEvent actionEvent){
         //получить источник события
         Node source = (Node) actionEvent.getSource();
@@ -119,6 +87,12 @@ public class NewRepairDialogController {
     @FXML
     private void onBtnAdd(ActionEvent actionEvent) {
         Button clickedBtn = (Button) actionEvent.getSource();
+
+        //Object source = actionEvent.getSource();
+        //
+        //        if(!(source instanceof Button)){
+        //            return;
+        //        }
 
         switch(clickedBtn.getId()){
             case "btnAddDeviceType":
@@ -194,6 +168,11 @@ public class NewRepairDialogController {
         //+ значит один и более символов
     }
 
+    private boolean isOnlyDigits(String strToVerification) {
+        return strToVerification.matches("[0-9]+");
+        //+ значит один и более символов
+    }
+
     //make the first letter big а остальные маленькие
     private String makeFirstLetterBig(String strToMod){
         char firstChar = Character.toUpperCase(strToMod.charAt(0));
@@ -224,9 +203,9 @@ public class NewRepairDialogController {
     }
 
     private void onBtnOk() {
-        /*
-        * https://dev.mysql.com/doc/refman/5.7/en/getting-unique-id.html
-        * INSERT INTO foo (auto,text)
+        //
+        /* https://dev.mysql.com/doc/refman/5.7/en/getting-unique-id.html
+         INSERT INTO foo (auto,text)
             VALUES(NULL,'text');         # generate ID by inserting NULL
             INSERT INTO foo2 (id,text)
             VALUES(LAST_INSERT_ID(),'text');  # use ID in second table
@@ -235,6 +214,7 @@ public class NewRepairDialogController {
         Вставить данные в первую таблицу
             Получить id первой таблицы (SELECT id FROM tbl_1 WHERE string='$string')
         Зная родительский id вставить данные во вторую таблицу.
+
         */
     }
 }
