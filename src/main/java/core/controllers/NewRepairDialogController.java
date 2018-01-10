@@ -8,7 +8,6 @@ import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 
 import java.sql.PreparedStatement;
@@ -38,18 +37,25 @@ public class NewRepairDialogController {
     private void initialize() {
         //tfBrand.setPromptText("Введите название брэнда");
 
-        //получить из базы данных список производителей
-        getEntriesFromDataBase(tfDeviceType,    "devicetype");
-        getEntriesFromDataBase(tfBrand,         "brand");
-        getEntriesFromDataBase(tfModel,         "devicemodel");
-        getEntriesFromDataBase(tfCompleteness,  "completeness");
-        getEntriesFromDataBase(tfAppearance,    "appearance");
-        getEntriesFromDataBase(tfDefect,        "defect");
+        /*
+        * было бы неплохо такую структуру данныхa
+        * в которой хранились бы три значения:
+        *   idControl,     dbTable,     fielsLabel
+        *   tfDeviceType, "devicetype", "Device type"
+        * */
 
-        getEntriesFromDataBase(tfSurname,       "surname");
-        getEntriesFromDataBase(tfName,          "name");
-        getEntriesFromDataBase(tfPatronymic,    "patronymic");
-        //getEntriesFromDataBase(tfPhone,         "phone");
+        //получить из базы данных список производителей
+        dbGetEntries(tfDeviceType,    "devicetype");
+        dbGetEntries(tfBrand,         "brand");
+        dbGetEntries(tfModel,         "devicemodel");
+        dbGetEntries(tfCompleteness,  "completeness");
+        dbGetEntries(tfAppearance,    "appearance");
+        dbGetEntries(tfDefect,        "defect");
+
+        dbGetEntries(tfSurname,       "surname");
+        dbGetEntries(tfName,          "name");
+        dbGetEntries(tfPatronymic,    "patronymic");
+        //dbGetEntries(tfPhone,         "phone");
     }
 
     @FXML
@@ -70,20 +76,61 @@ public class NewRepairDialogController {
         //+ значит один и более символов
     }
 
+    private boolean isEnteredCorrectly() {
+
+
+        Enumeration names;
+        String key;
+
+        // Creating a Hashtable
+        Hashtable<String, String> hashtable =
+                new Hashtable<String, String>();
+
+        // Adding Key and Value pairs to Hashtable
+        hashtable.put("Key1","Chaitanya");
+        hashtable.put("Key2","Ajeet");
+        hashtable.put("Key3","Peter");
+        hashtable.put("Key4","Ricky");
+        hashtable.put("Key5","Mona");
+
+        names = hashtable.keys();
+        while(names.hasMoreElements()) {
+            key = (String) names.nextElement();
+            System.out.println("Key: " +key+ " & Value: " +
+                    hashtable.get(key));
+        }
+    }
+
+        //создадим список полей ввода
+        ArrayList <AutoSuggestTextField> arrayList = new ArrayList<>();
+
+        arrayList.addAll(Arrays.asList(tfDeviceType, tfBrand, tfModel, tfSerialNumber, tfCompleteness, tfAppearance,
+                tfDefect, tfSurname, tfName, tfPatronymic, tfPhone));
+
+        for (AutoSuggestTextField tf : arrayList) {
+            if (tf.getText().isEmpty()) {
+                MsgBox.show("В одно из полей ввода не введены данные", MsgBox.Type.MB_ERROR);
+                tf.requestFocus();
+                return false;
+            }
+        }
+        return true;
+    }
+
     //make the first letter big а остальные маленькие
-    private String makeFirstLetterBig(String strToMod){
+    private String makeFirstLetterBig (String strToMod){
         char firstChar = Character.toUpperCase(strToMod.charAt(0));
         String strReuslt = String.valueOf(firstChar);
         //String characterToString = Character.toString('c');
         return strReuslt += strToMod.substring(1).toLowerCase();
     }
 
-    private void makeDataBaseRecord(String strTable, String strValue) {
+    private void dbInsert (String strTable, String strValue) {
         DataBase dataBase = new DataBase();
 
         //String sql = "INSERT INTO devicetype (value) VALUE ('Планшет')";
-        String sql = "INSERT INTO " + strTable + " (value) VALUE ('" + strValue + "')";
-        //String sql = "INSERT INTO devicetype (value) VALUE (?)";
+        // String sql = "INSERT INTO devicetype (value) VALUE (?)";
+        String sql = "INSERT INTO " + strTable + " (value) VALUE ('" + strValue + "')";        
 
         try {
             PreparedStatement statement = dataBase.connect().prepareStatement(sql);
@@ -99,19 +146,19 @@ public class NewRepairDialogController {
         }
     }
 
-    private void getEntriesFromDataBase(AutoSuggestTextField autoTextFields, String strTable) {
+    private void dbGetEntries (AutoSuggestTextField asTextField, String strTable) {
         //установить соединение с бд
         DataBase db = new DataBase();
         String strSql = "SELECT * FROM " + strTable + ";";
 
-        ArrayList <String> stringArrayList = new ArrayList<>();
+        ArrayList <String> alEntries = new ArrayList<>();
 
         //получить данные из указанной таблицы
         try {
             PreparedStatement statement = db.connect().prepareStatement(strSql);
             ResultSet resultSet = statement.executeQuery();
             while (resultSet.next()) {
-                stringArrayList.add(resultSet.getString("value"));
+                alEntries.add(resultSet.getString("value"));
             }
         }
         catch (SQLException e) {
@@ -122,10 +169,10 @@ public class NewRepairDialogController {
         }
 
         //заполнить выпадающий список подсказок
-        autoTextFields.getEntries().addAll(stringArrayList);
+        asTextField.getEntries().addAll(alEntries);
     }
 
-    private void recordToDataBase(AutoSuggestTextField textField, String strDBTable ) {
+    private void dbRecord(AutoSuggestTextField textField, String strDbTable ) {
         //получить введенный текст из textfield
         String strTfText = textField.getText();
         //если ничего не введено
@@ -159,11 +206,11 @@ public class NewRepairDialogController {
         //Сказать что запись есть и дубликатов быть не может
 
         //сделать запись в таблицу базы данных
-        makeDataBaseRecord(strDBTable, strDbValue);
+        dbInsert(strDbTable, strDbValue);
 
-        //если в базу все записалось
-        textField.setText(strDbValue);
+        //если в базу все записалось        
         //то вставить в поле ввода новую строку с большой первой буквой
+        textField.setText(strDbValue);
         //передать фокус ввода следующему полю ввода (программно нажать Tab кнопку)
     }
 
@@ -179,27 +226,27 @@ public class NewRepairDialogController {
 
         switch(clickedBtn.getId()){
             case "btnAddDeviceType":
-                recordToDataBase(tfDeviceType, "devicetype");
+                dbRecord(tfDeviceType, "devicetype");
                 break;
 
             case "btnAddBrand":
-                recordToDataBase(tfBrand, "brand");
+                dbRecord(tfBrand, "brand");
                 break;
 
             case "btnAddModel":
-                recordToDataBase(tfModel, "devicemodel");
+                dbRecord(tfModel, "devicemodel");
                 break;
 
             case "btnAddCompleteness":
-                recordToDataBase(tfCompleteness, "completeness");
+                dbRecord(tfCompleteness, "completeness");
                 break;
 
             case "btnAddAppearance":
-                recordToDataBase(tfAppearance, "appearance");
+                dbRecord(tfAppearance, "appearance");
                 break;
 
             case "btnAddDefect":
-                recordToDataBase(tfModel, "defect");
+                dbRecord(tfModel, "defect");
                 break;
         }
     }
@@ -208,35 +255,27 @@ public class NewRepairDialogController {
     private void onBtnOk(ActionEvent actionEvent) {
         //получить DeviceID
 
-        //получить текст из всех полей ввода
+        //если данные вводятся неправильно
+        if (!isEnteredCorrectly())
+            return;
 
-        //создадим список полей ввода
-        ArrayList <AutoSuggestTextField> arrayList = new ArrayList<>();
-
-        arrayList.addAll(Arrays.asList(tfDeviceType, tfBrand, tfModel, tfSerialNumber, tfCompleteness, tfAppearance,
-        tfDefect, tfSurname, tfName, tfPatronymic, tfPhone));
-
-        for (AutoSuggestTextField tf : arrayList) {
-            if (tf.getText().isEmpty()) {
-                MsgBox.show("В одно из полей ввода не введены данные", MsgBox.Type.MB_ERROR);
-                tf.requestFocus();
-                return;
-            }
-        }
 
         //записать данные в таблицы
-        /* https://dev.mysql.com/doc/refman/5.7/en/getting-unique-id.html
+        //https://dev.mysql.com/doc/refman/5.7/en/getting-unique-id.html
+         /*
          INSERT INTO foo (auto,text)
             VALUES(NULL,'text');         # generate ID by inserting NULL
             INSERT INTO foo2 (id,text)
             VALUES(LAST_INSERT_ID(),'text');  # use ID in second table
-
-        Пока что алгоритм таков:
-        Вставить данные в первую таблицу
-            Получить id первой таблицы (SELECT id FROM tbl_1 WHERE string='$string')
-        Зная родительский id вставить данные во вторую таблицу.
-
         */
+         
+        
+        ///////// Пока что алгоритм таков:
+        //Вставить данные в первую таблицу
+        //String sqlInsert = "INSERT INTO " + strTable + " (value) VALUE ('" + strValue + "')";
+        
+        //Получить id первой таблицы (SELECT id FROM tbl_1 WHERE string='$string')
+        //Зная родительский id вставить данные во вторую таблицу.
 
         closeDlg(actionEvent);
     }
