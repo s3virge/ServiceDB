@@ -64,42 +64,42 @@
                   <RowConstraints maxHeight="30.0" minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                   </rowConstraints>
                   <children>
-                      <Label text="Тип устройства" GridPane.halignment="RIGHT">
+                      <Label fx:id="lDeviType" text="Тип устройства" GridPane.halignment="RIGHT">
                      <GridPane.margin>
                         <Insets right="10.0" />
                      </GridPane.margin>
                   </Label>
-                      <Label text="Брэнд" GridPane.halignment="RIGHT" GridPane.rowIndex="1">
+                      <Label fx:id="lBrand" text="Брэнд" GridPane.halignment="RIGHT" GridPane.rowIndex="1">
                      <GridPane.margin>
                         <Insets right="10.0" />
                      </GridPane.margin>
                   </Label>
-                      <Label text="Модель" GridPane.halignment="RIGHT" GridPane.rowIndex="2">
+                      <Label fx:id="lModel" text="Модель" GridPane.halignment="RIGHT" GridPane.rowIndex="2">
                      <GridPane.margin>
                         <Insets right="10.0" />
                      </GridPane.margin>
                   </Label>
-                      <Label text="Сериный номер" GridPane.halignment="RIGHT" GridPane.rowIndex="3">
+                      <Label fx:id="lSerialNumber" text="Сериный номер" GridPane.halignment="RIGHT" GridPane.rowIndex="3">
                      <GridPane.margin>
                         <Insets right="10.0" />
                      </GridPane.margin>
                   </Label>
-                      <Label text="Комплектность" GridPane.halignment="RIGHT" GridPane.rowIndex="4">
+                      <Label fx:id="lCompleteness" text="Комплектность" GridPane.halignment="RIGHT" GridPane.rowIndex="4">
                      <GridPane.margin>
                         <Insets right="10.0" />
                      </GridPane.margin>
                   </Label>
-                      <Label text="Внешний вид" GridPane.halignment="RIGHT" GridPane.rowIndex="5">
+                      <Label fx:id="lAppearance" text="Внешний вид" GridPane.halignment="RIGHT" GridPane.rowIndex="5">
                      <GridPane.margin>
                         <Insets right="10.0" />
                      </GridPane.margin>
                   </Label>
-                      <Label text="Неисправность" GridPane.halignment="RIGHT" GridPane.rowIndex="6">
+                      <Label fx:id="lDefect" text="Неисправность" GridPane.halignment="RIGHT" GridPane.rowIndex="6">
                      <GridPane.margin>
                         <Insets right="10.0" />
                      </GridPane.margin>
                   </Label>
-                      <Label text="Примечание" GridPane.halignment="RIGHT" GridPane.rowIndex="7">
+                      <Label fx:id="lNote" text="Примечание" GridPane.halignment="RIGHT" GridPane.rowIndex="7">
                      <GridPane.margin>
                         <Insets right="10.0" />
                      </GridPane.margin>
@@ -165,7 +165,7 @@
                   <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
               </rowConstraints>
                <children>
-                  <Label text="Фамилия">
+                  <Label fx:id="lSurname" text="Фамилия">
                       <font>
                           <Font size="14.0" />
                       </font>
@@ -173,7 +173,7 @@
                           <Insets right="10.0" />
                       </GridPane.margin>
                   </Label>
-                   <Label text="Имя" GridPane.rowIndex="1">
+                   <Label fx:id="lName" text="Имя" GridPane.rowIndex="1">
                        <font>
                            <Font size="14.0" />
                        </font>
@@ -181,7 +181,7 @@
                            <Insets right="10.0" />
                        </GridPane.margin>
                    </Label>
-                   <Label text="Отчество" GridPane.rowIndex="2">
+                   <Label fx:id="lPatronymic" text="Отчество" GridPane.rowIndex="2">
                        <font>
                            <Font size="14.0" />
                        </font>
@@ -189,7 +189,7 @@
                            <Insets right="10.0" />
                        </GridPane.margin>
                    </Label>
-                   <Label text="Телефон" GridPane.rowIndex="3">
+                   <Label fx:id="lPhone" text="Телефон" GridPane.rowIndex="3">
                        <GridPane.margin>
                            <Insets right="10.0" />
                        </GridPane.margin>

@@ -2,6 +2,7 @@ package core.controllers;
 
 import core.utils.AutoSuggestTextField;
 import core.utils.DataBase;
+import core.utils.HashtableValues;
 import core.utils.MsgBox;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -14,12 +15,26 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.Arrays;
+import java.util.Hashtable;
 
 
 public class NewRepairDialogController {
 
     @FXML private Label lDeviceID;
+
+    @FXML private Label lDeviType;
+    @FXML private Label lBrand;
+    @FXML private Label lModel;
+    @FXML private Label lSerialNumber;
+    @FXML private Label lCompleteness;
+    @FXML private Label lAppearance;
+    @FXML private Label lDefect;
+    @FXML private Label lNote;
+    @FXML private Label lSurname;
+    @FXML private Label lName;
+    @FXML private Label lPatronymic;
+    @FXML private Label lPhone;
+
     @FXML private AutoSuggestTextField tfDeviceType;
     @FXML private AutoSuggestTextField tfBrand;
     @FXML private AutoSuggestTextField tfModel;
@@ -33,9 +48,24 @@ public class NewRepairDialogController {
     @FXML private AutoSuggestTextField tfPatronymic;
     @FXML private AutoSuggestTextField tfPhone;
 
+    // Creating a Hashtable
+    Hashtable<AutoSuggestTextField, HashtableValues> hashtFields = new Hashtable<>();
+
+    //еще в таблицу device нужно добавить поле device_id в которое будет записываться
+    //номер устройства
+
     @FXML
     private void initialize() {
-        //tfBrand.setPromptText("Введите название брэнда");
+        hashtFields.put(tfDeviceType,   new HashtableValues("devicetype",   lDeviType.getText()));
+        hashtFields.put(tfBrand,        new HashtableValues("brand",        lBrand.getText()));
+        hashtFields.put(tfModel,        new HashtableValues("devicemodel",  lModel.getText()));
+        hashtFields.put(tfCompleteness, new HashtableValues("completeness", lCompleteness.getText()));
+        hashtFields.put(tfAppearance,   new HashtableValues("appearance",   lAppearance.getText()));
+        hashtFields.put(tfDefect,       new HashtableValues("defect",       lDefect.getText()) );
+        hashtFields.put(tfSurname,      new HashtableValues("surname",      lSurname.getText()));
+        hashtFields.put(tfName,         new HashtableValues("name",         lName.getText()));
+        hashtFields.put(tfPatronymic,   new HashtableValues("patronymic",   lPatronymic.getText()));
+        hashtFields.put(tfPhone,        new HashtableValues("owner.telephone_number",        lPhone.getText()));
 
         /*
         * было бы неплохо такую структуру данныхa
@@ -78,30 +108,14 @@ public class NewRepairDialogController {
 
     private boolean isEnteredCorrectly() {
 
+        /*names = hashtable.keys();
 
-        Enumeration names;
-        String key;
-
-        // Creating a Hashtable
-        Hashtable<String, String> hashtable =
-                new Hashtable<String, String>();
-
-        // Adding Key and Value pairs to Hashtable
-        hashtable.put("Key1","Chaitanya");
-        hashtable.put("Key2","Ajeet");
-        hashtable.put("Key3","Peter");
-        hashtable.put("Key4","Ricky");
-        hashtable.put("Key5","Mona");
-
-        names = hashtable.keys();
         while(names.hasMoreElements()) {
-            key = (String) names.nextElement();
-            System.out.println("Key: " +key+ " & Value: " +
-                    hashtable.get(key));
+            key = (String) names.nextElement(); //перебираем ключи
+            System.out.println("Key: " +key+ " & Value: " + hashtable.get(key)); //перебираем значения
         }
-    }
-
-        //создадим список полей ввода
+*/
+        /*//создадим список полей ввода
         ArrayList <AutoSuggestTextField> arrayList = new ArrayList<>();
 
         arrayList.addAll(Arrays.asList(tfDeviceType, tfBrand, tfModel, tfSerialNumber, tfCompleteness, tfAppearance,
@@ -113,7 +127,7 @@ public class NewRepairDialogController {
                 tf.requestFocus();
                 return false;
             }
-        }
+        }*/
         return true;
     }
 
