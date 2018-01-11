@@ -264,7 +264,6 @@ public class NewRepairDialogController {
         if (!isEnteredCorrectly())
             return;
 
-
         //записать данные в таблицы
         //https://dev.mysql.com/doc/refman/5.7/en/getting-unique-id.html
          /*
@@ -273,7 +272,6 @@ public class NewRepairDialogController {
             INSERT INTO foo2 (id,text)
             VALUES(LAST_INSERT_ID(),'text');  # use ID in second table
         */
-         
         
         ///////// Пока что алгоритм таков:
         //Вставить данные в первую таблицу
