@@ -15,6 +15,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Enumeration;
 import java.util.Hashtable;
 
 
@@ -51,8 +52,9 @@ public class NewRepairDialogController {
     // Creating a Hashtable
     Hashtable<AutoSuggestTextField, HashtableValues> hashtFields = new Hashtable<>();
 
+    /**
     //еще в таблицу device нужно добавить поле device_id в которое будет записываться
-    //номер устройства
+    //номер устройства*/
 
     @FXML
     private void initialize() {
@@ -67,25 +69,22 @@ public class NewRepairDialogController {
         hashtFields.put(tfPatronymic,   new HashtableValues("patronymic",   lPatronymic.getText()));
         hashtFields.put(tfPhone,        new HashtableValues("owner.telephone_number",        lPhone.getText()));
 
-        /*
-        * было бы неплохо такую структуру данныхa
-        * в которой хранились бы три значения:
-        *   idControl,     dbTable,     fielsLabel
-        *   tfDeviceType, "devicetype", "Device type"
-        * */
+        getEntries();
+    }
 
-        //получить из базы данных список производителей
-        dbGetEntries(tfDeviceType,    "devicetype");
-        dbGetEntries(tfBrand,         "brand");
-        dbGetEntries(tfModel,         "devicemodel");
-        dbGetEntries(tfCompleteness,  "completeness");
-        dbGetEntries(tfAppearance,    "appearance");
-        dbGetEntries(tfDefect,        "defect");
+    //  получаем из базы подсказки
+    private void getEntries() {
 
-        dbGetEntries(tfSurname,       "surname");
-        dbGetEntries(tfName,          "name");
-        dbGetEntries(tfPatronymic,    "patronymic");
-        //dbGetEntries(tfPhone,         "phone");
+        Enumeration enumTextField;
+        AutoSuggestTextField textField;
+
+        enumTextField = hashtFields.keys();
+
+        while (enumTextField.hasMoreElements()) {
+            textField = (AutoSuggestTextField) enumTextField.nextElement();
+            if (textField == tfPhone) continue;
+            dbGetEntries(textField,    hashtFields.get(textField).getDbTable());
+        }
     }
 
     @FXML
@@ -107,27 +106,19 @@ public class NewRepairDialogController {
     }
 
     private boolean isEnteredCorrectly() {
+        Enumeration enumeration;
+        AutoSuggestTextField textField;
 
-        /*names = hashtable.keys();
+        enumeration = hashtFields.keys();
 
-        while(names.hasMoreElements()) {
-            key = (String) names.nextElement(); //перебираем ключи
-            System.out.println("Key: " +key+ " & Value: " + hashtable.get(key)); //перебираем значения
-        }
-*/
-        /*//создадим список полей ввода
-        ArrayList <AutoSuggestTextField> arrayList = new ArrayList<>();
-
-        arrayList.addAll(Arrays.asList(tfDeviceType, tfBrand, tfModel, tfSerialNumber, tfCompleteness, tfAppearance,
-                tfDefect, tfSurname, tfName, tfPatronymic, tfPhone));
-
-        for (AutoSuggestTextField tf : arrayList) {
-            if (tf.getText().isEmpty()) {
-                MsgBox.show("В одно из полей ввода не введены данные", MsgBox.Type.MB_ERROR);
-                tf.requestFocus();
+        while (enumeration.hasMoreElements()) {
+            textField = (AutoSuggestTextField) enumeration.nextElement();
+            if (textField.getText().isEmpty()) {
+                MsgBox.show("Не введены данные в поле" + hashtFields.get(textField).getTaxtFieldLabal(), MsgBox.Type.MB_ERROR);
+                textField.requestFocus();
                 return false;
             }
-        }*/
+        }
         return true;
     }
 
