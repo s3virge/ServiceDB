@@ -14,9 +14,7 @@ import javafx.stage.Stage;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.Enumeration;
-import java.util.Hashtable;
+import java.util.*;
 
 
 public class NewRepairDialogController {
@@ -72,18 +70,20 @@ public class NewRepairDialogController {
         getEntries();
     }
 
-    //  получаем из базы подсказки
+    //  получаем из базы подсказки Используем итератор для перебора елементов
     private void getEntries() {
 
-        Enumeration enumTextField;
-        AutoSuggestTextField textField;
+        Set<AutoSuggestTextField> keys = hashtFields.keySet();
+        AutoSuggestTextField suggestTextField;
 
-        enumTextField = hashtFields.keys();
+        //Obtaining iterator over set entries
+        Iterator<AutoSuggestTextField> itr = keys.iterator();
 
-        while (enumTextField.hasMoreElements()) {
-            textField = (AutoSuggestTextField) enumTextField.nextElement();
-            if (textField == tfPhone) continue;
-            dbGetEntries(textField,    hashtFields.get(textField).getDbTable());
+        while (itr.hasNext()) {
+            suggestTextField = itr.next();
+
+            if (suggestTextField == tfPhone) continue;
+            dbGetEntries(suggestTextField,    hashtFields.get(suggestTextField).getDbTable());
         }
     }
 
