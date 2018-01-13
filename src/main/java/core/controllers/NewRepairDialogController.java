@@ -114,7 +114,7 @@ public class NewRepairDialogController {
         while (enumeration.hasMoreElements()) {
             textField = (AutoSuggestTextField) enumeration.nextElement();
             if (textField.getText().isEmpty()) {
-                MsgBox.show("Не введены данные в поле" + hashtFields.get(textField).getTaxtFieldLabal(), MsgBox.Type.MB_ERROR);
+                MsgBox.show("Не введены данные в поле " + hashtFields.get(textField).getTaxtFieldLabal(), MsgBox.Type.MB_ERROR);
                 textField.requestFocus();
                 return false;
             }
@@ -177,7 +177,7 @@ public class NewRepairDialogController {
         asTextField.getEntries().addAll(alEntries);
     }
 
-    private void dbRecord(AutoSuggestTextField textField, String strDbTable ) {
+    private void makeDataBaseRecord(AutoSuggestTextField textField, String strDbTable ) {
         //получить введенный текст из textfield
         String strTfText = textField.getText();
         //если ничего не введено
@@ -187,7 +187,7 @@ public class NewRepairDialogController {
             return;
         }
 
-        if (textField == tfDeviceType || textField == tfBrand || textField == tfModel) {
+        if (textField == tfDeviceType || textField == tfBrand) {
             //цифры, символы, пробел нельзя, только буквы
             if (!isOnlyLetters(strTfText)) {
                 MsgBox.show("Можно вводить только буквы.", MsgBox.Type.MB_ERROR);
@@ -231,27 +231,27 @@ public class NewRepairDialogController {
 
         switch(clickedBtn.getId()){
             case "btnAddDeviceType":
-                dbRecord(tfDeviceType, "devicetype");
+                makeDataBaseRecord(tfDeviceType, "devicetype");
                 break;
 
             case "btnAddBrand":
-                dbRecord(tfBrand, "brand");
+                makeDataBaseRecord(tfBrand, "brand");
                 break;
 
             case "btnAddModel":
-                dbRecord(tfModel, "devicemodel");
+                makeDataBaseRecord(tfModel, "devicemodel");
                 break;
 
             case "btnAddCompleteness":
-                dbRecord(tfCompleteness, "completeness");
+                makeDataBaseRecord(tfCompleteness, "completeness");
                 break;
 
             case "btnAddAppearance":
-                dbRecord(tfAppearance, "appearance");
+                makeDataBaseRecord(tfAppearance, "appearance");
                 break;
 
             case "btnAddDefect":
-                dbRecord(tfModel, "defect");
+                makeDataBaseRecord(tfModel, "defect");
                 break;
         }
     }
@@ -264,20 +264,13 @@ public class NewRepairDialogController {
         if (!isEnteredCorrectly())
             return;
 
-        //записать данные в таблицы
-        //https://dev.mysql.com/doc/refman/5.7/en/getting-unique-id.html
-         /*
-         INSERT INTO foo (auto,text)
-            VALUES(NULL,'text');         # generate ID by inserting NULL
-            INSERT INTO foo2 (id,text)
-            VALUES(LAST_INSERT_ID(),'text');  # use ID in second table
-        */
-        
-        ///////// Пока что алгоритм таков:
+        // Пока что алгоритм таков:
         //Вставить данные в первую таблицу
         //String sqlInsert = "INSERT INTO " + strTable + " (value) VALUE ('" + strValue + "')";
+        dbInsert(hashtFields.get(tfDeviceType).getDbTable(), tfDeviceType.getText());
         
         //Получить id первой таблицы (SELECT id FROM tbl_1 WHERE string='$string')
+
         //Зная родительский id вставить данные во вторую таблицу.
 
         closeDlg(actionEvent);
