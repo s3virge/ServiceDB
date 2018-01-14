@@ -73,7 +73,7 @@ public class MainWndController {
             dialogStage.showAndWait();
         }
         catch (IOException e) {
-            e.printStackTrace();
+            System.out.println("Облом с menuItemNewRepair() -> " + e.getMessage());
         }
     }
 }

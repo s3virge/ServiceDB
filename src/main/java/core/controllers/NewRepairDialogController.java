@@ -108,17 +108,18 @@ public class NewRepairDialogController {
     }
 
     private boolean isEnteredCorrectly() {
-        Enumeration enumeration;
-        AutoSuggestTextField textField;
+        Set<AutoSuggestTextField> keys = htFields.keySet();
+        AutoSuggestTextField suggestTextField;
 
-        enumeration = htFields.keys();
+        //Obtaining iterator over set entries
+        Iterator<AutoSuggestTextField> itr = keys.iterator();
 
-        while (enumeration.hasMoreElements()) {
-            textField = (AutoSuggestTextField) enumeration.nextElement();
+        while (itr.hasNext()) {
+            suggestTextField = itr.next();
 
-            if (textField.getText().isEmpty()) {
-                MsgBox.show("Не введены данные в поле " + htFields.get(textField).getTaxtFieldLabal(), MsgBox.Type.MB_ERROR);
-                textField.requestFocus();
+            if (suggestTextField.getText().isEmpty()) {
+                MsgBox.show("Не введены данные в поле " + htFields.get(suggestTextField).getTaxtFieldLabal(), MsgBox.Type.MB_ERROR);
+                suggestTextField.requestFocus();
                 return false;
             }
         }
@@ -245,27 +246,30 @@ public class NewRepairDialogController {
         //получить DeviceID
 
         //если данные вводятся неправильно
-        /*if (!isEnteredCorrectly())
-            return;*/
+        if (!isEnteredCorrectly())
+            return;
 
         // Пока что алгоритм таков:
         //Вставить данные в первую таблицу
         //String sqlInsert = "INSERT INTO " + strTable + " (value) VALUE ('" + strValue + "')";
         //Получить id первой таблицы (SELECT id FROM tbl_1 WHERE string='$string')
         //Зная родительский id вставить данные во вторую таблицу.
-        int devtypeId = dbGetId(tfDeviceType);
-        int brandId = dbGetId(tfBrand);
-        int devModelId = dbGetId(tfModel);
-        int serialNumId = dbGetId(tfSerialNumber);
-        int completenessId = dbGetId(tfCompleteness);
-        int AppearanceId = dbGetId(tfAppearance);
-        int defectId = dbGetId(tfDefect);
-        int noteId = dbGetId(tfNote);
+        int devtypeId = dbGetIdSetIfAbsent(tfDeviceType);
+        int brandId = dbGetIdSetIfAbsent(tfBrand);
+        int devModelId = dbGetIdSetIfAbsent(tfModel);
 
-        int surnameId = dbGetId(tfSurname);
-        int nameId = dbGetId(tfName);
-        int patronymicId = dbGetId(tfPatronymic);
-        int phoneId = dbGetId(tfPhone);
+        //серийный номер записывается в таблицу Device.serial_number
+        //int serialNumId = dbGetIdSetIfAbsent(tfSerialNumber);
+
+        int completenessId = dbGetIdSetIfAbsent(tfCompleteness);
+        int AppearanceId = dbGetIdSetIfAbsent(tfAppearance);
+        int defectId = dbGetIdSetIfAbsent(tfDefect);
+        int noteId = dbGetIdSetIfAbsent(tfNote);
+
+        int surnameId = dbGetIdSetIfAbsent(tfSurname);
+        int nameId = dbGetIdSetIfAbsent(tfName);
+        int patronymicId = dbGetIdSetIfAbsent(tfPatronymic);
+        int phoneId = dbGetIdSetIfAbsent(tfPhone);
 
         closeDlg(actionEvent);
     }
@@ -273,13 +277,13 @@ public class NewRepairDialogController {
     /**
      * @return id
      */
-    private int dbGetId(AutoSuggestTextField textF) {
+    private int dbGetIdSetIfAbsent(AutoSuggestTextField textF) {
         //получить из таблицы surname id фамилии введенной в поле ввода
         int id = DataBase.GetId(htFields.get(textF).getDbTable(), textF.getText());
 
         if (id == 0) {
-            dbSetValue(tfSurname);
-            id = dbGetId(tfSurname);
+            dbSetValue(textF);
+            id = DataBase.GetId(htFields.get(textF).getDbTable(), textF.getText());;
         }
         return id;
 }
