@@ -253,28 +253,41 @@ public class NewRepairDialogController {
         //String sqlInsert = "INSERT INTO " + strTable + " (value) VALUE ('" + strValue + "')";
         //Получить id первой таблицы (SELECT id FROM tbl_1 WHERE string='$string')
         //Зная родительский id вставить данные во вторую таблицу.
-        int surnameId = dbGetSurnameId(tfSurname.getText());
-        //если такой фамилии в базе нет
-        if (surnameId == 0) {
-            dbSetSurname(tfSurname.getText());
-            surnameId = dbGetSurnameId(tfSurname.getText());
-        }
+        int devtypeId = dbGetId(tfDeviceType);
+        int brandId = dbGetId(tfBrand);
+        int devModelId = dbGetId(tfModel);
+        int serialNumId = dbGetId(tfSerialNumber);
+        int completenessId = dbGetId(tfCompleteness);
+        int AppearanceId = dbGetId(tfAppearance);
+        int defectId = dbGetId(tfDefect);
+        int noteId = dbGetId(tfNote);
+
+        int surnameId = dbGetId(tfSurname);
+        int nameId = dbGetId(tfName);
+        int patronymicId = dbGetId(tfPatronymic);
+        int phoneId = dbGetId(tfPhone);
 
         closeDlg(actionEvent);
     }
 
     /**
-     * @return id фамилии владельца в таблице Surname
+     * @return id
      */
-    private int dbGetSurnameId(String strSurname) {
+    private int dbGetId(AutoSuggestTextField textF) {
         //получить из таблицы surname id фамилии введенной в поле ввода
-        return DataBase.GetId(htFields.get(tfSurname).getDbTable(), strSurname);
-    }
+        int id = DataBase.GetId(htFields.get(textF).getDbTable(), textF.getText());
+
+        if (id == 0) {
+            dbSetValue(tfSurname);
+            id = dbGetId(tfSurname);
+        }
+        return id;
+}
 
     /**
      * записать в таблицу surname фамилию владельца
      */
-    private boolean dbSetSurname(String strSurname) {
-        return DataBase.Insert(htFields.get(tfSurname).getDbTable(), makeFirstLetterBig(strSurname));
+    private boolean dbSetValue(AutoSuggestTextField textF) {
+        return DataBase.Insert(htFields.get(textF).getDbTable(), makeFirstLetterBig(textF.getText()));
     }
 }
