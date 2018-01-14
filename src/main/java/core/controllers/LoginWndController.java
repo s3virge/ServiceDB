@@ -1,6 +1,6 @@
 package core.controllers;
 
-import core.utils.DataBase;
+import core.database.DataBase;
 import core.MainApp;
 import core.models.User;
 import core.utils.MD5Hash;

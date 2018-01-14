@@ -1,11 +1,11 @@
-package core.utils;
+package core.database;
 
 import core.models.User;
-import core.models.UserGroup;
+import core.utils.MsgBox;
+import core.utils.ScriptRunner;
 import org.apache.log4j.Logger;
 
 import java.io.BufferedReader;
-import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.sql.*;
@@ -464,5 +464,44 @@ public class DataBase {
         }
     }
 
+    //возвращает id значения strValue в таблице strTable
+    public static int GetId (String strTable, String strValue) {
+
+        String sql = "select id FROM " + strTable + " WHERE value='" + strValue + "'";
+
+        int valueId = 0;
+
+        try (Connection conn = DriverManager.getConnection(dbUrl, dbUser, dbPassword);
+             Statement stmt = conn.createStatement()) {
+
+
+            ResultSet rs = stmt.executeQuery(sql);
+
+            rs.next();
+
+            valueId = rs.getInt("id");
+        }
+        catch (SQLException e) {
+            System.out.println( "Облом c GetId() -> " + e.getMessage());
+        }
+
+        return valueId;
+    }
+
+    public static boolean Insert (String strTable, String strValue) {
+
+        String sql = "INSERT INTO " + strTable + " (value) VALUE ('" + strValue + "')";
+        boolean bResult = false;
+
+        try (Connection conn = DriverManager.getConnection(dbUrl, dbUser, dbPassword);
+             Statement stmt = conn.createStatement()) {
+            bResult = stmt.execute(sql);
+        }
+        catch (SQLException e) {
+            System.out.println("Облом с Insert() -> " + e.getMessage());
+        }
+
+        return bResult;
+    }
 
 }

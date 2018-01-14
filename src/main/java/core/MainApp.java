@@ -5,7 +5,7 @@ package core;
  */
 
 import core.controllers.LoginWndController;
-import core.utils.DataBase;
+import core.database.DataBase;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;

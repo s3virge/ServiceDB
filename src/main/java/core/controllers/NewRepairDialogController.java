@@ -1,7 +1,7 @@
 package core.controllers;
 
 import core.utils.AutoSuggestTextField;
-import core.utils.DataBase;
+import core.database.DataBase;
 import core.utils.HashtableValues;
 import core.utils.MsgBox;
 import javafx.event.ActionEvent;
@@ -48,7 +48,7 @@ public class NewRepairDialogController {
     @FXML private AutoSuggestTextField tfPhone;
 
     // Creating a Hashtable
-    Hashtable<AutoSuggestTextField, HashtableValues> hashtFields = new Hashtable<>();
+    Hashtable<AutoSuggestTextField, HashtableValues> htFields = new Hashtable<>();
 
     /**
     //еще в таблицу device нужно добавить поле device_id в которое будет записываться
@@ -56,16 +56,16 @@ public class NewRepairDialogController {
 
     @FXML
     private void initialize() {
-        hashtFields.put(tfDeviceType,   new HashtableValues("devicetype",   lDeviType.getText()));
-        hashtFields.put(tfBrand,        new HashtableValues("brand",        lBrand.getText()));
-        hashtFields.put(tfModel,        new HashtableValues("devicemodel",  lModel.getText()));
-        hashtFields.put(tfCompleteness, new HashtableValues("completeness", lCompleteness.getText()));
-        hashtFields.put(tfAppearance,   new HashtableValues("appearance",   lAppearance.getText()));
-        hashtFields.put(tfDefect,       new HashtableValues("defect",       lDefect.getText()) );
-        hashtFields.put(tfSurname,      new HashtableValues("surname",      lSurname.getText()));
-        hashtFields.put(tfName,         new HashtableValues("name",         lName.getText()));
-        hashtFields.put(tfPatronymic,   new HashtableValues("patronymic",   lPatronymic.getText()));
-        hashtFields.put(tfPhone,        new HashtableValues("owner.telephone_number",        lPhone.getText()));
+        htFields.put(tfDeviceType,   new HashtableValues("devicetype",   lDeviType.getText()));
+        htFields.put(tfBrand,        new HashtableValues("brand",        lBrand.getText()));
+        htFields.put(tfModel,        new HashtableValues("devicemodel",  lModel.getText()));
+        htFields.put(tfCompleteness, new HashtableValues("completeness", lCompleteness.getText()));
+        htFields.put(tfAppearance,   new HashtableValues("appearance",   lAppearance.getText()));
+        htFields.put(tfDefect,       new HashtableValues("defect",       lDefect.getText()) );
+        htFields.put(tfSurname,      new HashtableValues("surname",      lSurname.getText()));
+        htFields.put(tfName,         new HashtableValues("name",         lName.getText()));
+        htFields.put(tfPatronymic,   new HashtableValues("patronymic",   lPatronymic.getText()));
+        htFields.put(tfPhone,        new HashtableValues("owner.telephone_number",        lPhone.getText()));
 
         getEntries();
     }
@@ -73,7 +73,7 @@ public class NewRepairDialogController {
     //  получаем из базы подсказки Используем итератор для перебора елементов
     private void getEntries() {
 
-        Set<AutoSuggestTextField> keys = hashtFields.keySet();
+        Set<AutoSuggestTextField> keys = htFields.keySet();
         AutoSuggestTextField suggestTextField;
 
         //Obtaining iterator over set entries
@@ -82,8 +82,10 @@ public class NewRepairDialogController {
         while (itr.hasNext()) {
             suggestTextField = itr.next();
 
-            if (suggestTextField == tfPhone) continue;
-            dbGetEntries(suggestTextField,    hashtFields.get(suggestTextField).getDbTable());
+            if (suggestTextField == tfPhone)
+                continue;
+
+            dbGetEntries(suggestTextField,    htFields.get(suggestTextField).getDbTable());
         }
     }
 
@@ -109,12 +111,13 @@ public class NewRepairDialogController {
         Enumeration enumeration;
         AutoSuggestTextField textField;
 
-        enumeration = hashtFields.keys();
+        enumeration = htFields.keys();
 
         while (enumeration.hasMoreElements()) {
             textField = (AutoSuggestTextField) enumeration.nextElement();
+
             if (textField.getText().isEmpty()) {
-                MsgBox.show("Не введены данные в поле " + hashtFields.get(textField).getTaxtFieldLabal(), MsgBox.Type.MB_ERROR);
+                MsgBox.show("Не введены данные в поле " + htFields.get(textField).getTaxtFieldLabal(), MsgBox.Type.MB_ERROR);
                 textField.requestFocus();
                 return false;
             }
@@ -130,27 +133,7 @@ public class NewRepairDialogController {
         return strReuslt += strToMod.substring(1).toLowerCase();
     }
 
-    private void dbInsert (String strTable, String strValue) {
-        DataBase dataBase = new DataBase();
-
-        //String sql = "INSERT INTO devicetype (value) VALUE ('Планшет')";
-        // String sql = "INSERT INTO devicetype (value) VALUE (?)";
-        String sql = "INSERT INTO " + strTable + " (value) VALUE ('" + strValue + "')";        
-
-        try {
-            PreparedStatement statement = dataBase.connect().prepareStatement(sql);
-            //statement.setString(1, strValue);
-
-            statement.execute();
-        }
-        catch (SQLException e) {
-            e.printStackTrace();
-        }
-        finally {
-            dataBase.disconnect();
-        }
-    }
-
+   //получить из базы данных подсказки
     private void dbGetEntries (AutoSuggestTextField asTextField, String strTable) {
         //установить соединение с бд
         DataBase db = new DataBase();
@@ -211,11 +194,12 @@ public class NewRepairDialogController {
         //Сказать что запись есть и дубликатов быть не может
 
         //сделать запись в таблицу базы данных
-        dbInsert(strDbTable, strDbValue);
+        DataBase.Insert(strDbTable, strDbValue);
 
         //если в базу все записалось        
         //то вставить в поле ввода новую строку с большой первой буквой
         textField.setText(strDbValue);
+
         //передать фокус ввода следующему полю ввода (программно нажать Tab кнопку)
     }
 
@@ -261,18 +245,36 @@ public class NewRepairDialogController {
         //получить DeviceID
 
         //если данные вводятся неправильно
-        if (!isEnteredCorrectly())
-            return;
+        /*if (!isEnteredCorrectly())
+            return;*/
 
         // Пока что алгоритм таков:
         //Вставить данные в первую таблицу
         //String sqlInsert = "INSERT INTO " + strTable + " (value) VALUE ('" + strValue + "')";
-        dbInsert(hashtFields.get(tfDeviceType).getDbTable(), tfDeviceType.getText());
-        
         //Получить id первой таблицы (SELECT id FROM tbl_1 WHERE string='$string')
-
         //Зная родительский id вставить данные во вторую таблицу.
+        int surnameId = dbGetSurnameId(tfSurname.getText());
+        //если такой фамилии в базе нет
+        if (surnameId == 0) {
+            dbSetSurname(tfSurname.getText());
+            surnameId = dbGetSurnameId(tfSurname.getText());
+        }
 
         closeDlg(actionEvent);
+    }
+
+    /**
+     * @return id фамилии владельца в таблице Surname
+     */
+    private int dbGetSurnameId(String strSurname) {
+        //получить из таблицы surname id фамилии введенной в поле ввода
+        return DataBase.GetId(htFields.get(tfSurname).getDbTable(), strSurname);
+    }
+
+    /**
+     * записать в таблицу surname фамилию владельца
+     */
+    private boolean dbSetSurname(String strSurname) {
+        return DataBase.Insert(htFields.get(tfSurname).getDbTable(), makeFirstLetterBig(strSurname));
     }
 }
