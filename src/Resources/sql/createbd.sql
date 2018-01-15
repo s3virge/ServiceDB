@@ -161,9 +161,9 @@ COMMENT = 'таблица для хранения модели устройст�
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `servicedb`.`defect` (
   `id` INT NOT NULL AUTO_INCREMENT,
-  `description` VARCHAR(500) NOT NULL,
+  `value` VARCHAR(500) NOT NULL,
   PRIMARY KEY (`id`),
-  UNIQUE INDEX `description_UNIQUE` (`description` ASC))
+  UNIQUE INDEX `description_UNIQUE` (`value` ASC))
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8
 COMMENT = 'неисправности';

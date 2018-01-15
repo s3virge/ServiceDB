@@ -125,23 +125,28 @@ public class AutoSuggestTextField extends TextField
         entriesPopup.getItems().addAll(menuItems);
     }
 
-    public void replaceText(int start, int end, String text) {
-        String oldValue = getText();
-        if (!text.matches("[A-Za-z]") && !text.matches("[\\\\!\"#$%&()*+,./:;<=>?@\\[\\]^_{|}~]+")) {
-            super.replaceText(start, end, text);
-        }
-        if (getText().length() > 2 ) {
-            setText(oldValue);
-        }
-    }
-
-    public void replaceSelection(String text) {
-        String oldValue = getText();
-        if (!text.matches("[A-Za-z]") && !text.matches("[\\\\!\"#$%&()*+,./:;<=>?@\\[\\]^_{|}~]+")) {
-            super.replaceSelection(text);
-        }
-        if (getText().length() > 2 ) {
-            setText(oldValue);
-        }
-    }
+    /**
+     * вызывается при вводе символа в поле ввода
+     * */
+//    public void replaceText(int start, int end, String text) {
+//        String oldValue = getText();
+//        //разрешены только цифры и -
+//        if (!text.matches("[A-Za-z]") && !text.matches("[\\\\!\"#$%&()*+,./:;<=>?@\\[\\]^_{|}~]+")) {
+//            super.replaceText(start, end, text);
+//        }
+//        //разрешены только два символа
+//        if (getText().length() > 2 ) {
+//            setText(oldValue);
+//        }
+//    }
+//
+//    public void replaceSelection(String text) {
+//        String oldValue = getText();
+//        if (!text.matches("[A-Za-z]") && !text.matches("[\\\\!\"#$%&()*+,./:;<=>?@\\[\\]^_{|}~]+")) {
+//            super.replaceSelection(text);
+//        }
+//        if (getText().length() > 2 ) {
+//            setText(oldValue);
+//        }
+//    }
 }

@@ -465,9 +465,9 @@ public class DataBase {
     }
 
     //возвращает id значения strValue в таблице strTable
-    public static int GetId (String strTable, String strValue) {
+    public static int GetId (String strTable, String strColumn, String strValue) {
 
-        String sql = "select id FROM " + strTable + " WHERE value='" + strValue + "'";
+        String sql = "select id FROM " + strTable + " WHERE " + strColumn + "='" + strValue + "'";
 
         int valueId = 0;
 
@@ -482,15 +482,16 @@ public class DataBase {
             valueId = rs.getInt("id");
         }
         catch (SQLException e) {
-            System.out.println( "Облом c GetId() -> " + e.getMessage());
+            System.out.println( "DataBase.java: Облом c GetId() -> " + e.getMessage());
         }
 
         return valueId;
     }
 
-    public static boolean Insert (String strTable, String strValue) {
+    public static boolean Insert (String strTable, String strColumn, String strValue) {
 
-        String sql = "INSERT INTO " + strTable + " (value) VALUE ('" + strValue + "')";
+        String sql = "INSERT INTO " + strTable + " (" + strColumn + ") VALUE ('" + strValue + "')";
+
         boolean bResult = false;
 
         try (Connection conn = DriverManager.getConnection(dbUrl, dbUser, dbPassword);

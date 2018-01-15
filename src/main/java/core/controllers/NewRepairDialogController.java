@@ -57,16 +57,17 @@ public class NewRepairDialogController {
     @FXML
     private void initialize() {
 
-        htFields.put(tfDeviceType,   new HashtableValues("devicetype",   lDeviType.getText()));
-        htFields.put(tfBrand,        new HashtableValues("brand",        lBrand.getText()));
-        htFields.put(tfModel,        new HashtableValues("devicemodel",  lModel.getText()));
-        htFields.put(tfCompleteness, new HashtableValues("completeness", lCompleteness.getText()));
-        htFields.put(tfAppearance,   new HashtableValues("appearance",   lAppearance.getText()));
-        htFields.put(tfDefect,       new HashtableValues("defect",       lDefect.getText()) );
-        htFields.put(tfSurname,      new HashtableValues("surname",      lSurname.getText()));
-        htFields.put(tfName,         new HashtableValues("name",         lName.getText()));
-        htFields.put(tfPatronymic,   new HashtableValues("patronymic",   lPatronymic.getText()));
-        htFields.put(tfPhone,        new HashtableValues("owner.telephone_number",        lPhone.getText()));
+        htFields.put(tfDeviceType,   new HashtableValues("devicetype",  "value", lDeviType.getText()));
+        htFields.put(tfBrand,        new HashtableValues("brand",       "value", lBrand.getText()));
+        htFields.put(tfModel,        new HashtableValues("devicemodel", "value", lModel.getText()));
+        htFields.put(tfCompleteness, new HashtableValues("completeness","value", lCompleteness.getText()));
+        htFields.put(tfAppearance,   new HashtableValues("appearance",  "value", lAppearance.getText()));
+        htFields.put(tfDefect,       new HashtableValues("defect",      "value", lDefect.getText()) );
+        htFields.put(tfSurname,      new HashtableValues("surname",     "value", lSurname.getText()));
+        htFields.put(tfName,         new HashtableValues("name",        "value", lName.getText()));
+        htFields.put(tfPatronymic,   new HashtableValues("patronymic",  "value", lPatronymic.getText()));
+        htFields.put(tfPhone,        new HashtableValues("owner",       "telephone_number", lPhone.getText()));
+        htFields.put(tfSerialNumber, new HashtableValues("device",       "serial_number", lSerialNumber.getText()));
 
         getEntries();
     }
@@ -162,48 +163,48 @@ public class NewRepairDialogController {
         asTextField.getEntries().addAll(alEntries);
     }
 
-    private void makeDataBaseRecord(AutoSuggestTextField textField, String strDbTable ) {
-        //получить введенный текст из textfield
-        String strTfText = textField.getText();
-        //если ничего не введено
-        if (strTfText.isEmpty()) {
-            MsgBox.show("Для начала нужно что-то написать в поле ввода", MsgBox.Type.MB_ERROR);
-            textField.requestFocus();
-            return;
-        }
-
-        if (textField == tfDeviceType || textField == tfBrand) {
-            //цифры, символы, пробел нельзя, только буквы
-            if (!isOnlyLetters(strTfText)) {
-                MsgBox.show("Можно вводить только буквы.", MsgBox.Type.MB_ERROR);
-                textField.requestFocus();
-                return;
-            }
-        }
-        else {
-            //то можно запятую и пробел
-            if (!strTfText.matches("[a-zA-Zа-яА-Я, ]+")) {
-                MsgBox.show("Можно вводить только буквы, пробел и запятую", MsgBox.Type.MB_ERROR);
-                textField.requestFocus();
-                return;
-            }
-        }
-
-        //Сделать первую букву заглавной, а остальные прописными
-        String strDbValue = makeFirstLetterBig(strTfText);
-
-        //если такая запись в базе уже есть
-        //Сказать что запись есть и дубликатов быть не может
-
-        //сделать запись в таблицу базы данных
-        DataBase.Insert(strDbTable, strDbValue);
-
-        //если в базу все записалось        
-        //то вставить в поле ввода новую строку с большой первой буквой
-        textField.setText(strDbValue);
-
-        //передать фокус ввода следующему полю ввода (программно нажать Tab кнопку)
-    }
+////    private void makeDataBaseRecord(AutoSuggestTextField textField, String strDbTable ) {
+////        //получить введенный текст из textfield
+////        String strTfText = textField.getText();
+////        //если ничего не введено
+////        if (strTfText.isEmpty()) {
+////            MsgBox.show("Для начала нужно что-то написать в поле ввода", MsgBox.Type.MB_ERROR);
+////            textField.requestFocus();
+////            return;
+////        }
+////
+////        if (textField == tfDeviceType || textField == tfBrand) {
+////            //цифры, символы, пробел нельзя, только буквы
+////            if (!isOnlyLetters(strTfText)) {
+////                MsgBox.show("Можно вводить только буквы.", MsgBox.Type.MB_ERROR);
+////                textField.requestFocus();
+////                return;
+////            }
+////        }
+////        else {
+////            //то можно запятую и пробел
+////            if (!strTfText.matches("[a-zA-Zа-яА-Я, ]+")) {
+////                MsgBox.show("Можно вводить только буквы, пробел и запятую", MsgBox.Type.MB_ERROR);
+////                textField.requestFocus();
+////                return;
+////            }
+////        }
+////
+////        //Сделать первую букву заглавной, а остальные прописными
+////        String strDbValue = makeFirstLetterBig(strTfText);
+////
+////        //если такая запись в базе уже есть
+////        //Сказать что запись есть и дубликатов быть не может
+////
+////        //сделать запись в таблицу базы данных
+////        DataBase.Insert(strDbTable, strDbValue);
+////
+////        //если в базу все записалось
+////        //то вставить в поле ввода новую строку с большой первой буквой
+////        textField.setText(strDbValue);
+////
+////        //передать фокус ввода следующему полю ввода (программно нажать Tab кнопку)
+////    }
 
     @FXML
     private void onBtnAdd(ActionEvent actionEvent) {
@@ -217,27 +218,27 @@ public class NewRepairDialogController {
 
         switch(clickedBtn.getId()){
             case "btnAddDeviceType":
-                makeDataBaseRecord(tfDeviceType, "devicetype");
+//                makeDataBaseRecord(tfDeviceType, "devicetype");
                 break;
 
             case "btnAddBrand":
-                makeDataBaseRecord(tfBrand, "brand");
+//                makeDataBaseRecord(tfBrand, "brand");
                 break;
 
             case "btnAddModel":
-                makeDataBaseRecord(tfModel, "devicemodel");
+//                makeDataBaseRecord(tfModel, "devicemodel");
                 break;
 
             case "btnAddCompleteness":
-                makeDataBaseRecord(tfCompleteness, "completeness");
+//                makeDataBaseRecord(tfCompleteness, "completeness");
                 break;
 
             case "btnAddAppearance":
-                makeDataBaseRecord(tfAppearance, "appearance");
+//                makeDataBaseRecord(tfAppearance, "appearance");
                 break;
 
             case "btnAddDefect":
-                makeDataBaseRecord(tfModel, "defect");
+//                makeDataBaseRecord(tfModel, "defect");
                 break;
         }
     }
@@ -247,30 +248,36 @@ public class NewRepairDialogController {
         //получить DeviceID
 
         //если данные вводятся неправильно
-        if (!isEnteredCorrectly())
-            return;
+        /*if (!isEnteredCorrectly())
+            return;*/
 
         // Пока что алгоритм таков:
         //Вставить данные в первую таблицу
         //String sqlInsert = "INSERT INTO " + strTable + " (value) VALUE ('" + strValue + "')";
         //Получить id первой таблицы (SELECT id FROM tbl_1 WHERE string='$string')
         //Зная родительский id вставить данные во вторую таблицу.
-        int devtypeId = dbGetIdSetIfAbsent(tfDeviceType);
-        int brandId = dbGetIdSetIfAbsent(tfBrand);
-        int devModelId = dbGetIdSetIfAbsent(tfModel);
+        int devtypeId = dbGetIdPutIfAbsent(tfDeviceType);
+        int brandId = dbGetIdPutIfAbsent(tfBrand);
+        int devModelId = dbGetIdPutIfAbsent(tfModel);
 
-        //серийный номер записывается в таблицу Device.serial_number
-        //int serialNumId = dbGetIdSetIfAbsent(tfSerialNumber);
+        int completenessId = dbGetIdPutIfAbsent(tfCompleteness);
+        int appearanceId = dbGetIdPutIfAbsent(tfAppearance);
+        int defectId = dbGetIdPutIfAbsent(tfDefect);
 
-        int completenessId = dbGetIdSetIfAbsent(tfCompleteness);
-        int appearanceId = dbGetIdSetIfAbsent(tfAppearance);
-        int defectId = dbGetIdSetIfAbsent(tfDefect);
-        int noteId = dbGetIdSetIfAbsent(tfNote);
+        //нужно добавить в какую то таблицу колонку для заметок
+        //int noteId = dbGetIdPutIfAbsent(tfNote);
 
-        int surnameId = dbGetIdSetIfAbsent(tfSurname);
-        int nameId = dbGetIdSetIfAbsent(tfName);
-        int patronymicId = dbGetIdSetIfAbsent(tfPatronymic);
-        int phoneId = dbGetIdSetIfAbsent(tfPhone);
+        int surnameId = dbGetIdPutIfAbsent(tfSurname);
+        int nameId = dbGetIdPutIfAbsent(tfName);
+        int patronymicId = dbGetIdPutIfAbsent(tfPatronymic);
+
+        //в таблице owner 4 колонки. Нужно все колонки заполнить данными
+        //и записать в неё телефонный номер
+        //int phoneId = dbGetIdPutIfAbsent(tfPhone);
+
+        //нужно в таблице device заполнить все колонки
+        //и записать серийный номер
+        //int serialNumId = dbGetIdPutIfAbsent(tfSerialNumber);
 
         closeDlg(actionEvent);
     }
@@ -278,13 +285,16 @@ public class NewRepairDialogController {
     /**
      * @return id
      */
-    private int dbGetIdSetIfAbsent(AutoSuggestTextField textF) {
-        //получить из таблицы surname id фамилии введенной в поле ввода
-        int id = DataBase.GetId(htFields.get(textF).getDbTable(), textF.getText());
+    private int dbGetIdPutIfAbsent(AutoSuggestTextField textF) {
+        String strTable = htFields.get(textF).getDbTable();
+        String strColumn = htFields.get(textF).getsDbColumn();
+        String strText = textF.getText();
+
+        int id = DataBase.GetId(strTable, strColumn, strText);
 
         if (id == 0) {
             dbSetValue(textF);
-            id = DataBase.GetId(htFields.get(textF).getDbTable(), textF.getText());;
+            id = DataBase.GetId(strTable, strColumn, strText);
         }
         return id;
 }
@@ -293,6 +303,10 @@ public class NewRepairDialogController {
      * записать в таблицу surname фамилию владельца
      */
     private boolean dbSetValue(AutoSuggestTextField textF) {
-        return DataBase.Insert(htFields.get(textF).getDbTable(), makeFirstLetterBig(textF.getText()));
+        String sTable = htFields.get(textF).getDbTable();
+        String sColumn = htFields.get(textF).getsDbColumn();
+        String sValue = makeFirstLetterBig(textF.getText());
+
+        return DataBase.Insert(sTable, sColumn, sValue);
     }
 }
