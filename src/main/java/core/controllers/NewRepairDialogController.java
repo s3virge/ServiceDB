@@ -56,6 +56,7 @@ public class NewRepairDialogController {
 
     @FXML
     private void initialize() {
+
         htFields.put(tfDeviceType,   new HashtableValues("devicetype",   lDeviType.getText()));
         htFields.put(tfBrand,        new HashtableValues("brand",        lBrand.getText()));
         htFields.put(tfModel,        new HashtableValues("devicemodel",  lModel.getText()));
@@ -262,7 +263,7 @@ public class NewRepairDialogController {
         //int serialNumId = dbGetIdSetIfAbsent(tfSerialNumber);
 
         int completenessId = dbGetIdSetIfAbsent(tfCompleteness);
-        int AppearanceId = dbGetIdSetIfAbsent(tfAppearance);
+        int appearanceId = dbGetIdSetIfAbsent(tfAppearance);
         int defectId = dbGetIdSetIfAbsent(tfDefect);
         int noteId = dbGetIdSetIfAbsent(tfNote);
 
