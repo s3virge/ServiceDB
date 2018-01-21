@@ -67,7 +67,7 @@ public class NewRepairDialogController {
         htFields.put(tfName,         new HashtableValues("name",        "value", lName.getText()));
         htFields.put(tfPatronymic,   new HashtableValues("patronymic",  "value", lPatronymic.getText()));
         htFields.put(tfPhone,        new HashtableValues("owner",       "telephone_number", lPhone.getText()));
-        htFields.put(tfSerialNumber, new HashtableValues("device",       "serial_number", lSerialNumber.getText()));
+        htFields.put(tfSerialNumber, new HashtableValues("device",      "serial_number", lSerialNumber.getText()));
 
         getEntries();
     }
@@ -245,7 +245,6 @@ public class NewRepairDialogController {
 
     @FXML
     private void onBtnOk(ActionEvent actionEvent) {
-        //получить DeviceID
 
         //если данные вводятся неправильно
         /*if (!isEnteredCorrectly())
@@ -256,9 +255,10 @@ public class NewRepairDialogController {
         //String sqlInsert = "INSERT INTO " + strTable + " (value) VALUE ('" + strValue + "')";
         //Получить id первой таблицы (SELECT id FROM tbl_1 WHERE string='$string')
         //Зная родительский id вставить данные во вторую таблицу.
-        int devtypeId = dbGetIdPutIfAbsent(tfDeviceType);
+
+        int typeId = dbGetIdPutIfAbsent(tfDeviceType);
         int brandId = dbGetIdPutIfAbsent(tfBrand);
-        int devModelId = dbGetIdPutIfAbsent(tfModel);
+        int modelId = dbGetIdPutIfAbsent(tfModel);
 
         int completenessId = dbGetIdPutIfAbsent(tfCompleteness);
         int appearanceId = dbGetIdPutIfAbsent(tfAppearance);
@@ -274,6 +274,9 @@ public class NewRepairDialogController {
         //в таблице owner 4 колонки. Нужно все колонки заполнить данными
         //и записать в неё телефонный номер
         //int phoneId = dbGetIdPutIfAbsent(tfPhone);
+        int ownerId = dbPutOwner(surnameId, nameId, patronymicId, tfPhone.getText());
+
+        //dbPutDevice(typeId, brandId, modelId, tfSerialNumber.getText(), defectId, ownerId);
 
         //нужно в таблице device заполнить все колонки
         //и записать серийный номер
@@ -281,32 +284,44 @@ public class NewRepairDialogController {
 
         closeDlg(actionEvent);
     }
+    /**
+     *  заполняем данными таблицу Owner*/
+    private int dbPutOwner(int surnameId, int nameId, int patronymicId, String strPhoneNumber) {
+        String sql = "INSERT INTO owner (surname_id, name_id, patronymic_id, telephone_number) VALUES ("
+                + surnameId + ","
+                + nameId + ","
+                + patronymicId + ","
+                + strPhoneNumber + ")";
+
+        int isnertedId = -1;
+
+        if (DataBase.Insert(sql)) {
+            sql = "Select max(id) as id from owner";
+
+            isnertedId = DataBase.GetId(sql);
+        }
+        else {
+            MsgBox.show("Облом с dbPutOwner()", MsgBox.Type.MB_ERROR);
+        }
+
+        return isnertedId;
+    }
 
     /**
-     * @return id
+     * @return id данных введенных в поле textField, если такого значения в соответстующей таблице
+     * связанной с текстовым полем нет, то записать его в таблицу
      */
     private int dbGetIdPutIfAbsent(AutoSuggestTextField textF) {
         String strTable = htFields.get(textF).getDbTable();
         String strColumn = htFields.get(textF).getsDbColumn();
-        String strText = textF.getText();
+        String strText = makeFirstLetterBig(textF.getText());
 
         int id = DataBase.GetId(strTable, strColumn, strText);
 
         if (id == 0) {
-            dbSetValue(textF);
+            DataBase.Insert(strTable, strColumn, strText);
             id = DataBase.GetId(strTable, strColumn, strText);
         }
         return id;
-}
-
-    /**
-     * записать в таблицу surname фамилию владельца
-     */
-    private boolean dbSetValue(AutoSuggestTextField textF) {
-        String sTable = htFields.get(textF).getDbTable();
-        String sColumn = htFields.get(textF).getsDbColumn();
-        String sValue = makeFirstLetterBig(textF.getText());
-
-        return DataBase.Insert(sTable, sColumn, sValue);
     }
 }

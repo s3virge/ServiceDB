@@ -98,6 +98,7 @@ CREATE TABLE IF NOT EXISTS `servicedb`.`owner` (
   INDEX `owner_name_idx` (`name_id` ASC),
   INDEX `owner_patronymic_idx` (`patronymic_id` ASC),
   INDEX `owner_surname_idx` (`surname_id` ASC),
+  UNIQUE INDEX `telephone_number_UNIQUE` (`telephone_number` ASC),
   CONSTRAINT `owner_name`
     FOREIGN KEY (`name_id`)
     REFERENCES `servicedb`.`name` (`id`)
@@ -226,7 +227,6 @@ CREATE TABLE IF NOT EXISTS `servicedb`.`completeness` (
   `id` INT NOT NULL AUTO_INCREMENT,
   `value` VARCHAR(255) NOT NULL,
   PRIMARY KEY (`id`),
-  UNIQUE INDEX `id_UNIQUE` (`id` ASC),
   UNIQUE INDEX `value_UNIQUE` (`value` ASC))
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8
