@@ -45,7 +45,7 @@ public class MainApp extends Application {
         DataBase db = new DataBase();
 
         if(!db.isExist()){
-            db.createDB();
+            db.create();
         }
 
         /**********************************************************************************************

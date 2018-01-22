@@ -197,7 +197,7 @@ public class NewRepairDialogController {
 ////        //Сказать что запись есть и дубликатов быть не может
 ////
 ////        //сделать запись в таблицу базы данных
-////        DataBase.Insert(strDbTable, strDbValue);
+////        DataBase.insert(strDbTable, strDbValue);
 ////
 ////        //если в базу все записалось
 ////        //то вставить в поле ввода новую строку с большой первой буквой
@@ -256,7 +256,7 @@ public class NewRepairDialogController {
         //Получить id первой таблицы (SELECT id FROM tbl_1 WHERE string='$string')
         //Зная родительский id вставить данные во вторую таблицу.
 
-        int typeId = dbGetIdPutIfAbsent(tfDeviceType);
+       /* int typeId = dbGetIdPutIfAbsent(tfDeviceType);
         int brandId = dbGetIdPutIfAbsent(tfBrand);
         int modelId = dbGetIdPutIfAbsent(tfModel);
 
@@ -269,21 +269,26 @@ public class NewRepairDialogController {
 
         int surnameId = dbGetIdPutIfAbsent(tfSurname);
         int nameId = dbGetIdPutIfAbsent(tfName);
-        int patronymicId = dbGetIdPutIfAbsent(tfPatronymic);
+        int patronymicId = dbGetIdPutIfAbsent(tfPatronymic);*/
 
         //в таблице owner 4 колонки. Нужно все колонки заполнить данными
         //и записать в неё телефонный номер
         //int phoneId = dbGetIdPutIfAbsent(tfPhone);
-        int ownerId = dbPutOwner(surnameId, nameId, patronymicId, tfPhone.getText());
+        //int ownerId = dbPutOwner(surnameId, nameId, patronymicId, tfPhone.getText());
+        //когда номер телефона не из цифр вываливается ошибка
+        int ownerId = dbPutOwner(1, 1, 1, "qwerty");
+
+        if (ownerId == -1)
+            return;
 
         //dbPutDevice(typeId, brandId, modelId, tfSerialNumber.getText(), defectId, ownerId);
 
-        //нужно в таблице device заполнить все колонки
-        //и записать серийный номер
-        //int serialNumId = dbGetIdPutIfAbsent(tfSerialNumber);
-
         closeDlg(actionEvent);
     }
+
+    private void dbPutDevice(int typeId, int brandId, int modelId, String text, int defectId, int ownerId) {
+    }
+
     /**
      *  заполняем данными таблицу Owner*/
     private int dbPutOwner(int surnameId, int nameId, int patronymicId, String strPhoneNumber) {
@@ -293,18 +298,17 @@ public class NewRepairDialogController {
                 + patronymicId + ","
                 + strPhoneNumber + ")";
 
-        int isnertedId = -1;
+        int insertedId = -1;
 
-        if (DataBase.Insert(sql)) {
+        if (DataBase.insert(sql)) {
             sql = "Select max(id) as id from owner";
-
-            isnertedId = DataBase.GetId(sql);
+            insertedId = DataBase.getId(sql);
         }
         else {
             MsgBox.show("Облом с dbPutOwner()", MsgBox.Type.MB_ERROR);
         }
 
-        return isnertedId;
+        return insertedId;
     }
 
     /**
@@ -316,11 +320,11 @@ public class NewRepairDialogController {
         String strColumn = htFields.get(textF).getsDbColumn();
         String strText = makeFirstLetterBig(textF.getText());
 
-        int id = DataBase.GetId(strTable, strColumn, strText);
+        int id = DataBase.getId(strTable, strColumn, strText);
 
         if (id == 0) {
-            DataBase.Insert(strTable, strColumn, strText);
-            id = DataBase.GetId(strTable, strColumn, strText);
+            DataBase.insert(strTable, strColumn, strText);
+            id = DataBase.getId(strTable, strColumn, strText);
         }
         return id;
     }

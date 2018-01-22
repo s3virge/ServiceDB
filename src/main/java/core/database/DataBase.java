@@ -146,8 +146,8 @@ public class DataBase {
     /**
      * создать базу и все таблицы которые будем использовать
      */
-    public void createDB() {
-        logger.debug("Launch createDB()");
+    public void create() {
+        logger.debug("Launch create()");
 
         String serverUrl = "jdbc:mysql://" + dbHost + ":" + dbPort;
         // Параметры соединения с базой
@@ -172,22 +172,22 @@ public class DataBase {
             }
         }
         catch (SQLException sqlExcep) {
-            MsgBox.show("Облом в createDB() -> " + sqlExcep.getMessage(), MsgBox.Type.MB_ERROR);
+            MsgBox.show("Облом в create() -> " + sqlExcep.getMessage(), MsgBox.Type.MB_ERROR);
 
             //что-то пошло не так...
-            removeDB();
+            remove();
 
             System.exit(0);
-            //throw new RuntimeException("Облом с созданием базы данных в createDB()");
+            //throw new RuntimeException("Облом с созданием базы данных в create()");
         }
 
-        logger.debug("createDB() successfully completed");
+        logger.debug("create() successfully completed");
     }
 
     /**
      * удалить буза
      */
-    private void removeDB() {
+    private void remove() {
         String servUrl = "jdbc:mysql://" + dbHost + ":" + dbPort;
 
         try (Connection con = DriverManager.getConnection(servUrl, dbUser, dbPassword);
@@ -200,7 +200,7 @@ public class DataBase {
     }
 
     //возвращает id значения strValue в таблице strTable
-    public static int GetId (String strTable, String strColumn, String strValue) {
+    public static int getId(String strTable, String strColumn, String strValue) {
 
         String sql = "select id FROM " + strTable + " WHERE " + strColumn + "='" + strValue + "'";
 
@@ -217,13 +217,13 @@ public class DataBase {
             valueId = rs.getInt("id");
         }
         catch (SQLException e) {
-            System.out.println( "DataBase.java: Облом c GetId() -> " + e.getMessage());
+            System.out.println( "DataBase.java: Облом c getId() -> " + e.getMessage());
         }
 
         return valueId;
     }
 
-    public static int GetId (String sql) {
+    public static int getId(String sql) {
 
         int valueId = 0;
 
@@ -237,13 +237,13 @@ public class DataBase {
             valueId = rs.getInt("id");
         }
         catch (SQLException e) {
-            System.out.println( "DataBase.java: Облом c GetId() -> " + e.getMessage());
+            System.out.println( "DataBase.java: Облом c getId() -> " + e.getMessage());
         }
 
         return valueId;
     }
 
-    public static boolean Insert(String strTable, String strColumn, String strValue) {
+    public static boolean insert(String strTable, String strColumn, String strValue) {
 
         String sql = "INSERT INTO " + strTable + " (" + strColumn + ") VALUE ('" + strValue + "')";
 
@@ -254,13 +254,13 @@ public class DataBase {
             bResult = stmt.execute(sql);
         }
         catch (SQLException e) {
-            System.out.println("Облом с Insert() -> " + e.getMessage());
+            System.out.println("Облом с insert() -> " + e.getMessage());
         }
 
         return bResult;
     }
 
-    public static boolean Insert(String strSql) {
+    public static boolean insert(String strSql) {
 
         boolean result = true;
 
@@ -269,7 +269,7 @@ public class DataBase {
             stmt.execute(strSql);
         }
         catch (SQLException e) {
-            System.out.println("Облом с Insert() -> " + e.getMessage());
+            System.out.println("Облом с insert() -> " + e.getMessage());
             result = false;
         }
 
