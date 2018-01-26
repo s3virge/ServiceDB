@@ -276,7 +276,7 @@ public class NewRepairDialogController {
         //int phoneId = dbGetIdPutIfAbsent(tfPhone);
         //int ownerId = dbPutOwner(surnameId, nameId, patronymicId, tfPhone.getText());
         //когда номер телефона не из цифр вываливается ошибка
-        int ownerId = dbPutOwner(1, 1, 1, "qwerty");
+        int ownerId = dbPutOwner(1, 1, 1, "050-683-12-26");
 
         if (ownerId == -1)
             return;
