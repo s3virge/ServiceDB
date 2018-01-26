@@ -57,6 +57,11 @@ public class NewRepairDialogController {
     @FXML
     private void initialize() {
 
+        tfSurname.setText("Кобзарь");
+        tfName.setText("Виталий");
+        tfPatronymic.setText("Владимирович");
+        tfPhone.setText("0506831226");
+
         htFields.put(tfDeviceType,   new HashtableValues("devicetype",  "value", lDeviType.getText()));
         htFields.put(tfBrand,        new HashtableValues("brand",       "value", lBrand.getText()));
         htFields.put(tfModel,        new HashtableValues("devicemodel", "value", lModel.getText()));
@@ -266,17 +271,17 @@ public class NewRepairDialogController {
 
         //нужно добавить в какую то таблицу колонку для заметок
         //int noteId = dbGetIdPutIfAbsent(tfNote);
-
+*/
         int surnameId = dbGetIdPutIfAbsent(tfSurname);
         int nameId = dbGetIdPutIfAbsent(tfName);
-        int patronymicId = dbGetIdPutIfAbsent(tfPatronymic);*/
+        int patronymicId = dbGetIdPutIfAbsent(tfPatronymic);
 
         //в таблице owner 4 колонки. Нужно все колонки заполнить данными
         //и записать в неё телефонный номер
         //int phoneId = dbGetIdPutIfAbsent(tfPhone);
-        //int ownerId = dbPutOwner(surnameId, nameId, patronymicId, tfPhone.getText());
+        int ownerId = dbPutOwner(surnameId, nameId, patronymicId, tfPhone.getText());
+
         //когда номер телефона не из цифр вываливается ошибка
-        int ownerId = dbPutOwner(1, 1, 1, "050-683-12-26");
 
         if (ownerId == -1)
             return;
@@ -292,11 +297,8 @@ public class NewRepairDialogController {
     /**
      *  заполняем данными таблицу Owner*/
     private int dbPutOwner(int surnameId, int nameId, int patronymicId, String strPhoneNumber) {
-        String sql = "INSERT INTO owner (surname_id, name_id, patronymic_id, telephone_number) VALUES ("
-                + surnameId + ","
-                + nameId + ","
-                + patronymicId + ","
-                + strPhoneNumber + ")";
+        String sql = "INSERT INTO owner (surname_id, name_id, patronymic_id, telephone_number)" +
+                " VALUES (" + surnameId + "," + nameId + "," + patronymicId + "," + strPhoneNumber + ")";
 
         int insertedId = -1;
 
