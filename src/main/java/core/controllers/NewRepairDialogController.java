@@ -60,7 +60,7 @@ public class NewRepairDialogController {
         tfSurname.setText("Кобзарь");
         tfName.setText("Виталий");
         tfPatronymic.setText("Владимирович");
-        tfPhone.setText("0506831226");
+        tfPhone.setText("050-683-12-26");
 
         htFields.put(tfDeviceType,   new HashtableValues("devicetype",  "value", lDeviType.getText()));
         htFields.put(tfBrand,        new HashtableValues("brand",       "value", lBrand.getText()));
@@ -298,7 +298,7 @@ public class NewRepairDialogController {
      *  заполняем данными таблицу Owner*/
     private int dbPutOwner(int surnameId, int nameId, int patronymicId, String strPhoneNumber) {
         String sql = "INSERT INTO owner (surname_id, name_id, patronymic_id, telephone_number)" +
-                " VALUES (" + surnameId + "," + nameId + "," + patronymicId + "," + strPhoneNumber + ")";
+                " VALUES (" + surnameId + "," + nameId + "," + patronymicId + ",'" + strPhoneNumber + "')";
 
         int insertedId = -1;
 
