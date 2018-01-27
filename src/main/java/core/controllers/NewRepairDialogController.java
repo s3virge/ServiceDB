@@ -62,6 +62,14 @@ public class NewRepairDialogController {
         tfPatronymic.setText("Владимирович");
         tfPhone.setText("050-683-12-26");
 
+        tfDeviceType.setText("Ноутбук");
+        tfBrand.setText("Asus");
+        tfModel.setText("X550");
+        tfCompleteness.setText("Ноутбук, блок питания");
+        tfAppearance.setText("Бывший в упротреблении");
+        tfDefect.setText("Не включается");
+        tfSerialNumber.setText("123abc#456");
+
         htFields.put(tfDeviceType,   new HashtableValues("devicetype",  "value", lDeviType.getText()));
         htFields.put(tfBrand,        new HashtableValues("brand",       "value", lBrand.getText()));
         htFields.put(tfModel,        new HashtableValues("devicemodel", "value", lModel.getText()));
@@ -297,6 +305,7 @@ public class NewRepairDialogController {
     /**
      *  заполняем данными таблицу Owner*/
     private int dbPutOwner(int surnameId, int nameId, int patronymicId, String strPhoneNumber) {
+        //strPhoneNumber в одинарных кавычках иначе значение округляется
         String sql = "INSERT INTO owner (surname_id, name_id, patronymic_id, telephone_number)" +
                 " VALUES (" + surnameId + "," + nameId + "," + patronymicId + ",'" + strPhoneNumber + "')";
 
