@@ -57,18 +57,7 @@ public class NewRepairDialogController {
     @FXML
     private void initialize() {
 
-        tfSurname.setText("Кобзарь");
-        tfName.setText("Виталий");
-        tfPatronymic.setText("Владимирович");
-        tfPhone.setText("050-683-12-26");
-
-        tfDeviceType.setText("Ноутбук");
-        tfBrand.setText("Asus");
-        tfModel.setText("X550");
-        tfCompleteness.setText("Ноутбук, блок питания");
-        tfAppearance.setText("Бывший в упротреблении");
-        tfDefect.setText("Не включается");
-        tfSerialNumber.setText("123abc#456");
+        setTestData();
 
         htFields.put(tfDeviceType,   new HashtableValues("devicetype",  "value", lDeviType.getText()));
         htFields.put(tfBrand,        new HashtableValues("brand",       "value", lBrand.getText()));
@@ -83,6 +72,21 @@ public class NewRepairDialogController {
         htFields.put(tfSerialNumber, new HashtableValues("device",      "serial_number", lSerialNumber.getText()));
 
         getEntries();
+    }
+
+    private void setTestData() {
+        tfSurname.setText("Кобзарь");
+        tfName.setText("Виталий");
+        tfPatronymic.setText("Владимирович");
+        tfPhone.setText("050-683-12-26");
+
+        tfDeviceType.setText("Ноутбук");
+        tfBrand.setText("Asus");
+        tfModel.setText("X550");
+        tfCompleteness.setText("Ноутбук, блок питания");
+        tfAppearance.setText("Бывший в упротреблении");
+        tfDefect.setText("Не включается");
+        tfSerialNumber.setText("123abc#456");
     }
 
     //  получаем из базы подсказки Используем итератор для перебора елементов
@@ -269,7 +273,7 @@ public class NewRepairDialogController {
         //Получить id первой таблицы (SELECT id FROM tbl_1 WHERE string='$string')
         //Зная родительский id вставить данные во вторую таблицу.
 
-       /* int typeId = dbGetIdPutIfAbsent(tfDeviceType);
+        int typeId = dbGetIdPutIfAbsent(tfDeviceType);
         int brandId = dbGetIdPutIfAbsent(tfBrand);
         int modelId = dbGetIdPutIfAbsent(tfModel);
 
@@ -279,7 +283,6 @@ public class NewRepairDialogController {
 
         //нужно добавить в какую то таблицу колонку для заметок
         //int noteId = dbGetIdPutIfAbsent(tfNote);
-*/
         int surnameId = dbGetIdPutIfAbsent(tfSurname);
         int nameId = dbGetIdPutIfAbsent(tfName);
         int patronymicId = dbGetIdPutIfAbsent(tfPatronymic);
@@ -294,12 +297,12 @@ public class NewRepairDialogController {
         if (ownerId == -1)
             return;
 
-        //dbPutDevice(typeId, brandId, modelId, tfSerialNumber.getText(), defectId, ownerId);
+        dbPutDevice(typeId, brandId, modelId, completenessId, appearanceId, tfSerialNumber.getText(), defectId, ownerId);
 
         closeDlg(actionEvent);
     }
 
-    private void dbPutDevice(int typeId, int brandId, int modelId, String text, int defectId, int ownerId) {
+    private void dbPutDevice(int typeId, int brandId, int modelId, int completenessId, int appearanceId, String text, int defectId, int ownerId) {
     }
 
     /**
