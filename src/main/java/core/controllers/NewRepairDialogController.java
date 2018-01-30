@@ -304,7 +304,8 @@ public class NewRepairDialogController {
 
     private void dbPutDevice(int typeId, int brandId, int modelId, int completenessId, int appearanceId, String strSerialNum, int defectId, int ownerId) {
         //strPhoneNumber в одинарных кавычках иначе значение округляется
-        String sql = String.format( "INSERT INTO device () VALUES (%1$s, %2$s, %3$s, %4$s, %5$s, '%6$s', %7$s, %8$s );",
+        String sql = String.format( "INSERT INTO device ()" +
+                        " VALUES (%1$s, %2$s, %3$s, %4$s, %5$s, '%6$s', %7$s, %8$s );",
                 typeId, brandId, modelId, completenessId, appearanceId, strSerialNum, defectId, ownerId);
 
         System.out.println(sql);
