@@ -23,6 +23,8 @@ public class DataBase {
     private static final String dbPort;
     private static final String dbName;
 
+    private static String errorMessage;
+
     //init static variables
     static {
         ResourceBundle properties = ResourceBundle.getBundle("dataBase");
@@ -32,10 +34,12 @@ public class DataBase {
         //String dbName = properties.getString("dataBase.name");
         dbName = properties.getString("dataBase.name");
 
-        dbUrl = "jdbc:mysql://" + dbHost + ":" + dbPort + "/" + dbName;
+        dbUrl = "jdbc:mysql://" + dbHost + ":" + dbPort + "/" + dbName + "?useSSL=false";
 
         dbUser = properties.getString("dataBase.login");
         dbPassword = properties.getString("dataBase.password");
+
+        errorMessage = "no errors";
     }
 
     // init connection object
@@ -52,6 +56,8 @@ public class DataBase {
 
             properties.put("useUnicode", "true");
             properties.put("characterEncoding","Cp1251");
+
+            properties.setProperty("useSSL", "false");
         }
         return properties;
     }
@@ -90,10 +96,10 @@ public class DataBase {
      * */
     public boolean isExist() {
         boolean result = true; //база существует
-        String serverUrl = "jdbc:mysql://" + dbHost + ":" + dbPort;
+        String serverUrl = "jdbc:mysql://" + dbHost + ":" + dbPort ;
 
         //когда базы нет вываливается исключение
-        try (Connection con = DriverManager.getConnection(serverUrl, dbUser, dbPassword);
+        try (Connection con = DriverManager.getConnection(serverUrl, getProperties());
              Statement st = con.createStatement()) {
             st.execute("USE  " + dbName);
         }
@@ -147,19 +153,11 @@ public class DataBase {
      * создать базу и все таблицы которые будем использовать
      */
     public void create() {
-        logger.debug("Launch create()");
+        logger.debug("Launch DataBase create()");
 
         String serverUrl = "jdbc:mysql://" + dbHost + ":" + dbPort;
-        // Параметры соединения с базой
-        Properties connProp = new Properties();
 
-        connProp.put("user", dbUser);
-        connProp.put("password", dbPassword);
-
-        connProp.put("useUnicode", "true");
-        connProp.put("characterEncoding","Cp1251");
-
-        try (Connection con = DriverManager.getConnection(serverUrl, connProp);
+        try (Connection con = DriverManager.getConnection(serverUrl, getProperties());
              /*Statement statement = con.createStatement()*/) {
 
             ScriptRunner runner = new ScriptRunner(con, false, false);
@@ -208,7 +206,6 @@ public class DataBase {
 
         try (Connection conn = DriverManager.getConnection(dbUrl, dbUser, dbPassword);
              Statement stmt = conn.createStatement()) {
-
 
             ResultSet rs = stmt.executeQuery(sql);
 
@@ -269,11 +266,16 @@ public class DataBase {
             stmt.execute(strSql);
         }
         catch (SQLException e) {
-            System.out.println("Облом с insert() -> " + e.getMessage());
+            errorMessage = e.getMessage();
+            System.out.println("Облом с insert() -> " + errorMessage);
             result = false;
         }
 
         return result;
+    }
+
+    public static String getErrorMessage() {
+        return errorMessage;
     }
 
 }

@@ -59,6 +59,11 @@ public class NewRepairDialogController {
 
         setTestData();
 
+        fillHashTable();
+        getEntries();
+    }
+
+    private  void fillHashTable() {
         htFields.put(tfDeviceType,   new HashtableValues("devicetype",  "value", lDeviType.getText()));
         htFields.put(tfBrand,        new HashtableValues("brand",       "value", lBrand.getText()));
         htFields.put(tfModel,        new HashtableValues("devicemodel", "value", lModel.getText()));
@@ -71,7 +76,6 @@ public class NewRepairDialogController {
         htFields.put(tfPhone,        new HashtableValues("owner",       "telephone_number", lPhone.getText()));
         htFields.put(tfSerialNumber, new HashtableValues("device",      "serial_number", lSerialNumber.getText()));
 
-        getEntries();
     }
 
     private void setTestData() {
@@ -80,6 +84,7 @@ public class NewRepairDialogController {
         tfPatronymic.setText("Владимирович");
         tfPhone.setText("050-683-12-26");
 
+        lDeviceID.setText("000000");
         tfDeviceType.setText("Ноутбук");
         tfBrand.setText("Asus");
         tfModel.setText("X550");
@@ -297,12 +302,14 @@ public class NewRepairDialogController {
         if (ownerId == -1)
             return;
 
-        dbPutDevice(typeId, brandId, modelId, completenessId, appearanceId, tfSerialNumber.getText(), defectId, ownerId);
+        int devNum = 0;
+
+        dbPutDevice(devNum, typeId, brandId, modelId, completenessId, appearanceId, tfSerialNumber.getText(), defectId, ownerId);
 
         closeDlg(actionEvent);
     }
 
-    private void dbPutDevice(int typeId, int brandId, int modelId, int completenessId, int appearanceId, String strSerialNum, int defectId, int ownerId) {
+    private void dbPutDevice(int devNumber, int typeId, int brandId, int modelId, int completenessId, int appearanceId, String strSerialNum, int defectId, int ownerId) {
         //strPhoneNumber в одинарных кавычках иначе значение округляется
         String sql = String.format( "INSERT INTO device ()" +
                         " VALUES (%1$s, %2$s, %3$s, %4$s, %5$s, '%6$s', %7$s, %8$s );",
@@ -325,7 +332,7 @@ public class NewRepairDialogController {
             insertedId = DataBase.getId(sql);
         }
         else {
-            MsgBox.show("Облом с dbPutOwner()", MsgBox.Type.MB_ERROR);
+            MsgBox.show("Облом с dbPutOwner() " + DataBase.getErrorMessage(), MsgBox.Type.MB_ERROR);
         }
 
         return insertedId;
