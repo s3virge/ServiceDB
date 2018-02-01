@@ -59,8 +59,14 @@ public class NewRepairDialogController {
 
         setTestData();
 
+        setDeviceNumber();
         fillHashTable();
         getEntries();
+    }
+
+    private void setDeviceNumber() {
+        Integer intDevNum = DataBase.getMaxId("device") + 1;
+        lDeviceID.setText(intDevNum.toString());
     }
 
     private  void fillHashTable() {
@@ -310,6 +316,9 @@ public class NewRepairDialogController {
     }
 
     private void dbPutDevice(int devNumber, int typeId, int brandId, int modelId, int completenessId, int appearanceId, String strSerialNum, int defectId, int ownerId) {
+
+        //нужно заполнить данными таблицу repare сначала
+
         //strPhoneNumber в одинарных кавычках иначе значение округляется
         String sql = String.format( "INSERT INTO device ()" +
                         " VALUES (%1$s, %2$s, %3$s, %4$s, %5$s, '%6$s', %7$s, %8$s );",
@@ -328,11 +337,10 @@ public class NewRepairDialogController {
         int insertedId = -1;
 
         if (DataBase.insert(sql)) {
-            sql = "Select max(id) as id from owner";
-            insertedId = DataBase.getId(sql);
+            insertedId = DataBase.getMaxId("owner");
         }
         else {
-            MsgBox.show("Облом с dbPutOwner() " + DataBase.getErrorMessage(), MsgBox.Type.MB_ERROR);
+            MsgBox.show("Облом с dbPutOwner() " + DataBase.getLastError(), MsgBox.Type.MB_ERROR);
         }
 
         return insertedId;

@@ -23,7 +23,7 @@ public class DataBase {
     private static final String dbPort;
     private static final String dbName;
 
-    private static String errorMessage;
+    private static String lastError;
 
     //init static variables
     static {
@@ -39,7 +39,7 @@ public class DataBase {
         dbUser = properties.getString("dataBase.login");
         dbPassword = properties.getString("dataBase.password");
 
-        errorMessage = "no errors";
+        lastError = "no errors";
     }
 
     // init connection object
@@ -240,6 +240,27 @@ public class DataBase {
         return valueId;
     }
 
+    public static int getMaxId(String strTable) {
+        String sql = "Select max(id) as id from " + strTable;
+        int valueId = 0;
+
+        try (Connection conn = DriverManager.getConnection(dbUrl, dbUser, dbPassword);
+             Statement stmt = conn.createStatement()) {
+
+            ResultSet rs = stmt.executeQuery(sql);
+
+            rs.next();
+
+            valueId = rs.getInt("id");
+        }
+        catch (SQLException e) {
+            lastError = e.getMessage();
+            System.out.println( "DataBase.java: Облом c getMaxId() -> " + lastError);
+        }
+
+        return valueId;
+    }
+
     public static boolean insert(String strTable, String strColumn, String strValue) {
 
         String sql = "INSERT INTO " + strTable + " (" + strColumn + ") VALUE ('" + strValue + "')";
@@ -266,16 +287,16 @@ public class DataBase {
             stmt.execute(strSql);
         }
         catch (SQLException e) {
-            errorMessage = e.getMessage();
-            System.out.println("Облом с insert() -> " + errorMessage);
+            lastError = e.getMessage();
+            System.out.println("Облом с insert() -> " + lastError);
             result = false;
         }
 
         return result;
     }
 
-    public static String getErrorMessage() {
-        return errorMessage;
+    public static String getLastError() {
+        return lastError;
     }
 
 }
