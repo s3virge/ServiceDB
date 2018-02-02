@@ -59,14 +59,13 @@ public class NewRepairDialogController {
 
         setTestData();
 
-        setDeviceNumber();
+        showNextDeviceNumber();
         fillHashTable();
         getEntries();
     }
 
-    private void setDeviceNumber() {
-        Integer intDevNum = DataBase.getMaxId("device") + 1;
-        lDeviceID.setText(intDevNum.toString());
+    private void showNextDeviceNumber() {
+        lDeviceID.setText(String.valueOf(DataBase.getMaxId("device") + 1));
     }
 
     private  void fillHashTable() {
@@ -308,21 +307,26 @@ public class NewRepairDialogController {
         if (ownerId == -1)
             return;
 
-        int devNum = 0;
+        //нужно заполнить данными таблицу repare сначала
 
-        dbPutDevice(devNum, typeId, brandId, modelId, completenessId, appearanceId, tfSerialNumber.getText(), defectId, ownerId);
+        int repareId = dbPutRepare(1,1, 1,"25.06.2016", "_");
+
+        dbPutDevice( typeId, brandId, modelId, completenessId, appearanceId, tfSerialNumber.getText(), defectId, ownerId, repareId);
 
         closeDlg(actionEvent);
     }
 
-    private void dbPutDevice(int devNumber, int typeId, int brandId, int modelId, int completenessId, int appearanceId, String strSerialNum, int defectId, int ownerId) {
+    private int dbPutRepare(int acseptorId, int masterId, int statusId, String strDateOfAccept, String strDateOfGiveOut) {
 
-        //нужно заполнить данными таблицу repare сначала
+        return 1;
+    }
 
+    private void dbPutDevice( int typeId, int brandId, int modelId, int completenessId, int appearanceId, String strSerialNum, int defectId, int ownerId, int repairId) {
         //strPhoneNumber в одинарных кавычках иначе значение округляется
+        //Номер устройства генерируется базой данных автоматически - autoIncrement
         String sql = String.format( "INSERT INTO device ()" +
                         " VALUES (%1$s, %2$s, %3$s, %4$s, %5$s, '%6$s', %7$s, %8$s );",
-                typeId, brandId, modelId, completenessId, appearanceId, strSerialNum, defectId, ownerId);
+                typeId, brandId, modelId, completenessId, appearanceId, strSerialNum, defectId, ownerId, repairId);
 
         System.out.println(sql);
     }
