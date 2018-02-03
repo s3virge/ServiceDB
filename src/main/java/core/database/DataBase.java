@@ -115,7 +115,7 @@ public class DataBase {
      * @return
      * возвращает пустого User если в базе нет пользователя с логином strLogin
      */
-    public User getUser(String strLogin) {
+    public static User getUser(String strLogin) {
         logger.debug("DataBase.getUser() is executed.\n     Try to connect to DB server");
 
         User user = new User();

@@ -2,12 +2,12 @@ package core.models;
 
 public class User {
 
-    private int id;
+    private static int id;
     private String login;
     private String password;
     private String group;
 
-    public int getId() {
+    public static int getId() {
         return id;
     }
 

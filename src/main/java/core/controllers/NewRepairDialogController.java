@@ -1,5 +1,6 @@
 package core.controllers;
 
+import core.models.User;
 import core.utils.AutoSuggestTextField;
 import core.database.DataBase;
 import core.utils.HashtableValues;
@@ -309,15 +310,24 @@ public class NewRepairDialogController {
 
         //нужно заполнить данными таблицу repare сначала
 
-        int repareId = dbPutRepare(1,1, 1,"25.06.2016", "_");
+        int repareId = dbPutRepare(1, "25.06.2016", "_");
 
         dbPutDevice( typeId, brandId, modelId, completenessId, appearanceId, tfSerialNumber.getText(), defectId, ownerId, repareId);
 
         closeDlg(actionEvent);
     }
 
-    private int dbPutRepare(int acseptorId, int masterId, int statusId, String strDateOfAccept, String strDateOfGiveOut) {
+    private int dbPutRepare(int masterId, String strDateOfAccept, String strDateOfGiveOut) {
+        //masterId - нужно выбрать кто будет чинить принятое устройство
 
+        //String script = "INSERT INTO `servicedb`.`user` ( `login`, `password`, `user_group`) VALUES ('s3virge', md5('123456'), 3);";
+        //DataBase.insert(script);
+
+        //выбрать всех пользователей из таблицы user где user_group.value = master
+        //acceptorId - тот кто залогинился сейчас в программу
+        int acceptorId = User.getId();
+        System.out.println("acceptorId = " + acceptorId);
+        //statusId - статус ремонта. Для нового устройства всегда Оформлен то есть id = 1
         return 1;
     }
 

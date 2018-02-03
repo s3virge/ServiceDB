@@ -61,8 +61,7 @@ public class LoginWndController {
                 MsgBox.show(e.getMessage(), MsgBox.Type.MB_ERROR);
             }
 
-            DataBase dataBase = new DataBase();
-            User user = dataBase.getUser(login);
+            User user = DataBase.getUser(login);
 
             //если юзера нет
             if (user.isEmpty()) {
@@ -77,6 +76,15 @@ public class LoginWndController {
                 switch (user.getGroup()) {
                     case "administrator":
                         showMainWnd();
+                        break;
+
+                    case "acceptor":
+                        showMainWnd();
+                        break;
+
+                    case "master":
+                        showMainWnd();
+                        break;
                 }
             }
             else {
