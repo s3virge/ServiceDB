@@ -196,8 +196,8 @@ CREATE TABLE IF NOT EXISTS `servicedb`.`repair` (
   `diagnostic_result` VARCHAR(1024) NULL,
   `repair_result` VARCHAR(450) NULL,
   `status_id` INT NOT NULL,
-  `date_of_accept` DATETIME NOT NULL,
-  `date_of_give_out` DATETIME NOT NULL,
+  `date_of_accept` DATETIME NULL DEFAULT NOW(),
+  `date_of_give_out` DATETIME NULL,
   PRIMARY KEY (`id`),
   INDEX `repair_status_idx` (`status_id` ASC),
   INDEX `repair_acceptor_idx` (`acceptor_id` ASC),
@@ -337,7 +337,7 @@ COMMIT;
 -- -----------------------------------------------------
 START TRANSACTION;
 USE `servicedb`;
-INSERT INTO `servicedb`.`user` (`id`, `login`, `password`, `user_group`, `surname`, `name`, `patronymic`) VALUES (1, 'admin', md5('admin'), 1, DEFAULT, DEFAULT, DEFAULT);
+INSERT INTO `servicedb`.`user` (`id`, `login`, `password`, `user_group`, `surname`, `name`, `patronymic`) VALUES (1, 'admin', md5('admin'), 1, 'Administrator', 'Admin', 'Adminovich');
 
 COMMIT;
 

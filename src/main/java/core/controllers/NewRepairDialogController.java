@@ -15,6 +15,7 @@ import javafx.stage.Stage;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Timestamp;
 import java.util.*;
 
 
@@ -308,26 +309,34 @@ public class NewRepairDialogController {
         if (ownerId == -1)
             return;
 
-        //masterId - нужно знать кто будет чинить принятое устройство
+        //нужно создать новый ремонт
+        int repairId = dbPutRepair();
 
-        //нужно заполнить данными таблицу repare
-        int repareId = dbPutRepare(1, "25.06.2016", "_");
-
-        dbPutDevice( typeId, brandId, modelId, completenessId, appearanceId, tfSerialNumber.getText(), defectId, ownerId, repareId);
+        dbPutDevice( typeId, brandId, modelId, completenessId, appearanceId, tfSerialNumber.getText(), defectId, ownerId, repairId);
 
         closeDlg(actionEvent);
     }
 
-    private int dbPutRepare(int masterId, String strDateOfAccept, String strDateOfGiveOut) {
+    private int dbPutRepair() {
 
-        //String script = "INSERT INTO `servicedb`.`user` ( `login`, `password`, `user_group`) VALUES ('s3virge', md5('123456'), 3);";
-        //DataBase.insert(script);
+        //masterId - нужно знать кто будет чинить принятое устройство
 
         //выбрать всех пользователей из таблицы user где user_group.value = master
         //acceptorId - тот кто залогинился сейчас в программу
         int acceptorId = User.getId();
-        System.out.println("acceptorId = " + acceptorId);
+
         //statusId - статус ремонта. Для нового устройства всегда Оформлен то есть id = 1
+
+        //mysql datetime;
+
+        String script = "insert into repair (acceptor_id, master_id, status_id, date_of_accept) " +
+                "values (" + acceptorId + ", " +
+                 + 1 + ", " + 1 + ", '" + new Timestamp(System.currentTimeMillis()) + "');";
+//        String script = "insert into repair (acceptor_id, master_id, status_id) " +
+//                "values (" + acceptorId + ", " + 1 + ", " + 1 + ");";
+
+        DataBase.insert(script);
+
         return 1;
     }
 
