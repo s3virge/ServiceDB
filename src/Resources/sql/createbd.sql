@@ -34,6 +34,9 @@ CREATE TABLE IF NOT EXISTS `servicedb`.`user` (
   `login` VARCHAR(45) NOT NULL,
   `password` VARCHAR(45) NOT NULL,
   `user_group` INT NOT NULL,
+  `surname` VARCHAR(45) NOT NULL,
+  `name` VARCHAR(45) NOT NULL,
+  `patronymic` VARCHAR(45) NOT NULL,
   PRIMARY KEY (`id`),
   INDEX `user_group_idx` (`user_group` ASC),
   UNIQUE INDEX `login_UNIQUE` (`login` ASC),
@@ -334,7 +337,7 @@ COMMIT;
 -- -----------------------------------------------------
 START TRANSACTION;
 USE `servicedb`;
-INSERT INTO `servicedb`.`user` (`id`, `login`, `password`, `user_group`) VALUES (1, 'admin', md5('admin'), 1);
+INSERT INTO `servicedb`.`user` (`id`, `login`, `password`, `user_group`, `surname`, `name`, `patronymic`) VALUES (1, 'admin', md5('admin'), 1, DEFAULT, DEFAULT, DEFAULT);
 
 COMMIT;
 

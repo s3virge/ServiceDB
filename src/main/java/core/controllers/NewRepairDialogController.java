@@ -308,8 +308,9 @@ public class NewRepairDialogController {
         if (ownerId == -1)
             return;
 
-        //нужно заполнить данными таблицу repare сначала
+        //masterId - нужно знать кто будет чинить принятое устройство
 
+        //нужно заполнить данными таблицу repare
         int repareId = dbPutRepare(1, "25.06.2016", "_");
 
         dbPutDevice( typeId, brandId, modelId, completenessId, appearanceId, tfSerialNumber.getText(), defectId, ownerId, repareId);
@@ -318,7 +319,6 @@ public class NewRepairDialogController {
     }
 
     private int dbPutRepare(int masterId, String strDateOfAccept, String strDateOfGiveOut) {
-        //masterId - нужно выбрать кто будет чинить принятое устройство
 
         //String script = "INSERT INTO `servicedb`.`user` ( `login`, `password`, `user_group`) VALUES ('s3virge', md5('123456'), 3);";
         //DataBase.insert(script);
