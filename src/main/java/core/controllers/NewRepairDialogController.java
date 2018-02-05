@@ -304,13 +304,14 @@ public class NewRepairDialogController {
         //int phoneId = dbGetIdPutIfAbsent(tfPhone);
         int ownerId = dbPutOwner(surnameId, nameId, patronymicId, tfPhone.getText());
 
-        //когда номер телефона не из цифр вываливается ошибка
-
-        if (ownerId == -1)
+        if (ownerId == 0)
             return;
 
         //нужно создать новый ремонт
         int repairId = dbPutRepair();
+
+        if (repairId == 0)
+            return;
 
         dbPutDevice( typeId, brandId, modelId, completenessId, appearanceId, tfSerialNumber.getText(), defectId, ownerId, repairId);
 
@@ -328,16 +329,20 @@ public class NewRepairDialogController {
         //statusId - статус ремонта. Для нового устройства всегда Оформлен то есть id = 1
 
         //mysql datetime;
+        String strTableName = "repair";
 
-        String script = "insert into repair (acceptor_id, master_id, status_id, date_of_accept) " +
+        String script = "insert into " + strTableName + " (acceptor_id, master_id, status_id, date_of_accept) " +
                 "values (" + acceptorId + ", " +
                  + 1 + ", " + 1 + ", '" + new Timestamp(System.currentTimeMillis()) + "');";
-//        String script = "insert into repair (acceptor_id, master_id, status_id) " +
-//                "values (" + acceptorId + ", " + 1 + ", " + 1 + ");";
 
-        DataBase.insert(script);
+        if (DataBase.insert(script)) {
+            return DataBase.getMaxId(strTableName);
+        }
+        else {
+            MsgBox.show("Облом с dbPutRuepair() " +  DataBase.getLastError(), MsgBox.Type.MB_ERROR);
+        }
 
-        return 1;
+        return 0;
     }
 
     private void dbPutDevice( int typeId, int brandId, int modelId, int completenessId, int appearanceId, String strSerialNum, int defectId, int ownerId, int repairId) {
@@ -353,20 +358,19 @@ public class NewRepairDialogController {
     /**
      *  заполняем данными таблицу Owner*/
     private int dbPutOwner(int surnameId, int nameId, int patronymicId, String strPhoneNumber) {
+        String sTable = "owner";
         //strPhoneNumber в одинарных кавычках иначе значение округляется
-        String sql = "INSERT INTO owner (surname_id, name_id, patronymic_id, telephone_number)" +
+        String sql = "INSERT INTO " + sTable + " (surname_id, name_id, patronymic_id, telephone_number)" +
                 " VALUES (" + surnameId + "," + nameId + "," + patronymicId + ",'" + strPhoneNumber + "')";
 
-        int insertedId = -1;
-
         if (DataBase.insert(sql)) {
-            insertedId = DataBase.getMaxId("owner");
+            return DataBase.getMaxId(sTable);
         }
         else {
             MsgBox.show("Облом с dbPutOwner() " + DataBase.getLastError(), MsgBox.Type.MB_ERROR);
         }
 
-        return insertedId;
+        return 0;
     }
 
     /**
