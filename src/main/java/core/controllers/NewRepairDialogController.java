@@ -11,6 +11,7 @@ import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.stage.Stage;
+import org.apache.log4j.Logger;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -20,6 +21,8 @@ import java.util.*;
 
 
 public class NewRepairDialogController {
+
+    private static final Logger logger = Logger.getLogger(NewRepairDialogController.class);
 
     @FXML private Label lDeviceID;
 
@@ -313,7 +316,7 @@ public class NewRepairDialogController {
         if (repairId == 0)
             return;
 
-        dbPutDevice( typeId, brandId, modelId, completenessId, appearanceId, tfSerialNumber.getText(), defectId, ownerId, repairId);
+        dbPutDevice( typeId, brandId, modelId, tfSerialNumber.getText(), completenessId, appearanceId, defectId, ownerId, repairId);
 
         closeDlg(actionEvent);
     }
@@ -339,20 +342,26 @@ public class NewRepairDialogController {
             return DataBase.getMaxId(strTableName);
         }
         else {
-            MsgBox.show("Облом с dbPutRuepair() " +  DataBase.getLastError(), MsgBox.Type.MB_ERROR);
+            MsgBox.show("Облом с dbPutRepair() " +  DataBase.getLastError(), MsgBox.Type.MB_ERROR);
         }
 
         return 0;
     }
 
-    private void dbPutDevice( int typeId, int brandId, int modelId, int completenessId, int appearanceId, String strSerialNum, int defectId, int ownerId, int repairId) {
+    private void dbPutDevice( int typeId, int brandId, int modelId, String strSerialNum,
+                              int completenessId, int appearanceId,  int defectId, int ownerId, int repairId) {
         //strPhoneNumber в одинарных кавычках иначе значение округляется
         //Номер устройства генерируется базой данных автоматически - autoIncrement
-        String sql = String.format( "INSERT INTO device ()" +
-                        " VALUES (%1$s, %2$s, %3$s, %4$s, %5$s, '%6$s', %7$s, %8$s );",
-                typeId, brandId, modelId, completenessId, appearanceId, strSerialNum, defectId, ownerId, repairId);
+        String sql = String.format( "INSERT INTO device " +
+                        "(type_id, brand_id, model_id, serial_number, defect_id, owner_id, repair_id, completeness_id, appearance_id)" +
+                        " VALUES (%1$s, %2$s, %3$s, '%4$s', %5$s, %6$s, %7$s, %8$s );",
+                typeId, brandId, modelId, strSerialNum, defectId, ownerId, repairId, completenessId, appearanceId);
 
-        System.out.println(sql);
+        logger.debug(sql);
+
+        if (!DataBase.insert(sql)) {
+            MsgBox.showError(DataBase.getLastError());
+        }
     }
 
     /**

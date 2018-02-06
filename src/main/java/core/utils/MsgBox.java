@@ -45,6 +45,21 @@ public class MsgBox {
        alert.showAndWait();
     }
 
+    public static void showError(String message) {
+            StackTraceElement ste = Thread.currentThread().getStackTrace()[2];
+            String errMessage = "Произошла ошибка.\n" +
+                    "Файл: " + ste.getFileName() + "\n" +
+                    //ste.getClassName() + ": " +
+                    "Метод: " + ste.getMethodName() + "\n" +
+                    "Строка: " + ste.getLineNumber();
+
+        Alert alert = new Alert(AlertType.ERROR);
+        alert.setTitle("Error");
+        alert.setHeaderText(errMessage);
+        alert.setContentText(message);
+        alert.showAndWait();
+    }
+
     //info
     public static void info(String message) {
        System.out.println(ANSI_GREEN + message + ANSI_RESET);
