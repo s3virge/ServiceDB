@@ -47,16 +47,15 @@ public class MsgBox {
 
     public static void showError(String message) {
             StackTraceElement ste = Thread.currentThread().getStackTrace()[2];
-            String errMessage = "Произошла ошибка.\n" +
-                    "Файл: " + ste.getFileName() + "\n" +
+            String errMessage = "Файл: " + ste.getFileName() + "\n" +
                     //ste.getClassName() + ": " +
                     "Метод: " + ste.getMethodName() + "\n" +
                     "Строка: " + ste.getLineNumber();
 
         Alert alert = new Alert(AlertType.ERROR);
         alert.setTitle("Error");
-        alert.setHeaderText(errMessage);
-        alert.setContentText(message);
+        alert.setHeaderText(message);
+        alert.setContentText(errMessage);
         alert.showAndWait();
     }
 

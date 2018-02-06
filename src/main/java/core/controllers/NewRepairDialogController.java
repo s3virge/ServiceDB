@@ -116,10 +116,10 @@ public class NewRepairDialogController {
         while (itr.hasNext()) {
             suggestTextField = itr.next();
 
-            if (suggestTextField == tfPhone)
+            if (suggestTextField == tfPhone || suggestTextField == tfSerialNumber)
                 continue;
 
-            dbGetEntries(suggestTextField,    htFields.get(suggestTextField).getDbTable());
+            dbGetEntries(suggestTextField);
         }
     }
 
@@ -169,10 +169,12 @@ public class NewRepairDialogController {
     }
 
    //получить из базы данных подсказки
-    private void dbGetEntries (AutoSuggestTextField asTextField, String strTable) {
+    private void dbGetEntries (AutoSuggestTextField asTextField) {
         //установить соединение с бд
         DataBase db = new DataBase();
-        String strSql = "SELECT * FROM " + strTable + ";";
+        String sTable = htFields.get(asTextField).getDbTable();
+        String column = htFields.get(asTextField).getsDbColumn();
+        String strSql = "SELECT * FROM " + sTable;
 
         ArrayList <String> alEntries = new ArrayList<>();
 
@@ -181,11 +183,12 @@ public class NewRepairDialogController {
             PreparedStatement statement = db.connect().prepareStatement(strSql);
             ResultSet resultSet = statement.executeQuery();
             while (resultSet.next()) {
-                alEntries.add(resultSet.getString("value"));
+                alEntries.add(resultSet.getString(column));
             }
         }
         catch (SQLException e) {
-            e.printStackTrace();
+            //e.printStackTrace();
+            logger.debug(e.getMessage());
         }
         finally {
             db.disconnect();
@@ -354,10 +357,10 @@ public class NewRepairDialogController {
         //Номер устройства генерируется базой данных автоматически - autoIncrement
         String sql = String.format( "INSERT INTO device " +
                         "(type_id, brand_id, model_id, serial_number, defect_id, owner_id, repair_id, completeness_id, appearance_id)" +
-                        " VALUES (%1$s, %2$s, %3$s, '%4$s', %5$s, %6$s, %7$s, %8$s );",
+                        " VALUES (%1$d, %2$d, %3$d, '%4$s', %5$d, %6$d, %7$d, %8$d , %9$d);",
                 typeId, brandId, modelId, strSerialNum, defectId, ownerId, repairId, completenessId, appearanceId);
 
-        logger.debug(sql);
+        //logger.debug(sql);
 
         if (!DataBase.insert(sql)) {
             MsgBox.showError(DataBase.getLastError());

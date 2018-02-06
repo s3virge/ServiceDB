@@ -23,7 +23,11 @@
     <autoscroll-to-editor value="false" />
     <autoscroll-from-editor value="true" />
     <show-object-properties value="false" />
-    <loaded-nodes />
+    <loaded-nodes>
+      <connection connection-id="d6657f7a-5f8b-43d7-853f-6d77e5aaacdb">
+        <schema name="servicedb" object-types="column, constraint, function, index, procedure, table, dataset trigger, view" />
+      </connection>
+    </loaded-nodes>
   </component>
   <component name="DBNavigator.Project.DatabaseConsoleManager">
     <connection id="d6657f7a-5f8b-43d7-853f-6d77e5aaacdb">
@@ -36,6 +40,7 @@
   </component>
   <component name="DBNavigator.Project.DatasetFilterManager">
     <filter-list connection-id="d6657f7a-5f8b-43d7-853f-6d77e5aaacdb" dataset="servicedb.appearance" active-filter-id="" />
+    <filter-list connection-id="d6657f7a-5f8b-43d7-853f-6d77e5aaacdb" dataset="servicedb.owner" active-filter-id="EMPTY_FILTER" />
     <filter-list connection-id="d6657f7a-5f8b-43d7-853f-6d77e5aaacdb" dataset="servicedb.repair" active-filter-id="EMPTY_FILTER" />
     <filter-list connection-id="d6657f7a-5f8b-43d7-853f-6d77e5aaacdb" dataset="servicedb.user" active-filter-id="" />
   </component>
