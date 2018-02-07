@@ -34,7 +34,7 @@ public class DataBase {
         //String dbName = properties.getString("dataBase.name");
         dbName = properties.getString("dataBase.name");
 
-        dbUrl = "jdbc:mysql://" + dbHost + ":" + dbPort + "/" + dbName + "?useSSL=false";
+        dbUrl = "jdbc:mysql://" + dbHost + ":" + dbPort + "/" + dbName + "?useSSL=false&characterEncoding=UTF-8";
 
         dbUser = properties.getString("dataBase.login");
         dbPassword = properties.getString("dataBase.password");
@@ -54,8 +54,9 @@ public class DataBase {
             properties.setProperty("user", dbUser);
             properties.setProperty("password", dbPassword);
 
-            properties.put("useUnicode", "true");
-            properties.put("characterEncoding","Cp1251");
+//            properties.put("useUnicode", "true");
+//            properties.put("characterEncoding","Cp1251");
+            properties.put("characterEncoding","UTF-8");
 
             properties.setProperty("useSSL", "false");
         }
@@ -214,7 +215,8 @@ public class DataBase {
             valueId = rs.getInt("id");
         }
         catch (SQLException e) {
-            System.out.println( "DataBase.java: Облом c getId() -> " + e.getMessage());
+            lastError = e.getMessage();
+            logger.debug("DataBase.java: Облом c getId() -> " + lastError);
         }
 
         return valueId;
@@ -265,14 +267,16 @@ public class DataBase {
 
         String sql = "INSERT INTO " + strTable + " (" + strColumn + ") VALUE ('" + strValue + "')";
 
-        boolean bResult = false;
+        boolean bResult = true;
 
         try (Connection conn = DriverManager.getConnection(dbUrl, dbUser, dbPassword);
              Statement stmt = conn.createStatement()) {
-            bResult = stmt.execute(sql);
+            stmt.execute(sql);
         }
         catch (SQLException e) {
-            System.out.println("Облом с insert() -> " + e.getMessage());
+            lastError = e.getMessage();
+            logger.debug("Облом с insert() -> " + lastError);
+            bResult = false;
         }
 
         return bResult;
@@ -288,7 +292,7 @@ public class DataBase {
         }
         catch (SQLException e) {
             lastError = e.getMessage();
-            System.out.println("Облом с insert() -> " + lastError);
+            logger.debug("Облом с insert() -> " + lastError);
             result = false;
         }
 

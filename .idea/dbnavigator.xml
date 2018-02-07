@@ -39,11 +39,15 @@
     <connection id="d6657f7a-5f8b-43d7-853f-6d77e5aaacdb" />
   </component>
   <component name="DBNavigator.Project.DatasetFilterManager">
+    <filter-list connection-id="d6657f7a-5f8b-43d7-853f-6d77e5aaacdb" dataset="servicedb.device" active-filter-id="EMPTY_FILTER" />
     <filter-list connection-id="d6657f7a-5f8b-43d7-853f-6d77e5aaacdb" dataset="servicedb.appearance" active-filter-id="" />
     <filter-list connection-id="d6657f7a-5f8b-43d7-853f-6d77e5aaacdb" dataset="servicedb.owner" active-filter-id="EMPTY_FILTER" />
     <filter-list connection-id="d6657f7a-5f8b-43d7-853f-6d77e5aaacdb" dataset="servicedb.repair" active-filter-id="EMPTY_FILTER" />
-    <filter-list connection-id="d6657f7a-5f8b-43d7-853f-6d77e5aaacdb" dataset="servicedb.user" active-filter-id="" />
+    <filter-list connection-id="d6657f7a-5f8b-43d7-853f-6d77e5aaacdb" dataset="servicedb.user" active-filter-id="EMPTY_FILTER" />
+    <filter-list connection-id="d6657f7a-5f8b-43d7-853f-6d77e5aaacdb" dataset="servicedb.surname" active-filter-id="EMPTY_FILTER" />
+    <filter-list connection-id="d6657f7a-5f8b-43d7-853f-6d77e5aaacdb" dataset="servicedb.devicemodel" active-filter-id="EMPTY_FILTER" />
     <filter-list connection-id="d6657f7a-5f8b-43d7-853f-6d77e5aaacdb" dataset="servicedb.devicetype" active-filter-id="EMPTY_FILTER" />
+    <filter-list connection-id="d6657f7a-5f8b-43d7-853f-6d77e5aaacdb" dataset="servicedb.status" active-filter-id="EMPTY_FILTER" />
   </component>
   <component name="DBNavigator.Project.EditorStateManager">
     <last-used-providers />
