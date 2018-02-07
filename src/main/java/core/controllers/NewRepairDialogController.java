@@ -394,6 +394,7 @@ public class NewRepairDialogController {
         String strColumn = htFields.get(textF).getsDbColumn();
         String strText = makeFirstLetterBig(textF.getText());
 
+        /**в базу вместо русских букв записываются вопросительные занки*/
         int id = DataBase.getId(strTable, strColumn, strText);
 
         if (id == 0) {
