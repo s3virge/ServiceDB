@@ -327,42 +327,32 @@ public class NewRepairDialogController {
     private int dbPutRepair() {
 
         //masterId - нужно знать кто будет чинить принятое устройство
-
         //выбрать всех пользователей из таблицы user где user_group.value = master
         //acceptorId - тот кто залогинился сейчас в программу
         int acceptorId = User.getId();
 
         //statusId - статус ремонта. Для нового устройства всегда Оформлен то есть id = 1
-
-        //mysql datetime;
         String strTableName = "repair";
+        String columns = "acceptor_id, master_id, status_id, date_of_accept";
+        String values = acceptorId + ", " + 1 + ", " + 1 + ", '" + new Timestamp(System.currentTimeMillis()) + "'";
 
-        String script = "insert into " + strTableName + " (acceptor_id, master_id, status_id, date_of_accept) " +
-                "values (" + acceptorId + ", " +
-                 + 1 + ", " + 1 + ", '" + new Timestamp(System.currentTimeMillis()) + "');";
+        int id = DataBase.insert(strTableName, columns, values);
 
-        if (DataBase.insert(script)) {
-            return DataBase.getMaxId(strTableName);
-        }
-        else {
-            MsgBox.show("Облом с dbPutRepair() " +  DataBase.getLastError(), MsgBox.Type.MB_ERROR);
+        if (id == 0){
+            MsgBox.showError("Облом с dbPutRepair() " +  DataBase.getLastError());
         }
 
-        return 0;
+        return id;
     }
 
     private void dbPutDevice( int typeId, int brandId, int modelId, String strSerialNum,
                               int completenessId, int appearanceId,  int defectId, int ownerId, int repairId) {
-        //strPhoneNumber в одинарных кавычках иначе значение округляется
-        //Номер устройства генерируется базой данных автоматически - autoIncrement
-        String sql = String.format( "INSERT INTO device " +
-                        "(type_id, brand_id, model_id, serial_number, defect_id, owner_id, repair_id, completeness_id, appearance_id)" +
-                        " VALUES (%1$d, %2$d, %3$d, '%4$s', %5$d, %6$d, %7$d, %8$d , %9$d);",
+
+        String columns = "type_id, brand_id, model_id, serial_number, defect_id, owner_id, repair_id, completeness_id, appearance_id";
+        String values = String.format("%1$d, %2$d, %3$d, '%4$s', %5$d, %6$d, %7$d, %8$d , %9$d",
                 typeId, brandId, modelId, strSerialNum, defectId, ownerId, repairId, completenessId, appearanceId);
 
-        //logger.debug(sql);
-
-        if (!DataBase.insert(sql)) {
+        if (DataBase.insert("device", columns, values) == 0) {
             MsgBox.showError(DataBase.getLastError());
         }
     }
@@ -371,18 +361,15 @@ public class NewRepairDialogController {
      *  заполняем данными таблицу Owner*/
     private int dbPutOwner(int surnameId, int nameId, int patronymicId, String strPhoneNumber) {
         String sTable = "owner";
-        //strPhoneNumber в одинарных кавычках иначе значение округляется
-        String sql = "INSERT INTO " + sTable + " (surname_id, name_id, patronymic_id, telephone_number)" +
-                " VALUES (" + surnameId + "," + nameId + "," + patronymicId + ",'" + strPhoneNumber + "')";
+        String columns = "surname_id, name_id, patronymic_id, telephone_number";
+        String values =  String.format("%d, %d, %d, '%s'", surnameId, nameId, patronymicId, strPhoneNumber);
 
-        if (DataBase.insert(sql)) {
-            return DataBase.getMaxId(sTable);
-        }
-        else {
-            MsgBox.show("Облом с dbPutOwner() " + DataBase.getLastError(), MsgBox.Type.MB_ERROR);
-        }
+        int lastInsertId = DataBase.insert(sTable, columns, values);
 
-        return 0;
+        if (lastInsertId == 0) {
+            MsgBox.showError("Облом с dbPutOwner() " + DataBase.getLastError());
+        }
+        return lastInsertId;
     }
 
     /**
@@ -394,7 +381,6 @@ public class NewRepairDialogController {
         String strColumn = htFields.get(textF).getsDbColumn();
         String strText = makeFirstLetterBig(textF.getText());
 
-        /**в базу вместо русских букв записываются вопросительные занки*/
         int id = DataBase.getId(strTable, strColumn, strText);
 
         if (id == 0) {

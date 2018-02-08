@@ -1,7 +1,6 @@
 package core.database;
 
 import core.models.User;
-import core.utils.MsgBox;
 import core.utils.ScriptRunner;
 import org.apache.log4j.Logger;
 
@@ -171,8 +170,8 @@ public class DataBase {
             }
         }
         catch (SQLException sqlExcep) {
-            MsgBox.show("Облом в create() -> " + sqlExcep.getMessage(), MsgBox.Type.MB_ERROR);
-
+            lastError = sqlExcep.getMessage();
+            logger.error(lastError);
             //что-то пошло не так...
             remove();
 
@@ -263,40 +262,34 @@ public class DataBase {
         return valueId;
     }
 
-    public static boolean insert(String strTable, String strColumn, String strValue) {
+    public static int insert(String strTable, String strColumn, String strValue) {
 
-        String sql = "INSERT INTO " + strTable + " (" + strColumn + ") VALUE ('" + strValue + "')";
+        String sql = "INSERT INTO " + strTable + " (" + strColumn + ") VALUES (" + strValue + ")";
 
-        boolean bResult = true;
+        int iLastId = 0;
 
         try (Connection conn = DriverManager.getConnection(dbUrl, dbUser, dbPassword);
              Statement stmt = conn.createStatement()) {
             stmt.execute(sql);
+
+            //
+            // Use the MySQL LAST_INSERT_ID()
+            // function to do the same thing as getGeneratedKeys()
+            //
+            ResultSet rs = null;
+
+            rs = stmt.executeQuery("SELECT LAST_INSERT_ID()");
+
+            if (rs.next()) {
+                iLastId = rs.getInt(1);
+            }
         }
         catch (SQLException e) {
             lastError = e.getMessage();
-            logger.debug("Облом с insert() -> " + lastError);
-            bResult = false;
+            logger.error("Облом с insert() -> " + lastError);
         }
 
-        return bResult;
-    }
-
-    public static boolean insert(String strSql) {
-
-        boolean result = true;
-
-        try (Connection conn = DriverManager.getConnection(dbUrl, dbUser, dbPassword);
-             Statement stmt = conn.createStatement()) {
-            stmt.execute(strSql);
-        }
-        catch (SQLException e) {
-            lastError = e.getMessage();
-            logger.debug("Облом с insert() -> " + lastError);
-            result = false;
-        }
-
-        return result;
+        return iLastId;
     }
 
     public static String getLastError() {
