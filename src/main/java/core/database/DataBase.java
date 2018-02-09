@@ -221,26 +221,6 @@ public class DataBase {
         return valueId;
     }
 
-    public static int getId(String sql) {
-
-        int valueId = 0;
-
-        try (Connection conn = DriverManager.getConnection(dbUrl, dbUser, dbPassword);
-             Statement stmt = conn.createStatement()) {
-
-            ResultSet rs = stmt.executeQuery(sql);
-
-            rs.next();
-
-            valueId = rs.getInt("id");
-        }
-        catch (SQLException e) {
-            System.out.println( "DataBase.java: Облом c getId() -> " + e.getMessage());
-        }
-
-        return valueId;
-    }
-
     public static int getMaxId(String strTable) {
         String sql = "Select max(id) as id from " + strTable;
         int valueId = 0;
@@ -276,7 +256,7 @@ public class DataBase {
             // Use the MySQL LAST_INSERT_ID()
             // function to do the same thing as getGeneratedKeys()
             //
-            ResultSet rs = null;
+            ResultSet rs;
 
             rs = stmt.executeQuery("SELECT LAST_INSERT_ID()");
 
