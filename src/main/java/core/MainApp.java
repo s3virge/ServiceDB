@@ -77,7 +77,7 @@ public class MainApp extends Application {
         //показываем окно ввода логина и пароля
         Scene scene = new Scene(layout, 360, 220);
         loginWindow.setTitle("A simple database of the service center");
-        loginWindow.setResizable(false);
+//        loginWindow.setResizable(false);
         loginWindow.setScene(scene);
         loginWindow.show();
     }
