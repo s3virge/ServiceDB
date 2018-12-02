@@ -6,6 +6,7 @@ package core;
 
 import core.controllers.LoginWndController;
 import core.database.DataBase;
+import core.utils.MsgBox;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -73,6 +74,8 @@ public class MainApp extends Application {
         //возможности вызова из контроллера открытых методов
         //главного класса - primaryStage()
         loginWndController.setMainApp(this);
+
+        MsgBox.someMessage();
 
         //показываем окно ввода логина и пароля
         Scene scene = new Scene(layout, 360, 220);

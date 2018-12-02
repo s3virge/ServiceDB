@@ -2,6 +2,11 @@ package core.utils;
 
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
+import javafx.scene.control.ScrollPane;
+import javafx.scene.control.TextArea;
+
+import java.io.PrintWriter;
+import java.io.StringWriter;
 
 public class MsgBox {
 
@@ -83,5 +88,16 @@ public class MsgBox {
         MB_ERROR,
         MB_INFO,
         MB_WARNING
+    }
+
+    public static void someMessage() {
+        Exception e = new Exception("An exception!!!!!!!!!!!!!!!!!");
+        StringWriter sw = new StringWriter();
+        e.printStackTrace(new PrintWriter(sw));
+
+        Alert alert = new Alert(Alert.AlertType.ERROR);
+        alert.setHeaderText("An exception occurred!");
+        alert.getDialogPane().setExpandableContent(new ScrollPane(new TextArea(sw.toString())));
+        alert.showAndWait();
     }
 }
